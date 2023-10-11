@@ -27,7 +27,8 @@ data_hora_atual = pendulum.parse(data_hora_atual)
 data_hora_busca = data_hora_atual.subtract(minutes=15)
 data_hora_busca = data_hora_busca.strftime('%Y-%m-%dT%H:%M:%SZ')
 
-lista_assunto = ['Cities Skylines', 'Trópico 6', 'Genshim impact']
+lista_assunto = ['Cities Skylines', 'Trópico 6',
+                 'Genshim impact', 'Cities Skylines 2']
 
 
 data = 'extracao_data_' + data_hora_busca.split('T')[0].replace('-', '_')
