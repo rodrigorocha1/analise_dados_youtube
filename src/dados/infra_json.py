@@ -1,0 +1,44 @@
+try:
+    import sys
+    import os
+    sys.path.insert(0, os.path.abspath(os.curdir))
+except ModuleNotFoundError:
+    pass
+import json
+from src.dados.infra_dados import InfraDados
+
+
+class InfraJson(InfraDados):
+    def __init__(
+        self,
+            diretorio_datalake: str,
+            termo_assunto: str,
+            data_extracao: str,
+            metrica: str,
+            nome_arquivo
+    ) -> None:
+        """Classe para criação do datalake
+
+        Args:
+            diretorio_datalake (str): camada do datalake (bronze, prata, ouro)
+            termo_assunto (str): termo de assunto de pesquisa
+            data_extracao (str): data_de_extracao
+            metrica (str): metrica para salvar no diretório
+            nome_arquivo (str): nome do arquivo que ira ser salvo
+        """
+        super().__init__(diretorio_datalake, termo_assunto,
+                         data_extracao, metrica, nome_arquivo)
+
+    def salvar_dados(self, **kwargs):
+        """Método para guardar json
+        """
+
+        if not os.path.exists(self._diretorio_completo):
+            os.makedirs(self._diretorio_completo)
+
+        with open(os.path.join(self._diretorio_completo, self._nome_arquivo), 'a') as arquivo_json:
+            json.dump(kwargs['req'],  arquivo_json, ensure_ascii=False)
+            arquivo_json.write('\n')
+
+    def carregar_dados(self):
+        pass
