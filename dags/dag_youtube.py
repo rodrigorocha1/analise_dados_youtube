@@ -199,7 +199,7 @@ with DAG(
         dag=dag
     )
 
-# task_inicio >> tg1 >> tg2 >> tg3 >> tg4 >> extracao_api_video_trends >> task_fim
+
 tg1 >> tg2
 tg2 >> tg3
 tg3 >> tg4
