@@ -12,17 +12,17 @@ class YoutubeBuscaRespostaHook(YoutubeHook):
 
     def run(self):
         session = self.get_conn()
-        lista_videos = self._carregar_dados.carregar_dados()
+        lista_comentarios = self._carregar_dados.carregar_dados()
         url = self._criar_url()
         params = [
             {
-                'part':  'statistics,contentDetails,id,snippet,status',
-                'id': id_video,
+                'part':  'snippet',
+                'parentId': id_comentario,
                 'key': v.chave_youtube,
-                'regionCode': 'BR',
+                'textFormat': 'plainText',
                 'pageToken': ''
 
-            } for id_video in lista_videos
+            } for id_comentario in lista_comentarios
         ]
 
         response = self._executar_paginacao(
