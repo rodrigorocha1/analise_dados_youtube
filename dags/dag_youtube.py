@@ -27,8 +27,14 @@ data_hora_atual = pendulum.parse(data_hora_atual)
 data_hora_busca = data_hora_atual.subtract(minutes=15)
 data_hora_busca = data_hora_busca.strftime('%Y-%m-%dT%H:%M:%SZ')
 
-lista_assunto = ['Cities Skylines', 'Resident Evil 4',
-                 'Genshim impact', 'Cities Skylines 2']
+lista_assunto = [
+    'Cities Skylines',
+    'Genshim impact',
+    'Cities Skylines 2',
+    'Power BI',
+    'Excel',
+    'Python'
+]
 
 
 data = 'extracao_data_' + data_hora_busca.split('T')[0].replace('-', '_')
@@ -200,7 +206,7 @@ with DAG(
     )
 
 
-tg1 >> tg2
+task_inicio >> tg1 >> tg2
 tg2 >> tg3
 tg3 >> tg4
 tg4 >> extracao_api_video_trends >> task_fim
