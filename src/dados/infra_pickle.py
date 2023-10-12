@@ -11,13 +11,10 @@ from src.dados.infra_dados import InfraDados
 
 class InfraPicke(InfraDados):
 
-    def __init__(
-        self,
-            diretorio_datalake: str,
-            termo_assunto: str,
-            path_extracao: str,
-            nome_arquivo: str,
-            metrica: str = None,) -> None:
+    def __init__(self, diretorio_datalake: str,
+                 termo_assunto: str,
+                 path_extracao: str,
+                 metrica: str, nome_arquivo: str) -> None:
         super().__init__(diretorio_datalake, termo_assunto,
                          path_extracao, metrica, nome_arquivo)
 

@@ -60,15 +60,15 @@ with DAG(
                     InfraJson(
                         diretorio_datalake='bronze',
                         termo_assunto=termo_assunto.replace(' ', '_'),
-                        data_extracao=data,
+                        path_extracao=data,
                         metrica='requisicao_busca',
                         nome_arquivo='req_busca.json'
                     ),
                     InfraPicke(
                         diretorio_datalake='bronze',
                         termo_assunto=termo_assunto.replace(' ', '_'),
-                        data_extracao=data,
-                        metrica='id_video',
+                        path_extracao='id_video',
+                        metrica=None,
                         nome_arquivo='id_video.pkl'
                     )
                 )
@@ -89,8 +89,8 @@ with DAG(
                     carregar_dados=InfraPicke(
                         diretorio_datalake='bronze',
                         termo_assunto=termo_assunto.replace(' ', '_'),
-                        data_extracao=data,
-                        metrica='id_video',
+                        path_extracao='id_video',
+                        metrica=None,
                         nome_arquivo='id_video.pkl'
                     )
                 ),
@@ -98,7 +98,7 @@ with DAG(
                 extracao_unica=InfraJson(
                     diretorio_datalake='bronze',
                     termo_assunto=termo_assunto.replace(' ', '_'),
-                    data_extracao=data,
+                    path_extracao=data,
                     metrica='estatisticas',
                     nome_arquivo='req_video.json'
 
@@ -120,8 +120,8 @@ with DAG(
                     carregar_dados=InfraPicke(
                         diretorio_datalake='bronze',
                         termo_assunto=termo_assunto.replace(' ', '_'),
-                        data_extracao=data,
-                        metrica='id_video',
+                        path_extracao='id_video',
+                        metrica=None,
                         nome_arquivo='id_video.pkl'
                     )
                 ),
@@ -129,15 +129,15 @@ with DAG(
                     InfraJson(
                         diretorio_datalake='bronze',
                         termo_assunto=termo_assunto.replace(' ', '_'),
-                        data_extracao=data,
+                        path_extracao=data,
                         metrica='comentarios',
                         nome_arquivo='req_comentarios.json'
                     ),
                     InfraPicke(
                         diretorio_datalake='bronze',
                         termo_assunto=termo_assunto.replace(' ', '_'),
-                        data_extracao=data,
-                        metrica='id_comentario',
+                        path_extracao='id_comentario',
+                        metrica=None,
                         nome_arquivo='id_comentario.pkl'
                     )
                 )
@@ -157,8 +157,8 @@ with DAG(
                         carregar_dados=InfraPicke(
                             diretorio_datalake='bronze',
                             termo_assunto=termo_assunto.replace(' ', '_'),
-                            data_extracao=data,
-                            metrica='id_comentario',
+                            path_extracao='id_comentario',
+                            metrica=None,
                             nome_arquivo='id_comentario.pkl'
                         )
                 ),
@@ -167,7 +167,7 @@ with DAG(
                     InfraJson(
                         diretorio_datalake='bronze',
                         termo_assunto=termo_assunto.replace(' ', '_'),
-                        data_extracao=data,
+                        path_extracao=data,
                         metrica='resposta_comentarios',
                         nome_arquivo='id_resposta_comentarios.json'
                     )
@@ -192,7 +192,7 @@ with DAG(
         extracao_unica=InfraJson(
             diretorio_datalake='bronze',
             termo_assunto='top_brazil',
-            data_extracao=data,
+            path_extracao=data,
             metrica='top_brazil',
             nome_arquivo='req_top_brazil.json'
         )

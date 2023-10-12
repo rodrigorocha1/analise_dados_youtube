@@ -8,17 +8,18 @@ class InfraDados(IInfraDados):
         diretorio_datalake: str,
             termo_assunto: str,
             path_extracao: str,
+            metrica: str,
             nome_arquivo: str,
-            metrica: str = None,
+
     ) -> None:
-        """Classe para criação do datalake
+        """_summary_
 
         Args:
-            diretorio_datalake (str): diretório (ouro, prata, bronze)
-            termo_assunto (str): termo de busca
-            path_extracao (str): caminho extração
-            metrica (str): metrica de análise
-            nome_arquivo (str): nome arquivo
+            diretorio_datalake (str): _description_
+            termo_assunto (str): _description_
+            path_extracao (str): _description_
+            metrica (str): _description_
+            nome_arquivo (str): _description_
         """
         self._diretorio_datalake = diretorio_datalake
         self._termo_assunto = termo_assunto.lower()
@@ -32,4 +33,10 @@ class InfraDados(IInfraDados):
             self._termo_assunto,
             self._path_extracao,
             self._metrica
+        ) if self._metrica is not None else os.path.join(
+            self._CAMINHO_BASE,
+            self._diretorio_datalake,
+            self._termo_assunto,
+            self._path_extracao,
+
         )
