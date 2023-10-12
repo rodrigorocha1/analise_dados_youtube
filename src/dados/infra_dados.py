@@ -7,28 +7,29 @@ class InfraDados(IInfraDados):
         self,
         diretorio_datalake: str,
             termo_assunto: str,
-            data_extracao: str,
+            path_extracao: str,
             metrica: str,
-            nome_arquivo
+            nome_arquivo: str
     ) -> None:
         """Classe para criação do datalake
 
         Args:
-            diretorio_datalake (str): camada do datalake (bronze, prata, ouro)
-            termo_assunto (str): termo de assunto de pesquisa
-            data_extracao (str): data_de_extracao
-            metrica (str): metrica para salvar no diretório
+            diretorio_datalake (str): diretório (ouro, prata, bronze)
+            termo_assunto (str): termo de busca
+            path_extracao (str): caminho extração
+            metrica (str): metrica de análise
+            nome_arquivo (str): nome arquivo
         """
         self._diretorio_datalake = diretorio_datalake
         self._termo_assunto = termo_assunto.lower()
-        self._data_extracao = data_extracao
-        self._metricas = metrica
+        self._path_extracao = path_extracao
+        self._metrica = metrica
         self._nome_arquivo = nome_arquivo
         self._CAMINHO_BASE = '/home/rodrigo/projetos/dados_youtube/analise_dados_youtube/data/projeto_youtube'
         self._diretorio_completo = os.path.join(
             self._CAMINHO_BASE,
             self._diretorio_datalake,
             self._termo_assunto,
-            self._data_extracao,
-            self._metricas
+            self._path_extracao,
+            self._metrica
         )

@@ -9,25 +9,12 @@ from src.dados.infra_dados import InfraDados
 
 
 class InfraJson(InfraDados):
-    def __init__(
-        self,
-            diretorio_datalake: str,
-            termo_assunto: str,
-            data_extracao: str,
-            metrica: str,
-            nome_arquivo
-    ) -> None:
-        """Classe para criação do datalake
-
-        Args:
-            diretorio_datalake (str): camada do datalake (bronze, prata, ouro)
-            termo_assunto (str): termo de assunto de pesquisa
-            data_extracao (str): data_de_extracao
-            metrica (str): metrica para salvar no diretório
-            nome_arquivo (str): nome do arquivo que ira ser salvo
-        """
+    def __init__(self, diretorio_datalake: str, termo_assunto: str,
+                 path_extracao: str,
+                 metrica: str,
+                 nome_arquivo: str) -> None:
         super().__init__(diretorio_datalake, termo_assunto,
-                         data_extracao, metrica, nome_arquivo)
+                         path_extracao, metrica, nome_arquivo)
 
     def salvar_dados(self, **kwargs):
         """Método para guardar json
