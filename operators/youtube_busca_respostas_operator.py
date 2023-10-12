@@ -1,3 +1,9 @@
+try:
+    import sys
+    import os
+    sys.path.insert(0, os.path.abspath(os.curdir))
+except ModuleNotFoundError:
+    pass
 from typing import Dict, Tuple
 from hook.youtube_hook import YoutubeHook
 from operators.youtube_operator import YoutubeOperator

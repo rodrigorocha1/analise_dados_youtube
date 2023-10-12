@@ -177,11 +177,6 @@ with DAG(
                 extracao_api_youtube_dados_videos_respostas
             )
 
-    task_fim = EmptyOperator(
-        task_id='task_fim_dag',
-        dag=dag
-    )
-
     extracao_api_video_trends = YoutubeBuscaTrendsOperator(
         task_id='id_extracao_api_video_trends',
         data_inicio=data_hora_busca,
@@ -199,10 +194,13 @@ with DAG(
     )
 
     # task_inicio >> extracao_api_youtube_historico_pesquisa >> task_fim
+    task_fim = EmptyOperator(
+        task_id='task_fim_dag',
+        dag=dag
+    )
 
-
-task_inicio >> tg1 >> tg2 >> tg3 >> tg4 >> extracao_api_video_trends >> task_fim
-# tg1 >> tg2
-# tg2 >> tg3
-# tg3 >> tg4
-# tg4 >> extracao_api_video_trends >> task_fim
+# task_inicio >> tg1 >> tg2 >> tg3 >> tg4 >> extracao_api_video_trends >> task_fim
+tg1 >> tg2
+tg2 >> tg3
+tg3 >> tg4
+tg4 >> extracao_api_video_trends >> task_fim
