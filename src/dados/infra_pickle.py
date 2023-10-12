@@ -16,8 +16,8 @@ class InfraPicke(InfraDados):
             diretorio_datalake: str,
             termo_assunto: str,
             path_extracao: str,
-            metrica: str,
-            nome_arquivo: str) -> None:
+            nome_arquivo: str,
+            metrica: str = None,) -> None:
         super().__init__(diretorio_datalake, termo_assunto,
                          path_extracao, metrica, nome_arquivo)
 

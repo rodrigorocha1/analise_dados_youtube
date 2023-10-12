@@ -8,8 +8,8 @@ class InfraDados(IInfraDados):
         diretorio_datalake: str,
             termo_assunto: str,
             path_extracao: str,
-            metrica: str,
-            nome_arquivo: str
+            nome_arquivo: str,
+            metrica: str = None,
     ) -> None:
         """Classe para criação do datalake
 
