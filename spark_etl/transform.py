@@ -21,7 +21,7 @@ def transform_resposta_comentarios(df_comentarios_json: DataFrame):
 
 
 def transform_comentarios(df_comentarios_json: DataFrame):
-    df_comentarios_json.select(
+    df_tratado = df_comentarios_json.select(
         'data_extracao',
         f.explode('items').alias('ITEMS'),
     ) \
@@ -37,10 +37,10 @@ def transform_comentarios(df_comentarios_json: DataFrame):
         f.col('ITEMS.snippet.topLevelComment.snippet.publishedAt').alias(
             'DATA_PUBLICACAO'),
         f.col('ITEMS.snippet.topLevelComment.snippet.updatedAt').alias(
-            'DATA_PUBLICACAO'),
+            'DATA_ATUALIZACAO'),
         f.col('ITEMS.snippet.totalReplyCount').alias('TOTAL_RESPOSTAS')
     )
-    return df_comentarios_json
+    return df_tratado
 
 
 def transform_estatisticas_videos(df_video_json: DataFrame):
@@ -126,6 +126,7 @@ def transform_youtube(
 
             df_req = spark.read.json(caminho_load)
             df_req = transform_comentarios(df_req)
+            print(df_req.show())
             diretorio_save = os.path.join(
                 caminho_base,
                 param_datalake_save,
@@ -203,4 +204,4 @@ def transform_youtube(
 
 transform_youtube(param_datalake_load='bronze',
                   path_extracao='extracao_data_2023_10_14',
-                  param_datalake_save='prata', assunto='top_brazil', opcao='4')
+                  param_datalake_save='prata', assunto='cities_skylines', opcao='2')

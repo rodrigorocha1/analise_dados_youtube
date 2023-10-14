@@ -255,7 +255,7 @@ with DAG(
             )
             lista_etl.append(lista_etl)
 
-    transform_spark_submit = PythonOperator(
+    transform_spark_submit_trend = PythonOperator(
         task_id='etl_spark_trend',
         python_callable=transform_youtube,
         op_kwargs={
@@ -278,9 +278,9 @@ with DAG(
 task_inicio >> tg1 >> tg2
 tg2 >> tg3
 tg3 >> tg4
-tg4 >> tg5 
-tg5 >> tg6 
-tg6 >> tg7 >> extracao_api_video_trends >> task_fim
+tg4 >> tg5
+tg5 >> tg6
+tg6 >> tg7 >> extracao_api_video_trends >> transform_spark_submit_trend >> task_fim
 
 
 # task_inicio >> transform_spark_submit >> task_fim
