@@ -41,7 +41,7 @@ data = 'extracao_data_' + data_hora_busca.split('T')[0].replace('-', '_')
 
 with DAG(
     dag_id='extracao_youtube',
-    schedule_interval='*/60 * * * *',
+    schedule_interval='@hourly',
     catchup=False,
     start_date=pendulum.datetime(2023, 9, 8, tz='America/Sao_Paulo')
 ) as dag:
