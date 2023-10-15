@@ -216,16 +216,16 @@ if __name__ == '__main__':
         transform_youtube(param_datalake_load='bronze',
                           path_extracao=path_extracao,
                           param_datalake_save='prata',
-                          assunto=id_termo_assunto, opcao='1')
+                          assunto=f'assunto_{id_termo_assunto}', opcao='1')
         transform_youtube(param_datalake_load='bronze',
                           path_extracao=path_extracao,
                           param_datalake_save='prata',
-                          assunto=id_termo_assunto, opcao='2')
+                          assunto=f'assunto_{id_termo_assunto}', opcao='2')
         transform_youtube(param_datalake_load='bronze',
                           path_extracao=path_extracao,
                           param_datalake_save='prata',
-                          assunto=id_termo_assunto, opcao='3')
+                          assunto=f'assunto_{id_termo_assunto}', opcao='3')
 transform_youtube(param_datalake_load='bronze',
-                          path_extracao=path_extracao,
-                          param_datalake_save='prata',
-                          assunto=id_termo_assunto, opcao='4')
+                  path_extracao=path_extracao,
+                  param_datalake_save='prata',
+                  assunto='top_brazil', opcao='4')
