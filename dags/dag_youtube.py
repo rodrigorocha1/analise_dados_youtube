@@ -1,7 +1,7 @@
 try:
     import sys
     import os
-    sys.path.insert(0, os.path.abspath(os.curdir))
+    sys.path.append('/home/rodrigo/Documents/projetos/analise_dados_youtube/')
 except ModuleNotFoundError:
     pass
 import pendulum
@@ -31,8 +31,7 @@ data_hora_busca = data_hora_atual.subtract(minutes=15)
 data_hora_busca = data_hora_busca.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 lista_assunto = [
-    'Cities Skylines',
-    'Cities Skylines 2'
+    'Power BI'
 ]
 
 
@@ -197,76 +196,76 @@ with DAG(
             nome_arquivo='req_top_brazil.json'
         )
     )
-    with TaskGroup('task_spark_etl_estatisticas_videos', dag=dag,) as tg5:
-        lista_etl = []
+    # with TaskGroup('task_spark_etl_estatisticas_videos', dag=dag,) as tg5:
+    #     lista_etl = []
 
-        for termo_assunto in lista_assunto:
-            id_termo_assunto = termo_assunto.replace(' ', '_').lower()
-            transform_spark_submit = PythonOperator(
-                task_id=f'etl_spark_estatisticas_{id_termo_assunto}',
-                trigger_rule='one_success',
-                python_callable=transform_youtube,
-                op_kwargs={
+    #     for termo_assunto in lista_assunto:
+    #         id_termo_assunto = termo_assunto.replace(' ', '_').lower()
+    #         transform_spark_submit = PythonOperator(
+    #             task_id=f'etl_spark_estatisticas_{id_termo_assunto}',
+    #             trigger_rule='one_success',
+    #             python_callable=transform_youtube,
+    #             op_kwargs={
 
-                    'assunto': id_termo_assunto,
-                    'param_datalake_load': 'bronze',
-                    'opcao': '1',
-                    'param_datalake_save': 'prata',
-                    'path_extracao': 'extracao_data_2023_10_14'
-                }
-            )
-            lista_etl.append(lista_etl)
+    #                 'assunto': id_termo_assunto,
+    #                 'param_datalake_load': 'bronze',
+    #                 'opcao': '1',
+    #                 'param_datalake_save': 'prata',
+    #                 'path_extracao': 'extracao_data_2023_10_14'
+    #             }
+    #         )
+    #         lista_etl.append(lista_etl)
 
-    with TaskGroup('task_spark_etl_comentarios', dag=dag) as tg6:
-        lista_etl = []
+    # with TaskGroup('task_spark_etl_comentarios', dag=dag) as tg6:
+    #     lista_etl = []
 
-        for termo_assunto in lista_assunto:
-            id_termo_assunto = termo_assunto.replace(' ', '_').lower()
-            transform_spark_submit = PythonOperator(
-                task_id=f'etl_spark_comentarios_{id_termo_assunto}',
-                python_callable=transform_youtube,
-                op_kwargs={
+    #     for termo_assunto in lista_assunto:
+    #         id_termo_assunto = termo_assunto.replace(' ', '_').lower()
+    #         transform_spark_submit = PythonOperator(
+    #             task_id=f'etl_spark_comentarios_{id_termo_assunto}',
+    #             python_callable=transform_youtube,
+    #             op_kwargs={
 
-                    'assunto': id_termo_assunto,
-                    'param_datalake_load': 'bronze',
-                    'opcao': '2',
-                    'param_datalake_save': 'prata',
-                    'path_extracao': 'extracao_data_2023_10_14'
-                }
-            )
-            lista_etl.append(lista_etl)
+    #                 'assunto': id_termo_assunto,
+    #                 'param_datalake_load': 'bronze',
+    #                 'opcao': '2',
+    #                 'param_datalake_save': 'prata',
+    #                 'path_extracao': 'extracao_data_2023_10_14'
+    #             }
+    #         )
+    #         lista_etl.append(lista_etl)
 
-    with TaskGroup('task_spark_etl_resposta_comentarios', dag=dag) as tg7:
-        lista_etl = []
+    # with TaskGroup('task_spark_etl_resposta_comentarios', dag=dag) as tg7:
+    #     lista_etl = []
 
-        for termo_assunto in lista_assunto:
-            id_termo_assunto = termo_assunto.replace(' ', '_').lower()
-            transform_spark_submit = PythonOperator(
-                task_id=f'etl_spark_resposta_comentarios_{id_termo_assunto}',
-                python_callable=transform_youtube,
-                op_kwargs={
+    #     for termo_assunto in lista_assunto:
+    #         id_termo_assunto = termo_assunto.replace(' ', '_').lower()
+    #         transform_spark_submit = PythonOperator(
+    #             task_id=f'etl_spark_resposta_comentarios_{id_termo_assunto}',
+    #             python_callable=transform_youtube,
+    #             op_kwargs={
 
-                    'assunto': id_termo_assunto,
-                    'param_datalake_load': 'bronze',
-                    'opcao': '3',
-                    'param_datalake_save': 'prata',
-                    'path_extracao': 'extracao_data_2023_10_14'
-                }
-            )
-            lista_etl.append(lista_etl)
+    #                 'assunto': id_termo_assunto,
+    #                 'param_datalake_load': 'bronze',
+    #                 'opcao': '3',
+    #                 'param_datalake_save': 'prata',
+    #                 'path_extracao': 'extracao_data_2023_10_14'
+    #             }
+    #         )
+    #         lista_etl.append(lista_etl)
 
-    transform_spark_submit_trend = PythonOperator(
-        task_id='etl_spark_trend',
-        python_callable=transform_youtube,
-        op_kwargs={
+    # transform_spark_submit_trend = PythonOperator(
+    #     task_id='etl_spark_trend',
+    #     python_callable=transform_youtube,
+    #     op_kwargs={
 
-                'assunto': 'top_brazil',
-                'param_datalake_load': 'bronze',
-                'opcao': '4',
-                'param_datalake_save': 'prata',
-                'path_extracao': 'extracao_data_2023_10_14'
-        }
-    )
+    #             'assunto': 'top_brazil',
+    #             'param_datalake_load': 'bronze',
+    #             'opcao': '4',
+    #             'param_datalake_save': 'prata',
+    #             'path_extracao': 'extracao_data_2023_10_14'
+    #     }
+    # )
 
     # task_inicio >> extracao_api_youtube_historico_pesquisa >> task_fim
     task_fim = EmptyOperator(
@@ -278,9 +277,7 @@ with DAG(
 task_inicio >> tg1 >> tg2
 tg2 >> tg3
 tg3 >> tg4
-tg4 >> tg5
-tg5 >> tg6
-tg6 >> tg7 >> extracao_api_video_trends >> transform_spark_submit_trend >> task_fim
+tg4 >> extracao_api_video_trends >> task_fim
 
 
 # task_inicio >> transform_spark_submit >> task_fim

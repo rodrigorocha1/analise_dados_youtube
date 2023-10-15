@@ -1,11 +1,6 @@
-try:
-    import sys
-    import os
-    sys.path.insert(0, os.path.abspath(os.curdir))
-except ModuleNotFoundError:
-    pass
 import pickle
 from typing import List
+import os
 from src.dados.infra_dados import InfraDados
 
 
