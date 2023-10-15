@@ -201,7 +201,8 @@ def transform_youtube(
         else:
             spark.stop()
 
-
-transform_youtube(param_datalake_load='bronze',
-                  path_extracao='extracao_data_2023_10_14',
-                  param_datalake_save='prata', assunto='cities_skylines', opcao='2')
+if __name__ == '__main__':
+    path_extracao='extracao_data_2023_10_14'
+    transform_youtube(param_datalake_load='bronze',
+                    path_extracao='extracao_data_2023_10_14',
+                    param_datalake_save='prata', assunto='cities_skylines', opcao='2')

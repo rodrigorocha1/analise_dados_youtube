@@ -5,7 +5,7 @@ __pycache__/
 # C extensions
 *.so
 .env/
-
+requests_youtube
 data/
 venv/
 **/__pycache__
