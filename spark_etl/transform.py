@@ -79,7 +79,7 @@ def transform_youtube(
 ):
 
     spark = SparkSession.builder.appName('Exploracao').getOrCreate()
-    caminho_base = '/home/rodrigo/projetos/analise_dados_youtube/data/analise_dados_youtube'
+    caminho_base = '/home/rodrigo/projetos/analise_dados_youtube/data/projetos_youtube'
     print(opcao)
     if opcao == '1':
         metrica = 'estatisticas'
@@ -210,19 +210,22 @@ if __name__ == '__main__':
         'Cities Skylines',
         'Cities Skylines 2'
     ]
-    path_extracao = 'extracao_data_2023_10_14'
+    path_extracao = 'extracao_data_2023_10_15'
     for assunto in lista_assunto:
         id_termo_assunto = assunto.replace(' ', '_').lower()
-        path_extracao = 'extracao_data_2023_10_15'
         transform_youtube(param_datalake_load='bronze',
                           path_extracao=path_extracao,
                           param_datalake_save='prata',
-                          assunto=assunto, opcao='2')
+                          assunto=id_termo_assunto, opcao='1')
         transform_youtube(param_datalake_load='bronze',
                           path_extracao=path_extracao,
                           param_datalake_save='prata',
-                          assunto=assunto, opcao='3')
+                          assunto=id_termo_assunto, opcao='2')
         transform_youtube(param_datalake_load='bronze',
                           path_extracao=path_extracao,
                           param_datalake_save='prata',
-                          assunto=assunto, opcao='4')
+                          assunto=id_termo_assunto, opcao='3')
+transform_youtube(param_datalake_load='bronze',
+                          path_extracao=path_extracao,
+                          param_datalake_save='prata',
+                          assunto=id_termo_assunto, opcao='4')
