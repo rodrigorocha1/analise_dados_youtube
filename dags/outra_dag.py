@@ -11,57 +11,28 @@ dag = DAG(
 )
 
 task_inicio = EmptyOperator(
-    task_id='task_inicio'
+    task_id='task_inicio',
+    dag=dag
 )
-
-lista = ['Cities_Skylines', 'Genshin_Impact',
-         'Honkai_Star_Rail', 'Apache_Airflow']
+result = 1
 
 
-with TaskGroup('task_youtube_api_historico_pesquisa', dag=dag) as tg1:
-    lista_tasks = []
-    for a in lista:
-        t = EmptyOperator(
-            task_id=f'task_{a}',
-            dag=dag
-        )
-        lista_tasks.append(t)
-
-with TaskGroup('tsk_extracao_api_youtube_dados_videos_estatistica', dag=dag) as tg2:
-    lista_tasks = []
-    for a in lista:
-        t = EmptyOperator(
-            task_id=f'task_{a}',
-            dag=dag
-        )
-        lista_tasks.append(t)
-
-with TaskGroup('tsk_extracao_youtube_dados_videos_comentarios', dag=dag) as tg3:
-    lista_tasks = []
-    for a in lista:
-        t = EmptyOperator(
-            task_id=f'task_{a}',
-            dag=dag
-        )
-        lista_tasks.append(t)
+# def choose_branch(result):
+#     if result > 0.5:
+#         return ['task_a', 'task_b']
+#     return ['task_c']
 
 
-with TaskGroup('tsk_extracao_youtube_dados_videos_respostas', dag=dag) as tg4:
-    lista_tasks = []
-    for a in lista:
-        t = EmptyOperator(
-            task_id=f'task_{a}',
-            dag=dag
-        )
-        lista_tasks.append(t)
-
-task_top_trend = EmptyOperator(
-    task_id='task_top_trend'
-)
-
+# branching = BranchPythonOperator(
+#     task_id='branching',
+#     python_callable=choose_branch,
+#     op_args=[result],
+#     dag=dag
+# )
 
 task_fim = EmptyOperator(
-    task_id='task_fim'
+    task_id='task_fim',
+    dag=dag
 )
 
-task_inicio >> tg1 >> tg2 >> tg3 >> tg4 >> task_top_trend >> task_fim
+task_inicio  >> task_fim
