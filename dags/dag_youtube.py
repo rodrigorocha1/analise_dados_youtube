@@ -22,14 +22,17 @@ from hook.youtube_busca_comentario_hook import YoutubeBuscaComentarioHook
 from hook.youtube_busca_resposta_hook import YoutubeBuscaRespostaHook
 
 
-
 data_hora_atual = pendulum.now('America/Sao_Paulo').to_iso8601_string()
 data_hora_atual = pendulum.parse(data_hora_atual)
 data_hora_busca = data_hora_atual.subtract(minutes=15)
 data_hora_busca = data_hora_busca.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 lista_assunto = [
-    'Power BI'
+    'Power BI',
+    'Python',
+    'Genshim Impact',
+    'Cities Skylines',
+    'Cities Skylines 2'
 ]
 
 
@@ -38,7 +41,7 @@ data = 'extracao_data_' + data_hora_busca.split('T')[0].replace('-', '_')
 
 with DAG(
     dag_id='extracao_youtube',
-    schedule_interval=None,
+    schedule_interval='*/15 * * * *',
     catchup=False,
     start_date=pendulum.datetime(2023, 9, 8, tz='America/Sao_Paulo')
 ) as dag:
