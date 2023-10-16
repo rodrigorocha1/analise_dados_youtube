@@ -25,6 +25,8 @@ class YoutubeBuscaVideoHook(YoutubeHook):
 
             } for id_video in lista_videos
         ]
+        print(params)
+
         response = self._executar_paginacao(
             url=url,
             session=session,
