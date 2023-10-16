@@ -126,7 +126,6 @@ def transform_youtube(
 
             df_req = spark.read.json(caminho_load)
             df_req = transform_comentarios(df_req)
-            print(df_req.show())
             diretorio_save = os.path.join(
                 caminho_base,
                 param_datalake_save,
