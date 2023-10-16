@@ -151,7 +151,6 @@ def transform_youtube(
             metrica,
             load_arquivo
         )
-        print(caminho_load)
         if os.path.exists(caminho_load):
             df_req = spark.read.json(caminho_load)
             df_req = transform_resposta_comentarios(df_req)
@@ -211,6 +210,7 @@ if __name__ == '__main__':
     ]
     path_extracao = 'extracao_data_2023_10_15'
     for assunto in lista_assunto:
+        print(f'----Extraindo----------{assunto}')
         id_termo_assunto = assunto.replace(' ', '_').lower()
         transform_youtube(param_datalake_load='bronze',
                           path_extracao=path_extracao,
