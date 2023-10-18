@@ -201,14 +201,15 @@ def transform_youtube(
 
 
 if __name__ == '__main__':
+
     lista_assunto = [
         'Power BI',
-        'Python',
-        'Genshim Impact',
+        'Python AND dados',
         'Cities Skylines',
         'Cities Skylines 2'
     ]
-    path_extracao = 'extracao_data_2023_10_15'
+
+    path_extracao = 'extracao_data_2023_10_17'
     for assunto in lista_assunto:
         print(f'----Extraindo----------{assunto}')
         id_termo_assunto = assunto.replace(' ', '_').lower()

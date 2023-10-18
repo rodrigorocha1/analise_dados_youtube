@@ -24,13 +24,12 @@ from hook.youtube_busca_resposta_hook import YoutubeBuscaRespostaHook
 
 data_hora_atual = pendulum.now('America/Sao_Paulo').to_iso8601_string()
 data_hora_atual = pendulum.parse(data_hora_atual)
-data_hora_busca = data_hora_atual.subtract(minutes=60)
+data_hora_busca = data_hora_atual.subtract(minutes=45)
 data_hora_busca = data_hora_busca.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 lista_assunto = [
     'Power BI',
-    'Python',
-    'Genshim Impact',
+    'Python AND dados',
     'Cities Skylines',
     'Cities Skylines 2'
 ]
@@ -52,8 +51,10 @@ with DAG(
     with TaskGroup('task_youtube_api_historico_pesquisa', dag=dag) as tg1:
         lista_task_historico = []
         for termo_assunto in lista_assunto:
-            id_termo_assunto = termo_assunto.replace(' ', '_').lower()
-            termo_assunto_pasta = termo_assunto.replace(' ', '_')
+            id_termo_assunto = termo_assunto.replace(
+                ' ', '_').lower().replace('|', '_')
+            termo_assunto_pasta = termo_assunto.replace(
+                ' ', '_').replace('|', '_').replace('ã', 'a').replace('ç', 'c')
             extracao_api_youtube_historico_pesquisa = YoutubeBuscaOperator(
                 task_id=f'id_youtube_api_historico_pesquisa_{id_termo_assunto}',
                 data_inicio=data_hora_busca,
@@ -86,8 +87,10 @@ with DAG(
     with TaskGroup('tsk_extracao_api_youtube_dados_videos_estatistica', dag=dag) as tg2:
         lista_task_dados_videos = []
         for termo_assunto in lista_assunto:
-            id_termo_assunto = termo_assunto.replace(' ', '_').lower()
-            termo_assunto_pasta = termo_assunto.replace(' ', '_')
+            id_termo_assunto = termo_assunto.replace(
+                ' ', '_').lower().replace('|', '_')
+            termo_assunto_pasta = termo_assunto.replace(
+                ' ', '_').replace('|', '_').replace('ã', 'a').replace('ç', 'c')
             extracao_api_youtube_dados_videos_estatistica = YoutubeBuscaVideoOperator(
                 task_id=f'id_extracao_api_youtube_dados_videos_estatistica_{id_termo_assunto}',
                 data_inicio=None,
@@ -118,8 +121,10 @@ with DAG(
     with TaskGroup('tsk_extracao_youtube_dados_videos_comentarios', dag=dag) as tg3:
         lista_task_comentarios = []
         for termo_assunto in lista_assunto:
-            id_termo_assunto = termo_assunto.replace(' ', '_').lower()
-            termo_assunto_pasta = termo_assunto.replace(' ', '_')
+            id_termo_assunto = termo_assunto.replace(
+                ' ', '_').lower().replace('|', '_')
+            termo_assunto_pasta = termo_assunto.replace(
+                ' ', '_').replace('|', '_').replace('ã', 'a').replace('ç', 'c')
             extracao_api_youtube_dados_videos_comentarios = YoutubeBuscaComentariosOperator(
                 task_id=f'id_extracao_comentarios_{id_termo_assunto}',
                 data_inicio=None,
@@ -156,8 +161,10 @@ with DAG(
     with TaskGroup('tsk_extracao_youtube_dados_videos_respostas', dag=dag) as tg4:
         lista_task_respostas = []
         for termo_assunto in lista_assunto:
-            termo_assunto_pasta = termo_assunto.replace(' ', '_')
-            id_termo_assunto = termo_assunto.replace(' ', '_').lower()
+            termo_assunto_pasta = termo_assunto.replace(
+                ' ', '_').replace('|', '_').replace('ã', 'a').replace('ç', 'c')
+            id_termo_assunto = termo_assunto.replace(
+                ' ', '_').lower().replace('|', '_')
             extracao_api_youtube_dados_videos_respostas = YoutubeBuscaRespostasOperator(
                 task_id=f'id_extracao_resposta_comentario_{id_termo_assunto}',
                 data_inicio=None,

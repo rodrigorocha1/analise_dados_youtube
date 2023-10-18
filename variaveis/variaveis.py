@@ -36,6 +36,3 @@ elif checar_url(Variable.get('URL_API_YOUTUBE'), Variable.get('key_youtube_quatr
 else:
     url_youtube = ''
     chave_youtube = ''
-print('URL', url_youtube)
-print('KEY', chave_youtube)
-checar_url(Variable.get('URL_API_YOUTUBE'), Variable.get('key_youtube_quatro'))
