@@ -209,7 +209,7 @@ if __name__ == '__main__':
         'Cities Skylines 2'
     ]
 
-    path_extracao = 'extracao_data_2023_10_17'
+    path_extracao = 'extracao_data_2023_10_20'
     for assunto in lista_assunto:
         print(f'----Extraindo----------{assunto}')
         id_termo_assunto = assunto.replace(' ', '_').lower()
