@@ -33,6 +33,10 @@ elif checar_url(Variable.get('URL_API_YOUTUBE'), Variable.get('key_youtube_quatr
     url_youtube = Variable.get('URL_API_YOUTUBE')
     chave_youtube = Variable.get('key_youtube_quatro')
     print('key_youtube_quatro')
+elif checar_url(Variable.get('URL_API_YOUTUBE'), Variable.get('key_youtube_cinco')):
+    url_youtube = Variable.get('URL_API_YOUTUBE')
+    chave_youtube = Variable.get('key_youtube_cinco')
+    print('key_youtube_quatro')
 else:
     url_youtube = ''
     chave_youtube = ''
