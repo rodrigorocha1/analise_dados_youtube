@@ -42,7 +42,7 @@ with DAG(
     dag_id='extracao_youtube_comentario',
     schedule_interval=None,
     catchup=False,
-    start_date=pendulum.datetime(2023, 10, 21, tz='America/Sao_Paulo')
+    start_date=pendulum.datetime(2023, 10, 22, tz='America/Sao_Paulo')
 ) as dag:
     task_inicio = EmptyOperator(
         task_id='task_inicio_dag',

@@ -24,7 +24,7 @@ from hook.youtube_busca_resposta_hook import YoutubeBuscaRespostaHook
 
 data_hora_atual = pendulum.now('America/Sao_Paulo').to_iso8601_string()
 data_hora_atual = pendulum.parse(data_hora_atual)
-data_hora_busca = data_hora_atual.subtract(minutes=120)
+data_hora_busca = data_hora_atual.subtract(minutes=70)
 data_hora_busca = data_hora_busca.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 lista_assunto = [
@@ -40,7 +40,7 @@ data = 'extracao_data_' + data_hora_busca.split('T')[0].replace('-', '_')
 
 with DAG(
     dag_id='extracao_youtube',
-    schedule_interval='0 */2 * * *',
+    schedule_interval='0 */1 * * *',
     catchup=False,
     start_date=pendulum.datetime(2023, 9, 8, tz='America/Sao_Paulo')
 ) as dag:
