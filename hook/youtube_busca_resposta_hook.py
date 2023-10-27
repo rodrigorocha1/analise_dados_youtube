@@ -26,6 +26,7 @@ class YoutubeBuscaRespostaHook(YoutubeHook):
 
             } for id_comentario in lista_comentarios
         ]
+        print(params)
 
         response = self._executar_paginacao(
             url=url, session=session, params=params)

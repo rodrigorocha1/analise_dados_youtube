@@ -4,7 +4,7 @@ import pyspark.sql.functions as f
 
 
 def transform_resposta_comentarios(df_comentarios_json: DataFrame):
-    df_comentarios_json.select(
+    df_comentarios_json = df_comentarios_json.select(
         f.col('data_extracao').alias('DATA_EXTRACAO'),
         f.explode('items').alias('ITEMS')
     ) \
@@ -44,7 +44,7 @@ def transform_comentarios(df_comentarios_json: DataFrame):
 
 
 def transform_estatisticas_videos(df_video_json: DataFrame):
-    df_video_json.select(
+    df_video_json = df_video_json.select(
         'data_extracao',
         f.col('items.id').alias('ID_VIDEO'),
         f.col('items.snippet.publishedAt').alias('DATA_PUBLICACAO'),
@@ -209,23 +209,33 @@ if __name__ == '__main__':
         'Cities Skylines 2'
     ]
 
-    path_extracao = 'extracao_data_2023_10_22'
-    for assunto in lista_assunto:
-        print(f'----Extraindo----------{assunto}')
-        id_termo_assunto = assunto.replace(' ', '_').lower()
+    lista_path_extracao = [
+
+        'extracao_data_2023_10_26'
+
+    ]
+
+    for path_extracao in lista_path_extracao:
+        print('path_extracao 1', path_extracao)
+        for assunto in lista_assunto:
+            print(f'----Extraindo----------{assunto}')
+            id_termo_assunto = assunto.replace(' ', '_').lower()
+            transform_youtube(param_datalake_load='bronze',
+                              path_extracao=path_extracao,
+                              param_datalake_save='prata',
+                              assunto=f'assunto_{id_termo_assunto}', opcao='1')
+            transform_youtube(param_datalake_load='bronze',
+                              path_extracao=path_extracao,
+                              param_datalake_save='prata',
+                              assunto=f'assunto_{id_termo_assunto}', opcao='2')
+            transform_youtube(param_datalake_load='bronze',
+                              path_extracao=path_extracao,
+                              param_datalake_save='prata',
+                              assunto=f'assunto_{id_termo_assunto}', opcao='3')
+
+    for path_extracao in lista_path_extracao:
+        print('path_extracao 2', path_extracao)
         transform_youtube(param_datalake_load='bronze',
                           path_extracao=path_extracao,
                           param_datalake_save='prata',
-                          assunto=f'assunto_{id_termo_assunto}', opcao='1')
-        transform_youtube(param_datalake_load='bronze',
-                          path_extracao=path_extracao,
-                          param_datalake_save='prata',
-                          assunto=f'assunto_{id_termo_assunto}', opcao='2')
-        transform_youtube(param_datalake_load='bronze',
-                          path_extracao=path_extracao,
-                          param_datalake_save='prata',
-                          assunto=f'assunto_{id_termo_assunto}', opcao='3')
-transform_youtube(param_datalake_load='bronze',
-                  path_extracao=path_extracao,
-                  param_datalake_save='prata',
-                  assunto='top_brazil', opcao='4')
+                          assunto='top_brazil', opcao='4')
