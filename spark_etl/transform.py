@@ -79,7 +79,7 @@ def transform_youtube(
 ):
 
     spark = SparkSession.builder.appName('Exploracao').getOrCreate()
-    caminho_base = '/home/rodrigo/projetos/analise_dados_youtube/data/projetos_youtube'
+    caminho_base = '/home/rodrigo/Documentos/projetos/open_weather_api_apache/analise_dados_youtube/data/projetos_youtube_v2'
     print(opcao)
     if opcao == '1':
         metrica = 'estatisticas'
@@ -211,7 +211,19 @@ if __name__ == '__main__':
 
     lista_path_extracao = [
 
-        'extracao_data_2023_10_26'
+        'extracao_data_2023_10_15',
+        'extracao_data_2023_10_16',
+        'extracao_data_2023_10_17'
+        'extracao_data_2023_10_18',
+        'extracao_data_2023_10_19',
+        'extracao_data_2023_10_20',
+        'extracao_data_2023_10_21',
+        'extracao_data_2023_10_22',
+        'extracao_data_2023_10_23',
+        'extracao_data_2023_10_24',
+        'extracao_data_2023_10_25',
+        'extracao_data_2023_10_26',
+        'extracao_data_2023_10_27'
 
     ]
 
