@@ -63,6 +63,36 @@ def transform_estatisticas_videos(df_video_json: DataFrame):
     return df_video_json
 
 
+def transform_estatisticas_videos_trends(df_trend_brazil: DataFrame):
+    df_trend_brazil = df_trend_brazil.drop('_corrupt_record')
+    df_trend_brazil = df_trend_brazil.na.drop('all')
+    df_trend_brazil = df_trend_brazil.select(
+        'data_extracao',
+        f.explode('items')
+    )
+    df_trend_brazil = df_trend_brazil.select(
+        'data_extracao', 
+        f.col('col.id'),
+        f.col('col.contentDetails.*'), 
+        f.col('col.snippet.*'), 
+        f.col('col.statistics.*')
+    ).select(
+        'data_extracao',
+        'id',
+        'categoryId',
+        'duration',
+        'channelTitle',
+        'title',
+        'description',
+        'commentCount',
+        'favoriteCount',
+        'likeCount',
+        'viewCount'
+    )
+    return df_trend_brazil
+
+
+
 def save_parquet(df_json: DataFrame, diretorio_salvar: str):
     df_json.coalesce(1) \
         .write \
@@ -184,7 +214,7 @@ def transform_youtube(
         print(caminho_load)
         if os.path.exists(caminho_load):
             df_req = spark.read.json(caminho_load)
-            df_req = transform_estatisticas_videos(df_req)
+            df_req = transform_estatisticas_videos_trends(df_req)
             diretorio_save = os.path.join(
                 caminho_base,
                 param_datalake_save,
@@ -227,23 +257,6 @@ if __name__ == '__main__':
 
     ]
 
-    for path_extracao in lista_path_extracao:
-        print('path_extracao 1', path_extracao)
-        for assunto in lista_assunto:
-            print(f'----Extraindo----------{assunto}')
-            id_termo_assunto = assunto.replace(' ', '_').lower()
-            transform_youtube(param_datalake_load='bronze',
-                              path_extracao=path_extracao,
-                              param_datalake_save='prata',
-                              assunto=f'assunto_{id_termo_assunto}', opcao='1')
-            transform_youtube(param_datalake_load='bronze',
-                              path_extracao=path_extracao,
-                              param_datalake_save='prata',
-                              assunto=f'assunto_{id_termo_assunto}', opcao='2')
-            transform_youtube(param_datalake_load='bronze',
-                              path_extracao=path_extracao,
-                              param_datalake_save='prata',
-                              assunto=f'assunto_{id_termo_assunto}', opcao='3')
 
     for path_extracao in lista_path_extracao:
         print('path_extracao 2', path_extracao)
