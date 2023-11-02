@@ -78,16 +78,17 @@ def transform_estatisticas_videos_trends(df_trend_brazil: DataFrame):
         f.col('col.statistics.*')
     ).select(
         'data_extracao',
-        'id',
-        'categoryId',
-        'duration',
-        'channelTitle',
-        'title',
-        'description',
-        'commentCount',
-        'favoriteCount',
-        'likeCount',
-        'viewCount'
+        f.col('categoryId').alias('ID_CATEGORIA'),
+        f.col('channelId').alias('ID_CANAL'),
+        f.col('channelTitle').alias('NM_CANAL'),
+        f.col('id').alias('ID_VIDEO'),
+        f.col('title').alias('TITULO_VIDEO'),
+        f.col('duration').alias('DURACAO'),
+        f.col('description').alias('DESCRICAO'),
+        f.col('commentCount').alias('TOTAL_COMENTARIOS'),
+        f.col('favoriteCount').alias('TOTAL_FAVORITOS'),
+        f.col('likeCount').alias('TOTAL_LIKES'),
+        f.col('viewCount').alias('TOTAL_VISUALIZACOES'),
     )
     return df_trend_brazil
 
