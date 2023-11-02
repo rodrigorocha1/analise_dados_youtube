@@ -258,6 +258,24 @@ if __name__ == '__main__':
 
     ]
 
+    for path_extracao in lista_path_extracao:
+        print('path_extracao 1', path_extracao)
+        for assunto in lista_assunto:
+            print(f'----Extraindo----------{assunto}')
+            id_termo_assunto = assunto.replace(' ', '_').lower()
+            transform_youtube(param_datalake_load='bronze',
+                              path_extracao=path_extracao,
+                              param_datalake_save='prata',
+                              assunto=f'assunto_{id_termo_assunto}', opcao='1')
+            transform_youtube(param_datalake_load='bronze',
+                              path_extracao=path_extracao,
+                              param_datalake_save='prata',
+                              assunto=f'assunto_{id_termo_assunto}', opcao='2')
+            transform_youtube(param_datalake_load='bronze',
+                              path_extracao=path_extracao,
+                              param_datalake_save='prata',
+                              assunto=f'assunto_{id_termo_assunto}', opcao='3')
+
 
     for path_extracao in lista_path_extracao:
         print('path_extracao 2', path_extracao)
