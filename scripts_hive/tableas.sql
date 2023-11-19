@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------
 
-CREATE TABLE TOTAL_VISUALIZACOES_POR_SEMANA(
+CREATE EXTERNAL TABLE TOTAL_VISUALIZACOES_POR_SEMANA(
 	NM_CANAL string,
 	ID_VIDEO string,
 	TITULO_VIDEO string,
@@ -13,17 +13,37 @@ CREATE TABLE TOTAL_VISUALIZACOES_POR_SEMANA(
 	TOTAL_LIKES INT,
 	TOTAL_VISUALIZACOES_DIA INT, 
 	TOTAL_COMENTARIOS_DIA INT,
-	TOTAL_LIKES_DIA INT,
-	
-	
+	TOTAL_LIKES_DIA INT
 ) 
-PARTITIONED BY(data_extracao DATE, ID_CANAL STRING)
+PARTITIONED BY(ASSUNTO STRING, data_extracao DATE, ID_CANAL STRING)
 STORED AS PARQUET
 
-LOCATION 'hdfs://localhost:9000/projeto/datalake_youtube/assunto_t/total_visualizacoes_por_semana/total_visualizacoes_por_semana.parquet';
+
+LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/total_visualizacoes_semana.parquet' INTO TABLE TOTAL_VISUALIZACOES_POR_SEMANA;
+
+
+SELECT * FROM TOTAL_VISUALIZACOES_POR_SEMANA;
 
 
 
+---------------------------------
+
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS TOTAL_VIDEO_PUBLICADO_SEMANA (
+    SEMANA_TRADUZIDA STRING,
+    NM_CANAL STRING,
+    TOTAL_VIDEOS INT
+)
+PARTITIONED BY (DATA_PUBLICACAO DATE, ID_CANAL STRING)
+STORED AS PARQUET
+LOCATION 'hdfs://localhost:9000/projeto/datalake_youtube/video_publicado_semana.parquet';
+
+LOAD DATA INPATH 'hdfs://localhost:900//projeto/datalake_youtube/video_publicado_semana.parquet' INTO TABLE TOTAL_VIDEO_PUBLICADO_SEMANA;
+
+
+SELECT * 
+FROM TOTAL_VIDEO_PUBLICADO_SEMANA
 
 -------------------------TESTE CRIACAO TABELA PARTICINADA------------------------------
 
@@ -39,12 +59,8 @@ LOCATION 'hdfs://localhost:9000/projeto/teste/teste.parquet';
 LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/teste.parquet' INTO TABLE TOTAL_VIDEO_PUBLICADO_SEMANA_TESTE;
 
 
-
-ALTER TABLE TOTAL_VIDEO_PUBLICADO_SEMANA_TESTE ADD PARTITION (DATA_PUBLICACAO='2023-10-15', ID_CANAL='UC1mk6EtfMjxR4eEZ7C43zTQ') 
-LOCATION 'hdfs://localhost:9000/projeto/youtube_datalake/total_video_publicado_semana.parquet/DATA_PUBLICACAO=2023-10-15/ID_CANAL=UC1mk6EtfMjxR4eEZ7C43zTQ';
-
-
-set hive.exec.dynamic.partition.mode;
+SELECT * 
+FROM TOTAL_VIDEO_PUBLICADO_SEMANA_TESTE
 
 -------
 
