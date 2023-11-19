@@ -35,47 +35,91 @@ CREATE EXTERNAL TABLE IF NOT EXISTS TOTAL_VIDEO_PUBLICADO_SEMANA (
     NM_CANAL STRING,
     TOTAL_VIDEOS INT
 )
-PARTITIONED BY (DATA_PUBLICACAO DATE, ID_CANAL STRING)
-STORED AS PARQUET
-LOCATION 'hdfs://localhost:9000/projeto/datalake_youtube/video_publicado_semana.parquet';
+PARTITIONED BY( DATA_PUBLICACAO DATE, ID_CANAL INT, ASSUNTO STRING,)
+STORED AS PARQUET;
 
-LOAD DATA INPATH 'hdfs://localhost:900//projeto/datalake_youtube/video_publicado_semana.parquet' INTO TABLE TOTAL_VIDEO_PUBLICADO_SEMANA;
+LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/video_publicado_semana.parquet' INTO TABLE TOTAL_VIDEO_PUBLICADO_SEMANA;
 
 
 SELECT * 
 FROM TOTAL_VIDEO_PUBLICADO_SEMANA
+--------------------------------------------------------------------------------------
 
--------------------------TESTE CRIACAO TABELA PARTICINADA------------------------------
 
-CREATE EXTERNAL TABLE IF NOT EXISTS TOTAL_VIDEO_PUBLICADO_SEMANA_TESTE (
-    SEMANA_TRADUZIDA STRING,
-    NM_CANAL STRING,
-    TOTAL_VIDEOS INT
+
+
+CREATE TABLE zipcodes(
+	RecordNumber int,
+	Country string,
+	City string,
+	Zipcode int)
+	PARTITIONED BY(state string)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+
+
+LOAD DATA INPATH 'hdfs://localhost:9000/teste/zipcodes20.csv' INTO TABLE zipcodes;
+
+
+
+CREATE TABLE zipcodes_multiple(
+RecordNumber int,
+Country string,
+City string)
+PARTITIONED BY(state string, zipcode string)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+
+
+LOAD DATA INPATH 'hdfs://localhost:9000/teste/zipcodes20.csv' INTO TABLE zipcodes_multiple;
+
+SELECT * FROM zipcodes ;
+
+select * from zipcodes_multiple;
+
+
+---------------------------------------------------------------------------------------------
+
+
+CREATE EXTERNAL TABLE resposta_comentarios_youtube(
+  `id_resposta_comentarios` string, 
+  `texto` varchar(700))
+PARTITIONED BY ( 
+  `assunto` string, 
+  `id_canal` string, 
+  `id_comentario` string)
+STORED AS PARQUET;
+
+
+
+LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/comentarios/comentarios_assunto_cities_skylines.parquet' INTO TABLE resposta_comentarios_youtube;
+
+
+
+---------------------------------------------------
+CREATE EXTERNAL TABLE comentarios_youtube (
+    ID_COMENTARIO STRING,
+    TEXTO_COMENTARIO VARCHAR(700)
+    
 )
-PARTITIONED BY (DATA_PUBLICACAO DATE, ID_CANAL STRING)
-STORED AS PARQUET
-LOCATION 'hdfs://localhost:9000/projeto/teste/teste.parquet';
-
-LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/teste.parquet' INTO TABLE TOTAL_VIDEO_PUBLICADO_SEMANA_TESTE;
+PARTITIONED BY(ASSUNTO STRING, ID_CANAL STRING, ID_VIDEO STRING)
+STORED AS PARQUET;
 
 
-SELECT * 
-FROM TOTAL_VIDEO_PUBLICADO_SEMANA_TESTE
-
--------
-
-CREATE EXTERNAL TABLE IF NOT EXISTS TOTAL_VIDEO_PUBLICADO_SEMANA (
-    SEMANA_TRADUZIDA STRING,
-    NM_CANAL STRING,
-    TOTAL_VIDEOS INT, DATA_PUBLICACAO DATE, ID_CANAL STRING
-)
-STORED AS PARQUET
-LOCATION 'hdfs://localhost:9000/projeto/teste/teste.parquet';
+MSCK REPAIR TABLE nome_da_tabela;
 
 
-DESCRIBE TOTAL_VIDEO_PUBLICADO_SEMANA_TESTE;
+LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/comentarios/comentarios_assunto_cities_skylines.parquet' INTO TABLE comentarios;
 
-SELECT * FROM TOTAL_VIDEO_PUBLICADO_SEMANA_TESTE
-where id_canal  = 'UCrOH1V-FyMunBIMrKL0y0xQ';
 
-SHOW PARTITIONS TOTAL_VIDEO_PUBLICADO_SEMANA_TESTE;
+select * from comentarios;
+
+
+DESCRIBE zipcodes;
+
+
+DESCRIBE FORMATTED zipcodes;
+
+SHOW PARTITIONS comentarios;
+
+
