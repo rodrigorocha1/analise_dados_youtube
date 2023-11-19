@@ -1,3 +1,5 @@
+-------------------------------------------------------------------------
+
 CREATE TABLE TOTAL_VISUALIZACOES_POR_SEMANA(
 	NM_CANAL string,
 	ID_VIDEO string,
@@ -12,12 +14,15 @@ CREATE TABLE TOTAL_VISUALIZACOES_POR_SEMANA(
 	TOTAL_VISUALIZACOES_DIA INT, 
 	TOTAL_COMENTARIOS_DIA INT,
 	TOTAL_LIKES_DIA INT,
-	data_extracao DATE,
-	ID_CANAL STRING
+	
+	
 ) 
-PARTITIONED BY()
+PARTITIONED BY(data_extracao DATE, ID_CANAL STRING)
 STORED AS PARQUET
-LOCATION 'hdfs://projeto/youtube_datalake/total_video_publicado_semana.parquet';
+
+LOCATION 'hdfs://localhost:9000/projeto/datalake_youtube/assunto_t/total_visualizacoes_por_semana/total_visualizacoes_por_semana.parquet';
+
+
 
 
 -------------------------TESTE CRIACAO TABELA PARTICINADA------------------------------
