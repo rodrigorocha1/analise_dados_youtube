@@ -119,14 +119,15 @@ MSCK REPAIR TABLE nome_da_tabela;
 LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/comentarios.parquet' INTO TABLE comentarios_youtube;
 
 
-select * from comentarios_youtube;
+select * from comentarios_youtube
+where assunto  = 'assunto_cities_skylines';
 
 
 DESCRIBE zipcodes;
 
 
-DESCRIBE FORMATTED zipcodes;
+DESCRIBE FORMATTED comentarios_youtube;
 
-SHOW PARTITIONS comentarios;
+SHOW PARTITIONS comentarios_youtube;
 
 
