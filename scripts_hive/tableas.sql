@@ -35,7 +35,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS TOTAL_VIDEO_PUBLICADO_SEMANA (
     NM_CANAL STRING,
     TOTAL_VIDEOS INT
 )
-PARTITIONED BY( DATA_PUBLICACAO DATE, ID_CANAL INT, ASSUNTO STRING,)
+PARTITIONED BY( DATA_PUBLICACAO DATE,ASSUNTO STRING, ID_CANAL INT)
 STORED AS PARQUET;
 
 LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/video_publicado_semana.parquet' INTO TABLE TOTAL_VIDEO_PUBLICADO_SEMANA;
@@ -92,11 +92,13 @@ STORED AS PARQUET;
 
 
 
+
+
 LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/resposta_comentarios/resposta_comentarios_assunto_cities_skylines.parquet' 
 INTO TABLE resposta_comentarios_youtube;
 
 
-SELECT COUNT(*)
+SELECT  *
 FROM resposta_comentarios_youtube
 where assunto  = 'assunto_cities_skylines';
 
@@ -114,10 +116,10 @@ STORED AS PARQUET;
 MSCK REPAIR TABLE nome_da_tabela;
 
 
-LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/comentarios/comentarios_assunto_cities_skylines.parquet' INTO TABLE comentarios;
+LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/comentarios.parquet' INTO TABLE comentarios_youtube;
 
 
-select * from comentarios;
+select * from comentarios_youtube;
 
 
 DESCRIBE zipcodes;
