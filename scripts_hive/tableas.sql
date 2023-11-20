@@ -92,8 +92,13 @@ STORED AS PARQUET;
 
 
 
-LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/comentarios/comentarios_assunto_cities_skylines.parquet' INTO TABLE resposta_comentarios_youtube;
+LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/resposta_comentarios/resposta_comentarios_assunto_cities_skylines.parquet' 
+INTO TABLE resposta_comentarios_youtube;
 
+
+SELECT COUNT(*)
+FROM resposta_comentarios_youtube
+where assunto  = 'assunto_cities_skylines';
 
 
 ---------------------------------------------------
