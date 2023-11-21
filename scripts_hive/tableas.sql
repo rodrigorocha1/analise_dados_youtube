@@ -2,7 +2,6 @@
 
 CREATE EXTERNAL TABLE TOTAL_VISUALIZACOES_POR_SEMANA(
 	NM_CANAL string,
-	ID_VIDEO string,
 	TITULO_VIDEO string,
 	TOTAL_CARACTERE_VIDEO INT,
 	TAGS ARRAY<string>,
@@ -15,16 +14,22 @@ CREATE EXTERNAL TABLE TOTAL_VISUALIZACOES_POR_SEMANA(
 	TOTAL_COMENTARIOS_DIA INT,
 	TOTAL_LIKES_DIA INT
 ) 
-PARTITIONED BY(ASSUNTO STRING, data_extracao DATE, ID_CANAL STRING)
+PARTITIONED BY(ASSUNTO STRING, data_extracao DATE, ID_CANAL STRING, ID_VIDEO string)
 STORED AS PARQUET
 
 
-LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/total_visualizacoes_semana.parquet' INTO TABLE TOTAL_VISUALIZACOES_POR_SEMANA;
 
 
-SELECT * FROM TOTAL_VISUALIZACOES_POR_SEMANA;
+
+SELECT * FROM TOTAL_VISUALIZACOES_POR_SEMANA
+where id_canal  = 'UC1mk6EtfMjxR4eEZ7C43zTQ'
+
+SHOW PARTITIONS  TOTAL_VISUALIZACOES_POR_SEMANA;
+
+DESCRIBE FORMATTED TOTAL_VISUALIZACOES_POR_SEMANA;
 
 
+SHOW TRANSACTIONS;
 
 ---------------------------------
 
@@ -35,14 +40,18 @@ CREATE EXTERNAL TABLE IF NOT EXISTS TOTAL_VIDEO_PUBLICADO_SEMANA (
     NM_CANAL STRING,
     TOTAL_VIDEOS INT
 )
-PARTITIONED BY( DATA_PUBLICACAO DATE,ASSUNTO STRING, ID_CANAL INT)
+PARTITIONED BY( DATA_PUBLICACAO DATE,ASSUNTO STRING, ID_CANAL STRING)
 STORED AS PARQUET;
 
-LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/video_publicado_semana.parquet' INTO TABLE TOTAL_VIDEO_PUBLICADO_SEMANA;
+LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/particao_por_campo/video_publicado_semana/video_publicado_semana_UC-4oKsd_5_Q5sy8t6g3JMRA.parquet' 
+INTO TABLE TOTAL_VIDEO_PUBLICADO_SEMANA;
 
 
 SELECT * 
-FROM TOTAL_VIDEO_PUBLICADO_SEMANA
+FROM TOTAL_VIDEO_PUBLICADO_SEMANA;
+
+
+
 --------------------------------------------------------------------------------------
 
 
@@ -87,6 +96,7 @@ CREATE EXTERNAL TABLE resposta_comentarios_youtube(
 PARTITIONED BY ( 
   `assunto` string, 
   `id_canal` string, 
+  `id_video` string,
   `id_comentario` string)
 STORED AS PARQUET;
 
@@ -98,7 +108,7 @@ LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/resposta_comentarios/respo
 INTO TABLE resposta_comentarios_youtube;
 
 
-SELECT  *
+SELECT   *
 FROM resposta_comentarios_youtube
 where assunto  = 'assunto_cities_skylines';
 
@@ -126,8 +136,34 @@ where assunto  = 'assunto_cities_skylines';
 DESCRIBE zipcodes;
 
 
-DESCRIBE FORMATTED comentarios_youtube;
+DESCRIBE FORMATTED TOTAL_VIDEO_PUBLICADO_SEMANA;
 
-SHOW PARTITIONS comentarios_youtube;
+SHOW PARTITIONS TOTAL_VIDEO_PUBLICADO_SEMANA;
+
+
+----------------------------------------------------------------------------------
+
+CREATE EXTERNAL TABLE TRENDS_YOUTUBE(
+	NM_CANAL string,
+	TITULO_VIDEO string,
+	TOTAL_VISUALIZACOES int,
+	TOTAL_FAVORITOS string,
+	TOTAL_COMENTARIOS string,
+	TOTAL_LIKES string,
+	TOTAL_VISUALIZACOES_DIA int,
+	TOTAL_FAVORITOS_DIA int,
+	TOTAL_COMENTARIOS_DIA int,
+	TOTAL_LIKES_DIA int
+)
+PARTITIONED BY(data_extracao DATE, ID_CATEGORIA INT, ID_CANAL STRING, ID_VIDEO STRING)
+STORED AS PARQUET;
+
+SELECT * 
+FROM TRENDS_YOUTUBE;
+
+
+LOAD DATA INPATH '/projeto/datalake_youtube/particao_por_campo/trends/trends_UC0Gru-jrD7sWd-pqDH8y_OA.parquet'
+INTO TABLE trends_youtube
+---------------------------------------------------------------------------------
 
 
