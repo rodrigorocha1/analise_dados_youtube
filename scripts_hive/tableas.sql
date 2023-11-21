@@ -162,8 +162,8 @@ SELECT *
 FROM TRENDS_YOUTUBE;
 
 
-LOAD DATA INPATH '/projeto/datalake_youtube/particao_por_campo/trends/trends_UC0Gru-jrD7sWd-pqDH8y_OA.parquet'
-INTO TABLE trends_youtube
+LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/particao_por_campo/trends/trends_UC0Gru-jrD7sWd-pqDH8y_OA.parquet'
+ INTO TABLE trends_youtube;
 ---------------------------------------------------------------------------------
 
 
