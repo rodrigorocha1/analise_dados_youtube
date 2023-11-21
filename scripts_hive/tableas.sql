@@ -48,7 +48,8 @@ INTO TABLE TOTAL_VIDEO_PUBLICADO_SEMANA;
 
 
 SELECT * 
-FROM TOTAL_VIDEO_PUBLICADO_SEMANA;
+FROM TOTAL_VIDEO_PUBLICADO_SEMANA
+where assunto  = 'assunto_cities_skylines';
 
 
 
@@ -104,14 +105,15 @@ STORED AS PARQUET;
 
 
 
-LOAD DATA INPATH 'hdfs://localhost:9000/projeto/teste/resposta_comentarios/resposta_comentarios_assunto_cities_skylines.parquet' 
-INTO TABLE resposta_comentarios_youtube;
+LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/particao_por_campo/resposta_comentarios/resposta_comentarios_UCrOH1V-FyMunBIMrKL0y0xQ.parquet'
+        INTO TABLE resposta_comentarios_youtube
 
 
 SELECT   *
 FROM resposta_comentarios_youtube
 where assunto  = 'assunto_cities_skylines';
 
+DESCRIBE FORMATTED resposta_comentarios_youtube;
 
 ---------------------------------------------------
 CREATE EXTERNAL TABLE comentarios_youtube (
@@ -159,8 +161,13 @@ PARTITIONED BY(data_extracao DATE, ID_CATEGORIA INT, ID_CANAL STRING, ID_VIDEO S
 STORED AS PARQUET;
 
 SELECT * 
-FROM TRENDS_YOUTUBE;
+FROM TRENDS_YOUTUBE
+where id_categoria  IN (20) ;
 
+
+DESCRIBE FORMATTED TRENDS_YOUTUBE;
+
+SHOW PARTITIONS TRENDS_YOUTUBE;
 
 LOAD DATA INPATH 'hdfs://localhost:9000/projeto/datalake_youtube/particao_por_campo/trends/trends_UC0Gru-jrD7sWd-pqDH8y_OA.parquet'
  INTO TABLE trends_youtube;
