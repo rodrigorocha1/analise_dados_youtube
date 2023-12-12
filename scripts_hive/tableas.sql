@@ -175,7 +175,7 @@ STORED AS PARQUET;
 
 SELECT * 
 FROM TRENDS_YOUTUBE
-where id_categoria  IN (20) ;
+where id_video  IN ('8KVsaoveTbw') ;
 
 
 DESCRIBE FORMATTED TRENDS_YOUTUBE;
