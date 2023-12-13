@@ -27,5 +27,9 @@ class RepositorioBanco(RepositorioBancoInterface):
         """
         conn = ConexaoBanco.conexao
         engine = create_engine('hive://', creator=lambda: conn)
-        df_resultado = pd.read_sql_query(consulta_sql, dtype=tipos_dados)
+        df_resultado = pd.read_sql_query(
+            consulta_sql,
+            dtype=tipos_dados,
+            con=engine
+        )
         return df_resultado
