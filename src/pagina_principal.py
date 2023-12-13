@@ -21,7 +21,7 @@ class APP:
                         dbc.NavbarSimple(
                             children=[
                                 dbc.NavLink(
-                                    pagina['Name'],
+                                    pagina['name'],
                                     href=pagina['relative_path'],
                                     className='nav_custom'
 
@@ -29,6 +29,8 @@ class APP:
                             ],
                             brand='Dashboard Youtube',
                             brand_href='#',
+                            color='#08235A',
+                            dark=True
 
                         )
                     ],
