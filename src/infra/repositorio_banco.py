@@ -16,6 +16,15 @@ class RepositorioBanco(RepositorioBancoInterface):
 
     @classmethod
     def consultar_banco(self, consulta_sql: str, tipos_dados: Dict) -> DataFrame:
+        """Método para conectar no banco
+
+        Args:
+            consulta_sql (str): uma consulta sql
+            tipos_dados (Dict): tipos de dados
+
+        Returns:
+            DataFrame: Dataframe da consulta sql
+        """
         conn = ConexaoBanco.conexao
         engine = create_engine('hive://', creator=lambda: conn)
         df_resultado = pd.read_sql_query(consulta_sql, dtype=tipos_dados)
