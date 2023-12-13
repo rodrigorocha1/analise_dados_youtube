@@ -1,5 +1,13 @@
 .class_linha_selecao_assunto {
-    margin: 20px 10 px;
+    margin-top: 15px;
     border-radius: 34px;
 
+}
+
+#id_label_assunto, #id_input_assunto {
+    color: white;
+}
+
+.graficos_um, .class_graficos {
+    margin: 10px 10px 10px;
 }

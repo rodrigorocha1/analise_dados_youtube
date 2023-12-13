@@ -14,7 +14,7 @@ class APP:
         self.app.layout = self.__get_layout()
 
     def __get_layout(self):
-        return html.Div(
+        return dbc.Container(
             [
                 dbc.Row(
                     [
@@ -28,6 +28,7 @@ class APP:
                                 ) for pagina in dash.page_registry.values()
                             ],
                             brand='Dashboard Youtube',
+                            className='class_nav_brand',
                             brand_href='#',
                             color='#08235A',
                             dark=True
@@ -43,8 +44,9 @@ class APP:
                     className='class_container_pagers'
                 )
             ],
-            className='class_main_div',
-            id='id_main_div'
+            className='class_main_container',
+            id='id_main_container',
+            fluid=True
         )
 
     def rodar_servico(self):
