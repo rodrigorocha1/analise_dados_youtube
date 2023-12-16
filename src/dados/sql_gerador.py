@@ -17,3 +17,23 @@ def gerar_consulta_publicacao_video(assunto: str) -> Tuple[str, Dict]:
         ' FROM youtube.total_video_publicado_semana' \
         f' WHERE assunto = "{assunto}" '
     return sql, tipos
+
+
+def gerar_consulta_desempenho(id_canal: str, data_extracao_final: str, data_extracao_inicial):
+    data_extracao = str(data_extracao_final) + '" , "' + \
+        str(data_extracao_inicial)
+    tipos = {
+        'data_extracao':  'datetime64[ns]',
+        'total_visualizacoes_turno': 'int32',
+        'turno_extracao': 'string',
+
+    }
+    sql_query = ' SELECT data_extracao, ' \
+        ' turno_extracao, ' \
+        ' total_visualizacoes_turno ' \
+        ' FROM youtube.TOTAL_VISUALIZACOES_POR_SEMANA ' \
+        ' where assunto = "assunto_cities_skylines" '  \
+        f' AND ID_CANAL="{id_canal}" ' \
+        f' AND  data_extracao in ("{data_extracao}") '
+
+    return sql_query, tipos

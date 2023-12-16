@@ -15,7 +15,7 @@ from sqlalchemy import create_engine
 class RepositorioBanco(RepositorioBancoInterface):
 
     @classmethod
-    def consultar_banco(self, consulta_sql: str, tipos_dados: Dict) -> DataFrame:
+    def consultar_banco(cls, consulta_sql: str, tipos_dados: Dict) -> DataFrame:
         """Método para conectar no banco
 
         Args:
@@ -25,13 +25,16 @@ class RepositorioBanco(RepositorioBancoInterface):
         Returns:
             DataFrame: Dataframe da consulta sql
         """
-        if ConexaoBanco.conexao is None:
-            ConexaoBanco.connect()
+    
         conn = ConexaoBanco.conexao
+        ConexaoBanco.connect()
+
         engine = create_engine('hive://', creator=lambda: conn)
+
         df_resultado = pd.read_sql_query(
-            consulta_sql,
-            dtype=tipos_dados,
-            con=engine
+                consulta_sql,
+                dtype=tipos_dados,
+                con=engine
         )
         return df_resultado
+       

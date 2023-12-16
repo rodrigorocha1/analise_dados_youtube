@@ -13,5 +13,5 @@ for canal in lista_canais:
     if canal['ASSUNTO'] == 'assunto_cities_skylines_2':
 
         canal_valores = canal['VALORES']
-        print(canal['VALORES'])
-        
+        print(canal['VALORES'][0]['value'])
+        print()

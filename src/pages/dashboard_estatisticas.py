@@ -86,7 +86,8 @@ class DashboardEstatistica:
                                                 max_date_allowed=max(
                                                     obter_lista_datas()
                                                 ),
-                                                placeholder='Selecione uma data'
+                                                placeholder='Selecione uma data',
+                                                id='id_date_desempenho'
                                             ),
                                         ),
                                         dbc.Col(
@@ -106,19 +107,14 @@ class DashboardEstatistica:
                                 ),
                                 dbc.Row(
                                     [
-                                        dbc.Col(
-                                            'Coluna1',
-                                            lg=4,
-                                        ),
-                                        dbc.Col(
-                                            'Coluna2',
-                                            lg=4,
-                                        ),
-                                        dbc.Col(
-                                            'Coluna2',
-                                            lg=4,
-                                        ),
+                                        html.P('TESTE',
+                                               style={
+                                                   'color': 'white'}, id='id_teste'),
+                                        dcc.Graph(
+                                            id='id_grafico_desempenho_likes'),
+
                                     ]
+
                                 ),
                             ],
                             lg=6,
@@ -178,6 +174,15 @@ class DashboardEstatistica:
                     canal_valores = canal['VALORES']
 
             return canal_valores
+
+        @callback(
+            Output('id_grafico_desempenho_likes', 'fig'),
+            Output('id_teste', 'children'),
+            Input('id_select_canais', 'value'),
+            Input('id_date_desempenho', 'date')
+        )
+        def obter_desempenho(id_canal: str, data: str):
+            return None, f'id_canal {id_canal} , data {data}'
 
 
 de = DashboardEstatistica()
