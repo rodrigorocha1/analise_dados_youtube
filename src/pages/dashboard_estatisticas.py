@@ -11,10 +11,10 @@ from src.dados.sql_gerador import gerar_consulta_publicacao_video
 from src.etl_base.etl_base import fazer_tratamento_etl_publicacao_video
 from src.infra.repositorio_banco import RepositorioBanco
 from src.visualization.visualizacao import Visualizacao
-from src.dados.depara import obter_lista_datas
+from src.dados.depara import *
 from typing import List
 
-dash.register_page(__name__, name='Analise Estátisticas', path='/')
+dash.register_page(__name__, name='Analise Estátistica', path='/')
 
 
 class DashboardEstatistica:
@@ -25,7 +25,7 @@ class DashboardEstatistica:
 
     def __obter_opcoes(self, indice_opcao: str) -> List[str] | None:
         opcoes = {
-            '1': ['assunto_cities_skylines', 'cities Skylines'],
+            '1': ['assunto_cities_skylines', 'Cities Skylines'],
             '2': ['assunto_cities_skylines_2', 'Cities Skylines 2'],
             '3': ['assunto_python_and_dados', 'Python e dados'],
             '4': ['assunto_power_bi', 'Power Bi']
@@ -86,18 +86,12 @@ class DashboardEstatistica:
                                         placeholder='Selecione uma data'
 
                                     ),
-
-
                                     id='id_linha_input_tempo',
                                     className='class_input_desempenho'
-
                                 ),
                                 dbc.Row(
-
-
                                     id='id_linha_input_canal',
                                     className='class_input_canal'
-
                                 ),
                                 dbc.Row(
                                     [
@@ -120,8 +114,6 @@ class DashboardEstatistica:
                             id='id_colunas_desempeho',
                             className='class_coluna_desempenho'
                         ),
-
-
                     ],
                     id='id_linha_graficos',
                     className='class_graficos'
