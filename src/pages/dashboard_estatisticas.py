@@ -32,30 +32,32 @@ class DashboardEstatistica:
         opcao = opcoes.get(indice_opcao)
         return opcao
 
+    def __gerar_inputs_assunto(self):
+        return [
+            dbc.Label(
+                'Selecione o assunto de interesse',
+                id='id_label_assunto',
+                className='class_label_assunto',
+                style={'text-align': 'center'}
+            ), dbc.RadioItems(
+                options=[
+                    {'label': 'Cities Skylines', 'value': '1'},
+                    {'label': 'Cities Skylines 2', 'value': '2'},
+                    {'label': 'Python e Dados', 'value': '3'},
+                    {'label': 'Power Bi', 'value': '4'}
+                ],
+                value='1',
+                inline=True,
+                id='id_input_assunto',
+                style={'text-align': 'center'}
+            ),
+        ]
+
     def __get_layout(self):
         return html.Div(
             [
                 dbc.Row(
-                    [
-                        dbc.Label(
-                            'Selecione o assunto de interesse',
-                            id='id_label_assunto',
-                            className='class_label_assunto',
-                            style={'text-align': 'center'}
-                        ),
-                        dbc.RadioItems(
-                            options=[
-                                {'label': 'Cities Skylines', 'value': '1'},
-                                {'label': 'Cities Skylines 2', 'value': '2'},
-                                {'label': 'Python e Dados', 'value': '3'},
-                                {'label': 'Power Bi', 'value': '4'}
-                            ],
-                            value='1',
-                            inline=True,
-                            id='id_input_assunto',
-                            style={'text-align': 'center'}
-                        ),
-                    ],
+                    self.__gerar_inputs_assunto(),
                     id='id_linha_selecao_assunto',
                     className='class_linha_selecao_assunto',
                 ),
