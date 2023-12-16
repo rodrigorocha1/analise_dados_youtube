@@ -11,6 +11,7 @@ from src.dados.sql_gerador import gerar_consulta_publicacao_video
 from src.etl_base.etl_base import fazer_tratamento_etl_publicacao_video
 from src.infra.repositorio_banco import RepositorioBanco
 from src.visualization.visualizacao import Visualizacao
+from src.dados.depara import obter_lista_datas
 from typing import List
 
 dash.register_page(__name__, name='Analise Estátisticas', path='/')
@@ -73,6 +74,18 @@ class DashboardEstatistica:
                         dbc.Col(
                             [
                                 dbc.Row(
+                                    dcc.DatePickerSingle(
+                                        date=min(obter_lista_datas()),
+                                        display_format='DD/MM/YYYY',
+                                        min_date_allowed=min(
+                                            obter_lista_datas()
+                                        ),
+                                        max_date_allowed=max(
+                                            obter_lista_datas()
+                                        ),
+                                        placeholder='Selecione uma data'
+
+                                    ),
 
 
                                     id='id_linha_input_tempo',
