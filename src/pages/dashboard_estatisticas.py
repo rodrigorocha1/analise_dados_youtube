@@ -146,7 +146,7 @@ class DashboardEstatistica:
             fig = visualizacao.gerar_grafico_de_barras(
                 coluna_x='semana_traduzida',
                 coluna_y='total_videos',
-                titulo=f'Envio de Vídeo por semana do {assunto[1]}'
+                titulo=f'Envio de Vídeo por semana para o assunto {assunto[1]}'
             )
             return fig
 
