@@ -68,16 +68,47 @@ class DashboardEstatistica:
                                 id='id_grafico_historico_video',
                                 className='graficos_um'
                             ),
-                            lg=4
+                            lg=6
                         ),
                         dbc.Col(
-                            dcc.Graph(id='grafico_2', className='graficos_um'),
-                            lg=4
+                            [
+                                dbc.Row(
+
+
+                                    id='id_linha_input_tempo',
+                                    className='class_input_desempenho'
+
+                                ),
+                                dbc.Row(
+
+
+                                    id='id_linha_input_canal',
+                                    className='class_input_canal'
+
+                                ),
+                                dbc.Row(
+                                    [
+                                        dbc.Col(
+                                            'Coluna1',
+                                            lg=4,
+                                        ),
+                                        dbc.Col(
+                                            'Coluna2',
+                                            lg=4,
+                                        ),
+                                        dbc.Col(
+                                            'Coluna2',
+                                            lg=4,
+                                        ),
+                                    ]
+                                ),
+                            ],
+                            lg=6,
+                            id='id_colunas_desempeho',
+                            className='class_coluna_desempenho'
                         ),
-                        dbc.Col(
-                            dcc.Graph(id='grafico_1', className='graficos_um'),
-                            lg=4
-                        ),
+
+
                     ],
                     id='id_linha_graficos',
                     className='class_graficos'
