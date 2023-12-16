@@ -74,18 +74,29 @@ class DashboardEstatistica:
                         dbc.Col(
                             [
                                 dbc.Row(
-                                    dcc.DatePickerSingle(
-                                        date=min(obter_lista_datas()),
-                                        display_format='DD/MM/YYYY',
-                                        min_date_allowed=min(
-                                            obter_lista_datas()
-                                        ),
-                                        max_date_allowed=max(
-                                            obter_lista_datas()
-                                        ),
-                                        placeholder='Selecione uma data'
 
-                                    ),
+                                    [
+                                        dbc.Col(
+                                            dcc.DatePickerSingle(
+                                                date=min(obter_lista_datas()),
+                                                display_format='DD/MM/YYYY',
+                                                min_date_allowed=min(
+                                                    obter_lista_datas()
+                                                ),
+                                                max_date_allowed=max(
+                                                    obter_lista_datas()
+                                                ),
+                                                placeholder='Selecione uma data'
+                                            ),
+                                        ),
+                                        dbc.Col(
+                                            dbc.Select(
+                                                id='id_select_canais',
+                                                className='class_select_canais',
+
+                                            )
+                                        ),
+                                    ],
                                     id='id_linha_input_tempo',
                                     className='class_input_desempenho'
                                 ),
@@ -154,6 +165,19 @@ class DashboardEstatistica:
                 titulo=f'Envio de Vídeo por semana para o assunto {assunto[1]}'
             )
             return fig
+
+        @callback(
+            Output('id_select_canais', 'options'),
+            Input('id_input_assunto', 'value')
+        )
+        def trocar_input_desempenho(indice_assunto: str):
+            assunto = self.__obter_opcoes(indice_assunto)
+            assunto = assunto[0]
+            for canal in obter_lista_canais():
+                if canal['ASSUNTO'] == assunto:
+                    canal_valores = canal['VALORES']
+
+            return canal_valores
 
 
 de = DashboardEstatistica()

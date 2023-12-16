@@ -8,5 +8,10 @@ from src.dados.depara import obter_lista_canais
 
 
 lista_canais = obter_lista_canais()
-print(lista_canais, type(lista_canais[0]))
-print(lista_canais, type(lista_canais[0]))
+
+for canal in lista_canais:
+    if canal['ASSUNTO'] == 'assunto_cities_skylines_2':
+
+        canal_valores = canal['VALORES']
+        print(canal['VALORES'])
+        
