@@ -11,6 +11,7 @@ from src.dados.sql_gerador import gerar_consulta_publicacao_video
 from src.etl_base.etl_base import fazer_tratamento_etl_publicacao_video
 from src.infra.repositorio_banco import RepositorioBanco
 from src.visualization.visualizacao import Visualizacao
+from typing import List
 
 dash.register_page(__name__, name='Analise Estátisticas', path='/')
 
@@ -21,7 +22,7 @@ class DashboardEstatistica:
         self.tela = self.__get_layout()
         self.__gerar_calbacks()
 
-    def __obter_opcoes(self, indice_opcao: str) -> str:
+    def __obter_opcoes(self, indice_opcao: str) -> List[str] | None:
         opcoes = {
             '1': ['assunto_cities_skylines', 'cities Skylines'],
             '2': ['assunto_cities_skylines_2', 'Cities Skylines 2'],
