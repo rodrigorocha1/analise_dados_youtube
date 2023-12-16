@@ -25,6 +25,8 @@ class RepositorioBanco(RepositorioBancoInterface):
         Returns:
             DataFrame: Dataframe da consulta sql
         """
+        if ConexaoBanco.conexao is None:
+            ConexaoBanco.connect()
         conn = ConexaoBanco.conexao
         engine = create_engine('hive://', creator=lambda: conn)
         df_resultado = pd.read_sql_query(

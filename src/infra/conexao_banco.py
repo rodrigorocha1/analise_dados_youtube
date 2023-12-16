@@ -6,10 +6,10 @@ class ConexaoBanco:
 
     @classmethod
     def connect(cls):
-        conexao = hive.Connection(
+        db_conexao = hive.Connection(
             host='localhost',
             port=10000,
             username='rodrigo',
             database='youtube'
         )
-        cls.conexao = conexao
+        cls.conexao = db_conexao

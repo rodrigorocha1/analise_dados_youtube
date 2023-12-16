@@ -25,17 +25,17 @@ class Visualizacao:
             title_text=titulo,
             showlegend=True,
             title=dict(x=0.5, font=dict(color='white')),
-            plot_bgcolor='#1F2326',
+            plot_bgcolor='#021E56',
             yaxis=dict(visible=False),
             margin=dict(l=20, r=20, t=40, b=20, pad=4),
-            paper_bgcolor='#1F2326',
+            paper_bgcolor='#021E56',
             xaxis=dict(title='', tickfont=dict(color='white')),
             legend=dict(font=dict(color='white')),
         )
 
         fig.update_traces(
             textfont_color='white',
-            marker_color='#FFA500',
+            marker_color='#A343FF',
             textfont_size=16
         )
         return fig
