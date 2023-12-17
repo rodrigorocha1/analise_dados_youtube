@@ -44,13 +44,25 @@ class Visualizacao:
 
     def gerar_tabela_desempenho(self, titulo: str, coluna_analise: str):
 
-        fig = px.line(self.__df_resultado,
-                      x='data_extracao',
-                      y=coluna_analise,
-                      title=titulo,
-                      markers=True
-                      )
+        fig = px.line(
+            self.__df_resultado,
+            x='data_extracao',
+            y=coluna_analise,
+            title=titulo,
+            markers=True
+        )
 
         fig.update_xaxes(title='', tickformat='%d/%m/%Y')
         fig.update_yaxes(title='')
+        fig.update_layout(
+            showlegend=True,
+            title=dict(x=0.5, font=dict(color='white')),
+            plot_bgcolor='#021E56',
+            yaxis=dict(visible=True, tickfont=dict(
+                color='white'), showgrid=True),
+            margin=dict(l=20, r=20, t=40, b=20, pad=4),
+            paper_bgcolor='#021E56',
+            xaxis=dict(title='', tickfont=dict(color='white'), showgrid=False),
+            legend=dict(font=dict(color='white')),
+        )
         return fig
