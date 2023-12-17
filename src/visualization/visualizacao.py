@@ -56,3 +56,4 @@ class Visualizacao:
                 },
             )
         )
+        return fig
