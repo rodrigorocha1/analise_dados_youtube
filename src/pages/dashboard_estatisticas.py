@@ -7,12 +7,13 @@ except ModuleNotFoundError:
 from dash import html, Dash, dcc, callback, Input, Output
 import dash
 import dash_bootstrap_components as dbc
-from src.dados.sql_gerador import gerar_consulta_publicacao_video
-from src.etl_base.etl_base import fazer_tratamento_etl_publicacao_video
+from src.dados.sql_gerador import *
+from src.etl_base.etl_base import *
 from src.infra.repositorio_banco import RepositorioBanco
 from src.visualization.visualizacao import Visualizacao
 from src.dados.depara import *
 from typing import List
+from datetime import datetime, timedelta, date
 
 dash.register_page(__name__, name='Analise Estátistica', path='/')
 
@@ -78,7 +79,7 @@ class DashboardEstatistica:
                                     [
                                         dbc.Col(
                                             dcc.DatePickerSingle(
-                                                date=min(obter_lista_datas()),
+                                                date=date(2023, 10, 21),
                                                 display_format='DD/MM/YYYY',
                                                 min_date_allowed=min(
                                                     obter_lista_datas()
@@ -132,38 +133,41 @@ class DashboardEstatistica:
         )
 
     def __gerar_calbacks(self):
+        # @callback(
+        #     Output('id_grafico_historico_video', 'figure'),
+        #     Input('id_input_assunto', 'value')
+        # )
+        # def gerar_grafico_publicacao_semana(indice_assunto: str):
+
+        #     assunto = self.__obter_opcoes(indice_assunto)
+
+        #     sql, tipos = gerar_consulta_publicacao_video(
+        #         assunto=assunto[0]
+        #     )
+
+        #     dataframe_resultado = RepositorioBanco.consultar_banco(
+        #         consulta_sql=sql,
+        #         tipos_dados=tipos
+        #     )
+
+        #     dataframe_resultado = fazer_tratamento_etl_publicacao_video(
+        #         dataframe=dataframe_resultado
+        #     )
+
+        #     visualizacao = Visualizacao(df_resultado=dataframe_resultado)
+
+        #     fig = visualizacao.gerar_grafico_de_barras(
+        #         coluna_x='semana_traduzida',
+        #         coluna_y='total_videos',
+        #         titulo=f'Envio de Vídeo por semana para o assunto {assunto[1]}'
+        #     )
+        #     return fig
+
         @callback(
-            Output('id_grafico_historico_video', 'figure'),
-            Input('id_input_assunto', 'value')
-        )
-        def gerar_grafico_publicacao_semana(indice_assunto: str):
-
-            assunto = self.__obter_opcoes(indice_assunto)
-
-            sql, tipos = gerar_consulta_publicacao_video(
-                assunto=assunto[0]
-            )
-
-            dataframe_resultado = RepositorioBanco.consultar_banco(
-                consulta_sql=sql,
-                tipos_dados=tipos
-            )
-
-            dataframe_resultado = fazer_tratamento_etl_publicacao_video(
-                dataframe=dataframe_resultado
-            )
-
-            visualizacao = Visualizacao(df_resultado=dataframe_resultado)
-
-            fig = visualizacao.gerar_grafico_de_barras(
-                coluna_x='semana_traduzida',
-                coluna_y='total_videos',
-                titulo=f'Envio de Vídeo por semana para o assunto {assunto[1]}'
-            )
-            return fig
-
-        @callback(
-            Output('id_select_canais', 'options'),
+            [
+                Output('id_select_canais', 'options'),
+                Output('id_select_canais', 'value'),
+            ],
             Input('id_input_assunto', 'value')
         )
         def trocar_input_desempenho(indice_assunto: str):
@@ -172,8 +176,9 @@ class DashboardEstatistica:
             for canal in obter_lista_canais():
                 if canal['ASSUNTO'] == assunto:
                     canal_valores = canal['VALORES']
+            valor_padrao = obter_lista_canais()[0]['VALORES'][0]['value']
 
-            return canal_valores
+            return canal_valores, valor_padrao
 
         @callback(
             Output('id_grafico_desempenho_likes', 'fig'),
@@ -181,8 +186,20 @@ class DashboardEstatistica:
             Input('id_select_canais', 'value'),
             Input('id_date_desempenho', 'date')
         )
-        def obter_desempenho(id_canal: str, data: str):
-            return None, f'id_canal {id_canal} , data {data}'
+        def obter_desempenho(id_canal: str, data_final: date):
+            data_final = datetime.strptime(data_final, '%Y-%m-%d').date()
+            data_inicial = data_final - timedelta(days=1)
+            sql, tipos = gerar_consulta_desempenho(
+                id_canal=id_canal, data_extracao_final=data_final, data_extracao_inicial=data_inicial)
+
+            dataframe = RepositorioBanco.consultar_banco(
+                consulta_sql=sql,
+                tipos_dados=tipos
+            )
+
+            dataframe = fazer_tratameto_etl_desempenho(dataframe=dataframe)
+            print(dataframe)
+            return None, f'id_canal {id_canal} , data {data_final}, data inicial {data_inicial}'
 
 
 de = DashboardEstatistica()

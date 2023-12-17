@@ -1,5 +1,6 @@
 import pandas as pd
 from typing import Tuple, Dict
+from datetime import date
 
 
 def gerar_consulta_publicacao_video(assunto: str) -> Tuple[str, Dict]:
@@ -19,7 +20,11 @@ def gerar_consulta_publicacao_video(assunto: str) -> Tuple[str, Dict]:
     return sql, tipos
 
 
-def gerar_consulta_desempenho(id_canal: str, data_extracao_final: str, data_extracao_inicial):
+def gerar_consulta_desempenho(
+        id_canal: str,
+        data_extracao_final: date,
+        data_extracao_inicial: date
+):
     data_extracao = str(data_extracao_final) + '" , "' + \
         str(data_extracao_inicial)
     tipos = {
