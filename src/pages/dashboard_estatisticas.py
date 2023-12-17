@@ -76,18 +76,7 @@ class DashboardEstatistica:
                                 dbc.Row(
                                     [
                                         dbc.Col(
-                                            dcc.DatePickerSingle(
-                                                date=date(2023, 10, 21),
-                                                display_format='DD/MM/YYYY',
-                                                min_date_allowed=min(
-                                                    obter_lista_datas()
-                                                ),
-                                                max_date_allowed=max(
-                                                    obter_lista_datas()
-                                                ),
-                                                placeholder='Selecione uma data',
-                                                id='id_date_desempenho'
-                                            ),
+
                                         ),
                                         dbc.Col(
                                             dbc.Select(
@@ -105,26 +94,29 @@ class DashboardEstatistica:
                                 ),
                                 dbc.Row(
                                     [
-                                        dbc.Col(
+
+                                        dbc.Tabs(
                                             [
-                                                dcc.Graph(
-                                                    id='id_grafico_desempenho_visualizacoes'
+                                                dbc.Tab(
+
+                                                    label='Análise likes',
+                                                    tab_id='id_tab_likes'
+                                                ),
+                                                dbc.Tab(
+
+                                                    label='Análise Comentários',
+                                                    tab_id='id_tab_comentarios'
+                                                ),
+                                                dbc.Tab(
+
+                                                    label='Análise Visualizações',
+                                                    tab_id='id_tab_visualizações'
                                                 ),
                                             ],
-                                            lg=4
+                                            id='id_tabs_desempenho',
+                                            active_tab='id_tab_likes'
                                         ),
-                                        dbc.Col(
-                                            dcc.Graph(
-                                                id='id_grafico_desempenho_comentarios'
-                                            ),
-                                            lg=4
-                                        ),
-                                        dbc.Col(
-                                            dcc.Graph(
-                                                id='id_grafico_desempenho_likes'
-                                            ),
-                                            lg=4
-                                        ),
+                                        html.Div(id='grafico-selecionado')
                                     ],
                                     className='class_desempenho',
                                     id='id_desempenho',
@@ -185,94 +177,45 @@ class DashboardEstatistica:
             return canal_valores, valor_padrao
 
         @callback(
-            Output('id_grafico_desempenho_visualizacoes', 'figure'),
+            Output('grafico-selecionado', 'children'),
             Input('id_input_assunto', 'value'),
             Input('id_select_canais', 'value'),
-            Input('id_date_desempenho', 'date'),
-        )
-        def obter_desempenho_visualizacao(indice_assunto: str, id_canal: str, data_final: date):
-            data_final = datetime.strptime(data_final, '%Y-%m-%d').date()
-            data_inicial = data_final - timedelta(days=1)
-            assunto = self.__obter_opcoes(indice_assunto)
+            [Input('id_tabs_desempenho', 'active_tab')]
 
+        )
+        def obter_desempenho_canal(indice_assunto: str, id_canal: str, tab):
+            assunto = self.__obter_opcoes(indice_assunto)
             gerador_consulta = GeradorConsulta(
                 assunto=assunto[0],
                 metricas='total_visualizacoes_por_semana',
                 nome_arquivo='total_visualizacoes_por_semana.parquet'
             )
-            coluna = 'TOTAL_VISUALIZACOES_TURNO'
+
             dataframe = gerador_consulta.gerar_indicadores(
                 id_canal=id_canal,
-                data_fim=data_final,
-                coluna=coluna
             )
-            if dataframe.empty:
-                pass
-
-            visalizacao = Visualizacao(df_resultado=dataframe)
-            titulo = 'Desempenho de visualização <br>  em relação ao dia anterior'
-            fig = visalizacao.gerar_indicador(titulo=titulo)
-            return fig
-
-        @callback(
-            Output('id_grafico_desempenho_likes', 'figure'),
-            Input('id_input_assunto', 'value'),
-            Input('id_select_canais', 'value'),
-            Input('id_date_desempenho', 'date'),
-        )
-        def obter_desempenho_likes(indice_assunto: str, id_canal: str, data_final: date):
-            data_final = datetime.strptime(data_final, '%Y-%m-%d').date()
-            data_inicial = data_final - timedelta(days=1)
-            assunto = self.__obter_opcoes(indice_assunto)
-
-            gerador_consulta = GeradorConsulta(
-                assunto=assunto[0],
-                metricas='total_visualizacoes_por_semana',
-                nome_arquivo='total_visualizacoes_por_semana.parquet'
-            )
-            coluna = 'TOTAL_LIKES_TURNO'
-            dataframe = gerador_consulta.gerar_indicadores(
-                id_canal=id_canal,
-                data_fim=data_final,
-                coluna=coluna
-            )
-            if dataframe.empty:
-                pass
-
-            visalizacao = Visualizacao(df_resultado=dataframe)
-            titulo = 'Desempenho de likes <br>  em relação ao dia anterior'
-            fig = visalizacao.gerar_indicador(titulo=titulo)
-            return fig
-
-        @callback(
-            Output('id_grafico_desempenho_comentarios', 'figure'),
-            Input('id_input_assunto', 'value'),
-            Input('id_select_canais', 'value'),
-            Input('id_date_desempenho', 'date'),
-        )
-        def obter_desempenho_likes(indice_assunto: str, id_canal: str, data_final: date):
-            data_final = datetime.strptime(data_final, '%Y-%m-%d').date()
-            data_inicial = data_final - timedelta(days=1)
-            assunto = self.__obter_opcoes(indice_assunto)
-
-            gerador_consulta = GeradorConsulta(
-                assunto=assunto[0],
-                metricas='total_visualizacoes_por_semana',
-                nome_arquivo='total_visualizacoes_por_semana.parquet'
-            )
-            coluna = 'TOTAL_COMENTARIOS_TURNO'
-            dataframe = gerador_consulta.gerar_indicadores(
-                id_canal=id_canal,
-                data_fim=data_final,
-                coluna=coluna
-            )
-            if dataframe.empty:
-                pass
-
-            visalizacao = Visualizacao(df_resultado=dataframe)
-            titulo = 'Desempenho do comentários <br> em relação ao dia anterior'
-            fig = visalizacao.gerar_indicador(titulo=titulo)
-            return fig
+            visualizacao = Visualizacao(df_resultado=dataframe)
+            if tab == 'id_tab_likes':
+                titulo = 'Desempenho de likes'
+                coluna_analise = 'total_likes'
+                fig = visualizacao.gerar_tabela_desempenho(
+                    titulo=titulo,
+                    coluna_analise=coluna_analise
+                )
+                return dcc.Graph(figure=fig)
+            elif tab == 'id_tab_comentarios':
+                titulo = 'Desempenho de comentários'
+                coluna_analise = 'total_comentarios'
+                fig = visualizacao.gerar_tabela_desempenho(
+                    titulo=titulo, coluna_analise='total_comentarios')
+                return dcc.Graph(figure=fig)
+            else:
+                titulo = 'Desempenho de visualização'
+                coluna_analise = 'total_visualizacoes'
+                fig = visualizacao.gerar_tabela_desempenho(
+                    titulo=titulo, coluna_analise=coluna_analise
+                )
+                return dcc.Graph(figure=fig)
 
 
 de = DashboardEstatistica()

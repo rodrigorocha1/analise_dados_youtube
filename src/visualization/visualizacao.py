@@ -1,6 +1,7 @@
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.figure_factory as ff
 
 
 class Visualizacao:
@@ -41,23 +42,15 @@ class Visualizacao:
         )
         return fig
 
-    def gerar_indicador(self, titulo: str):
-        fig = go.Figure()
+    def gerar_tabela_desempenho(self, titulo: str, coluna_analise: str):
 
-        fig.add_trace(
-            go.Indicator(
-                mode='number+delta',
-                value=self.__df_resultado['total_visualizacoes'].iloc[0],
-                delta={
-                    'reference':  round(int(self.__df_resultado['total_visualizacoes_dia_anterior'].iloc[0]), 2),
-                    'relative': True,
-                    'position': 'bottom',
-                    'valueformat': '.2%',
-                },
-                title={
-                    'text': titulo,
-                    'font': {'size': 14}
-                }
-            )
-        )
+        fig = px.line(self.__df_resultado,
+                      x='data_extracao',
+                      y=coluna_analise,
+                      title=titulo,
+                      markers=True
+                      )
+
+        fig.update_xaxes(title='', tickformat='%d/%m/%Y')
+        fig.update_yaxes(title='')
         return fig

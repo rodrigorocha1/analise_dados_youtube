@@ -11,6 +11,11 @@
 .graficos_um, .class_graficos {
     margin: 10px 10px 10px;
 }
-.class_desempenho {
-    height: 10px;
+
+#grafico-selecionado {
+    margin-top: 20px;
+}
+
+#id_tabs_desempenho {
+    margin-top: 10px;
 }

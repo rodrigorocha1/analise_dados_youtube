@@ -58,42 +58,73 @@ class GeradorConsulta:
 
     def gerar_indicadores(
             self,
-            id_canal: str,
-            data_fim: date,
-            coluna: str
+            id_canal: str
+
     ):
         colunas = [
-            coluna,
+
             'data_extracao',
             'TURNO_EXTRACAO',
-            'ID_CANAL'
+            'ID_CANAL',
+            'TOTAL_VISUALIZACOES_TURNO',
+            'TOTAL_COMENTARIOS_TURNO',
+            'TOTAL_LIKES_TURNO'
+
+
         ]
 
         dataframe = pd.read_parquet(
             self.__caminho_completo,
             columns=colunas
+
         )
 
-        dataframe['data_extracao'] = dataframe['data_extracao'].astype(
-            'datetime64')
+        dataframe = dataframe[dataframe['ID_CANAL'] == id_canal]
+
+        dataframe['data_extracao'] = pd.to_datetime(
+            dataframe['data_extracao']).dt.date
 
         dataframe[['TURNO_EXTRACAO', 'ID_CANAL']] = dataframe[[
             'TURNO_EXTRACAO', 'ID_CANAL']].astype('string')
 
-        dataframe = dataframe[dataframe['ID_CANAL'] == id_canal]
-
         dataframe = dataframe.groupby('data_extracao') \
-            .agg(total_visualizacoes=(coluna, 'sum')
-                 ).reset_index()
+            .agg(
+                total_visualizacoes=('TOTAL_VISUALIZACOES_TURNO', 'sum'),
+                total_comentarios=('TOTAL_COMENTARIOS_TURNO', 'sum'),
+                total_likes=('TOTAL_LIKES_TURNO', 'sum'),
+        ).reset_index()
 
         dataframe['total_visualizacoes_dia_anterior'] = dataframe['total_visualizacoes'].shift(
             1)
+        dataframe['total_comentarios_dia_anterior'] = dataframe['total_comentarios'].shift(
+            1)
+        dataframe['total_likes_dia_anterior'] = dataframe['total_likes'].shift(
+            1)
 
+        dataframe['PERCENTUAL_VISUALIZACOES'] = round((
+            dataframe['total_visualizacoes'] -
+            dataframe['total_visualizacoes_dia_anterior']
+        ) / dataframe['total_visualizacoes_dia_anterior'] * 100, 2)
+
+        dataframe['PERCENTUAL_COMENTARIOS'] = round(
+            (dataframe['total_comentarios'] - dataframe['total_comentarios_dia_anterior']) / dataframe['total_comentarios_dia_anterior'] * 100, 2)
+
+        dataframe['PERCENTUAL_LIKES'] = round((
+            (dataframe['total_likes'] - dataframe['total_likes_dia_anterior']) / dataframe['total_likes_dia_anterior']) * 100, 2)
+
+        dataframe.drop(['total_likes_dia_anterior',
+                       'total_comentarios_dia_anterior', 'total_likes_dia_anterior'], axis=1, inplace=True)
+
+        dataframe.fillna(0, axis=1, inplace=True)
+
+        dataframe = dataframe[[
+            'data_extracao',
+            'total_visualizacoes',
+            'PERCENTUAL_VISUALIZACOES',
+            'total_comentarios',
+            'PERCENTUAL_COMENTARIOS',
+            'total_likes',
+            'PERCENTUAL_LIKES']]
         dataframe.dropna(inplace=True)
-
-        dataframe['total_visualizacoes_dia_anterior'] = dataframe['total_visualizacoes_dia_anterior'].astype(
-            'float32')
-
-        dataframe = dataframe[dataframe['data_extracao'] == str(data_fim)]
 
         return dataframe
