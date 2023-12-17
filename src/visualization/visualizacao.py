@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 class Visualizacao:
@@ -39,3 +40,19 @@ class Visualizacao:
             textfont_size=16
         )
         return fig
+
+    def gerar_indicador(self):
+        fig = go.Figure()
+
+        fig.add_trace(
+            go.Indicator(
+                mode='number+delta',
+                value=self.__df_resultado['total_visualizacoes'].iloc[0],
+                delta={
+                    'reference':  round(int(self.__df_resultado['total_visualizacoes_dia_anterior'].iloc[0]), 2),
+                    'relative': True,
+                    'position': 'bottom',
+                    'valueformat': '.2%',
+                },
+            )
+        )

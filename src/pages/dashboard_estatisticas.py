@@ -133,35 +133,35 @@ class DashboardEstatistica:
         )
 
     def __gerar_calbacks(self):
-        # @callback(
-        #     Output('id_grafico_historico_video', 'figure'),
-        #     Input('id_input_assunto', 'value')
-        # )
-        # def gerar_grafico_publicacao_semana(indice_assunto: str):
+        @callback(
+            Output('id_grafico_historico_video', 'figure'),
+            Input('id_input_assunto', 'value')
+        )
+        def gerar_grafico_publicacao_semana(indice_assunto: str):
 
-        #     assunto = self.__obter_opcoes(indice_assunto)
+            assunto = self.__obter_opcoes(indice_assunto)
 
-        #     sql, tipos = gerar_consulta_publicacao_video(
-        #         assunto=assunto[0]
-        #     )
+            sql, tipos = gerar_consulta_publicacao_video(
+                assunto=assunto[0]
+            )
 
-        #     dataframe_resultado = RepositorioBanco.consultar_banco(
-        #         consulta_sql=sql,
-        #         tipos_dados=tipos
-        #     )
+            dataframe_resultado = RepositorioBanco.consultar_banco(
+                consulta_sql=sql,
+                tipos_dados=tipos
+            )
 
-        #     dataframe_resultado = fazer_tratamento_etl_publicacao_video(
-        #         dataframe=dataframe_resultado
-        #     )
+            dataframe_resultado = fazer_tratamento_etl_publicacao_video(
+                dataframe=dataframe_resultado
+            )
 
-        #     visualizacao = Visualizacao(df_resultado=dataframe_resultado)
+            visualizacao = Visualizacao(df_resultado=dataframe_resultado)
 
-        #     fig = visualizacao.gerar_grafico_de_barras(
-        #         coluna_x='semana_traduzida',
-        #         coluna_y='total_videos',
-        #         titulo=f'Envio de Vídeo por semana para o assunto {assunto[1]}'
-        #     )
-        #     return fig
+            fig = visualizacao.gerar_grafico_de_barras(
+                coluna_x='semana_traduzida',
+                coluna_y='total_videos',
+                titulo=f'Envio de Vídeo por semana para o assunto {assunto[1]}'
+            )
+            return fig
 
         @callback(
             [
@@ -181,7 +181,7 @@ class DashboardEstatistica:
             return canal_valores, valor_padrao
 
         @callback(
-            Output('id_grafico_desempenho_likes', 'fig'),
+            Output('id_grafico_desempenho_likes', 'figure'),
             Output('id_teste', 'children'),
             Input('id_select_canais', 'value'),
             Input('id_date_desempenho', 'date')
@@ -199,7 +199,9 @@ class DashboardEstatistica:
 
             dataframe = fazer_tratameto_etl_desempenho(dataframe=dataframe)
             print(dataframe)
-            return None, f'id_canal {id_canal} , data {data_final}, data inicial {data_inicial}'
+            visalizacao = Visualizacao(df_resultado=dataframe)
+            # fig = visalizacao.gerar_indicador()
+            return None, f'id_canal {id_canal} , data {data_final}, data inicial {data_inicial} {dataframe}'
 
 
 de = DashboardEstatistica()
