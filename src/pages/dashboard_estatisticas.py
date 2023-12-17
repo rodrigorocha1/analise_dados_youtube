@@ -129,7 +129,6 @@ class DashboardEstatistica:
                                     className='class_desempenho',
                                     id='id_desempenho',
                                 ),
-
                             ],
                             lg=6,
                             id='id_colunas_desempeho',
@@ -191,7 +190,7 @@ class DashboardEstatistica:
             Input('id_select_canais', 'value'),
             Input('id_date_desempenho', 'date'),
         )
-        def obter_desempenho(indice_assunto: str, id_canal: str, data_final: date):
+        def obter_desempenho_visualizacao(indice_assunto: str, id_canal: str, data_final: date):
             data_final = datetime.strptime(data_final, '%Y-%m-%d').date()
             data_inicial = data_final - timedelta(days=1)
             assunto = self.__obter_opcoes(indice_assunto)
@@ -211,7 +210,68 @@ class DashboardEstatistica:
                 pass
 
             visalizacao = Visualizacao(df_resultado=dataframe)
-            fig = visalizacao.gerar_indicador()
+            titulo = 'Desempenho de visualização <br>  em relação ao dia anterior'
+            fig = visalizacao.gerar_indicador(titulo=titulo)
+            return fig
+
+        @callback(
+            Output('id_grafico_desempenho_likes', 'figure'),
+            Input('id_input_assunto', 'value'),
+            Input('id_select_canais', 'value'),
+            Input('id_date_desempenho', 'date'),
+        )
+        def obter_desempenho_likes(indice_assunto: str, id_canal: str, data_final: date):
+            data_final = datetime.strptime(data_final, '%Y-%m-%d').date()
+            data_inicial = data_final - timedelta(days=1)
+            assunto = self.__obter_opcoes(indice_assunto)
+
+            gerador_consulta = GeradorConsulta(
+                assunto=assunto[0],
+                metricas='total_visualizacoes_por_semana',
+                nome_arquivo='total_visualizacoes_por_semana.parquet'
+            )
+            coluna = 'TOTAL_LIKES_TURNO'
+            dataframe = gerador_consulta.gerar_indicadores(
+                id_canal=id_canal,
+                data_fim=data_final,
+                coluna=coluna
+            )
+            if dataframe.empty:
+                pass
+
+            visalizacao = Visualizacao(df_resultado=dataframe)
+            titulo = 'Desempenho de likes <br>  em relação ao dia anterior'
+            fig = visalizacao.gerar_indicador(titulo=titulo)
+            return fig
+
+        @callback(
+            Output('id_grafico_desempenho_comentarios', 'figure'),
+            Input('id_input_assunto', 'value'),
+            Input('id_select_canais', 'value'),
+            Input('id_date_desempenho', 'date'),
+        )
+        def obter_desempenho_likes(indice_assunto: str, id_canal: str, data_final: date):
+            data_final = datetime.strptime(data_final, '%Y-%m-%d').date()
+            data_inicial = data_final - timedelta(days=1)
+            assunto = self.__obter_opcoes(indice_assunto)
+
+            gerador_consulta = GeradorConsulta(
+                assunto=assunto[0],
+                metricas='total_visualizacoes_por_semana',
+                nome_arquivo='total_visualizacoes_por_semana.parquet'
+            )
+            coluna = 'TOTAL_COMENTARIOS_TURNO'
+            dataframe = gerador_consulta.gerar_indicadores(
+                id_canal=id_canal,
+                data_fim=data_final,
+                coluna=coluna
+            )
+            if dataframe.empty:
+                pass
+
+            visalizacao = Visualizacao(df_resultado=dataframe)
+            titulo = 'Desempenho do comentários <br> em relação ao dia anterior'
+            fig = visalizacao.gerar_indicador(titulo=titulo)
             return fig
 
 

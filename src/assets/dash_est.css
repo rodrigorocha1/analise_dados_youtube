@@ -11,4 +11,6 @@
 .graficos_um, .class_graficos {
     margin: 10px 10px 10px;
 }
-
+.class_desempenho {
+    height: 10px;
+}

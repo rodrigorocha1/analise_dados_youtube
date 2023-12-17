@@ -41,7 +41,7 @@ class Visualizacao:
         )
         return fig
 
-    def gerar_indicador(self):
+    def gerar_indicador(self, titulo: str):
         fig = go.Figure()
 
         fig.add_trace(
@@ -54,6 +54,10 @@ class Visualizacao:
                     'position': 'bottom',
                     'valueformat': '.2%',
                 },
+                title={
+                    'text': titulo,
+                    'font': {'size': 14}
+                }
             )
         )
         return fig
