@@ -66,3 +66,35 @@ class Visualizacao:
             legend=dict(font=dict(color='white')),
         )
         return fig
+
+    def gerar_grafico_barras_agrupado(self, coluna_analise: str):
+        # cores = ['#FFA500', '#00FF00', '#FF00FF']
+        fig = px.bar(
+            data_frame=self.__df_resultado,
+            x='data_extracao',
+            y=coluna_analise,
+            text_auto=True,
+            color='TURNO_EXTRACAO',
+            barmode='group',
+            # color_discrete_sequence=cores
+        )
+        fig.update_layout(
+            title_text='Desempenho Vídeo',
+            showlegend=True,
+            title=dict(x=0.5, font=dict(color='white')),
+            plot_bgcolor='#1F2326',
+            yaxis=dict(visible=False),
+            margin=dict(l=20, r=20, t=40, b=20, pad=4),
+            paper_bgcolor='#1F2326',
+            xaxis=dict(title='', tickfont=dict(color='white')),
+            legend=dict(font=dict(color='white')),
+            xaxis_tickformat='%d/%m/%Y',
+            bargap=0.2
+        )
+        fig.update_traces(
+            textfont_color='white',
+            # marker_color='#246DFB',
+            textfont_size=14,
+            textposition='outside',
+        )
+        return fig

@@ -128,3 +128,27 @@ class GeradorConsulta:
         dataframe.dropna(inplace=True)
 
         return dataframe
+
+    def obter_desempenho_video(self, coluna_analise, id_video: str):
+        colunas = [
+            coluna_analise,
+            'data_extracao',
+            'TURNO_EXTRACAO',
+            'ID_VIDEO'
+        ]
+        dataframe = pd.read_parquet(self.__caminho_completo, columns=colunas)
+        dataframe = dataframe[dataframe['ID_VIDEO'] == id_video]
+        dataframe = dataframe.sort_values(by='TURNO_EXTRACAO')
+        return dataframe
+
+
+if __name__ == '__main__':
+    gerador_consulta = GeradorConsulta(
+        assunto='assunto_cities_skylines',
+        metricas='total_visualizacoes_por_semana',
+        nome_arquivo='total_visualizacoes_por_semana.parquet'
+    )
+    print(gerador_consulta.obter_desempenho_video(
+        coluna_analise='TOTAL_VISUALIZACOES_TURNO',
+        id_video='wCLSZxLfUAk'))
+    print()

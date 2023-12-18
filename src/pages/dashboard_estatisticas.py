@@ -129,6 +129,48 @@ class DashboardEstatistica:
                     ],
                     id='id_linha_graficos',
                     className='class_graficos'
+                ),
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            [
+                                dbc.Select(
+                                    id='id_select_video',
+                                ),
+                                dbc.Tabs(
+                                    [
+                                        dbc.Tab(
+                                            label='Análise likes',
+                                            tab_id='id_tab_like_video'
+                                        ),
+                                        dbc.Tab(
+                                            label='Análise Comentários',
+                                            tab_id='id_tab_Comentários_video'
+                                        ),
+                                        dbc.Tab(
+                                            label='Análise Visualizações',
+                                            tab_id='id_tab_visualizacoes_video'
+                                        )
+                                    ],
+                                    id='id_tabs_desempenho_video',
+                                    className='class_tab_desempenho_video'
+                                ),
+                                html.Div(id='id_content_video')
+
+                            ],
+                            id='id_coluna_desempenho_video',
+                            className='class_coluna_desempenho_video',
+                            lg=6
+                        ),
+                        dbc.Col(
+                            [
+
+                            ],
+                            lg=6
+                        ),
+                    ],
+                    id='id_segunda_linha_dsh',
+                    className='class_segunda_linha_dsh',
                 )
             ],
             id='id_main_analise',
@@ -177,6 +219,23 @@ class DashboardEstatistica:
             return canal_valores, valor_padrao
 
         @callback(
+            [
+                Output('id_select_video', 'options'),
+                Output('id_select_video', 'value'),
+            ],
+            Input('id_input_assunto', 'value')
+        )
+        def trocar_input_video(indice_assunto: str):
+            assunto = self.__obter_opcoes(indice_assunto)
+            assunto = assunto[0]
+            for video in obter_lista_video():
+                if video['ASSUNTO'] == assunto:
+                    video_valores = video['VALORES']
+            valor_padrao = obter_lista_canais()[0]['VALORES'][0]['value']
+
+            return video_valores, valor_padrao
+
+        @callback(
             Output('grafico-selecionado', 'children'),
             Input('id_input_assunto', 'value'),
             Input('id_select_canais', 'value'),
@@ -215,6 +274,38 @@ class DashboardEstatistica:
                 fig = visualizacao.gerar_tabela_desempenho(
                     titulo=titulo, coluna_analise=coluna_analise
                 )
+                return dcc.Graph(figure=fig)
+
+        @callback(
+            Output('id_content_video', 'children'),
+            Input('id_input_assunto', 'value'),
+            Input('id_select_video', 'value'),
+            [
+                Input('id_tabs_desempenho_video', 'active_tab')
+            ]
+        )
+        def obter_desempeho_video(indice_assunto: str, id_video: str, tab):
+            print('selecionou id_video', id_video)
+            print('selecionou indice_assunto', indice_assunto)
+            print('selecionou tab', tab)
+            assunto = self.__obter_opcoes(indice_assunto)
+            gerador_consulta = GeradorConsulta(
+                assunto=assunto[0],
+                metricas='total_visualizacoes_por_semana',
+                nome_arquivo='total_visualizacoes_por_semana.parquet'
+            )
+            if tab == 'id_tab_like_video':
+                coluna_analise = 'TOTAL_LIKES_TURNO'
+                dataframe = gerador_consulta.obter_desempenho_video(
+                    id_video=id_video,
+                    coluna_analise=coluna_analise
+                )
+                if dataframe.empty:
+                    return
+                print('tab', dataframe)
+                visualizacao = Visualizacao(df_resultado=dataframe)
+                fig = visualizacao.gerar_grafico_barras_agrupado(
+                    coluna_analise=coluna_analise)
                 return dcc.Graph(figure=fig)
 
 
