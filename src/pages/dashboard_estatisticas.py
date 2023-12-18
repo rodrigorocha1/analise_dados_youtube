@@ -285,9 +285,6 @@ class DashboardEstatistica:
             ]
         )
         def obter_desempeho_video(indice_assunto: str, id_video: str, tab):
-            print('selecionou id_video', id_video)
-            print('selecionou indice_assunto', indice_assunto)
-            print('selecionou tab', tab)
             assunto = self.__obter_opcoes(indice_assunto)
             gerador_consulta = GeradorConsulta(
                 assunto=assunto[0],

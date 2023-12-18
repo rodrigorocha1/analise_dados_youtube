@@ -131,14 +131,23 @@ class GeradorConsulta:
 
     def obter_desempenho_video(self, coluna_analise, id_video: str):
         colunas = [
+            'INDICE_TURNO_EXTRACAO',
             coluna_analise,
             'data_extracao',
             'TURNO_EXTRACAO',
             'ID_VIDEO'
         ]
+
         dataframe = pd.read_parquet(self.__caminho_completo, columns=colunas)
+        print(dataframe.info())
+        print(dataframe.head())
         dataframe = dataframe[dataframe['ID_VIDEO'] == id_video]
-        dataframe = dataframe.sort_values(by='TURNO_EXTRACAO')
+
+        dataframe = dataframe.sort_values(by='INDICE_TURNO_EXTRACAO')
+        dataframe['ID_VIDEO'] = dataframe['ID_VIDEO'].astype('string')
+        dataframe['TURNO_EXTRACAO'] = dataframe['TURNO_EXTRACAO'].astype(
+            'string')
+
         return dataframe
 
 
