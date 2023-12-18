@@ -145,7 +145,7 @@ class DashboardEstatistica:
                                         ),
                                         dbc.Tab(
                                             label='Análise Comentários',
-                                            tab_id='id_tab_Comentários_video'
+                                            tab_id='id_tab_comentarios_video'
                                         ),
                                         dbc.Tab(
                                             label='Análise Visualizações',
@@ -306,6 +306,34 @@ class DashboardEstatistica:
                 visualizacao = Visualizacao(df_resultado=dataframe)
                 fig = visualizacao.gerar_grafico_barras_agrupado(
                     coluna_analise=coluna_analise)
+                return dcc.Graph(figure=fig)
+            elif tab == 'id_tab_comentarios_video':
+                coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
+                dataframe = gerador_consulta.obter_desempenho_video(
+                    id_video=id_video,
+                    coluna_analise=coluna_analise
+                )
+                if dataframe.empty:
+                    return
+                visualizacao = Visualizacao(df_resultado=dataframe)
+
+                fig = visualizacao.gerar_grafico_barras_agrupado(
+                    coluna_analise=coluna_analise
+                )
+                return dcc.Graph(figure=fig)
+            else:
+                coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
+                dataframe = gerador_consulta.obter_desempenho_video(
+                    id_video=id_video,
+                    coluna_analise=coluna_analise
+                )
+                if dataframe.empty:
+                    return
+                visualizacao = Visualizacao(df_resultado=dataframe)
+
+                fig = visualizacao.gerar_grafico_barras_agrupado(
+                    coluna_analise=coluna_analise
+                )
                 return dcc.Graph(figure=fig)
 
 
