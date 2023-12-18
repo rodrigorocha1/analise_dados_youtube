@@ -67,7 +67,7 @@ class Visualizacao:
         )
         return fig
 
-    def gerar_grafico_barras_agrupado(self, coluna_analise: str):
+    def gerar_grafico_barras_agrupado(self, coluna_analise: str, titulo_grafico: str):
         # cores = ['#FFA500', '#00FF00', '#FF00FF']
         fig = px.bar(
             data_frame=self.__df_resultado,
@@ -79,7 +79,7 @@ class Visualizacao:
             # color_discrete_sequence=cores
         )
         fig.update_layout(
-            title_text='Desempenho Vídeo',
+            title_text=titulo_grafico,
             showlegend=True,
             title=dict(x=0.5, font=dict(color='white')),
             plot_bgcolor='#1F2326',

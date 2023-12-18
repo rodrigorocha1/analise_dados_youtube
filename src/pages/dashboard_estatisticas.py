@@ -305,7 +305,9 @@ class DashboardEstatistica:
                 print('tab', dataframe)
                 visualizacao = Visualizacao(df_resultado=dataframe)
                 fig = visualizacao.gerar_grafico_barras_agrupado(
-                    coluna_analise=coluna_analise)
+                    coluna_analise=coluna_analise,
+                    titulo_grafico='Analise Likes'
+                )
                 return dcc.Graph(figure=fig)
             elif tab == 'id_tab_comentarios_video':
                 coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
@@ -318,7 +320,8 @@ class DashboardEstatistica:
                 visualizacao = Visualizacao(df_resultado=dataframe)
 
                 fig = visualizacao.gerar_grafico_barras_agrupado(
-                    coluna_analise=coluna_analise
+                    coluna_analise=coluna_analise,
+                    titulo_grafico='Analise Comentários'
                 )
                 return dcc.Graph(figure=fig)
             else:
@@ -332,7 +335,8 @@ class DashboardEstatistica:
                 visualizacao = Visualizacao(df_resultado=dataframe)
 
                 fig = visualizacao.gerar_grafico_barras_agrupado(
-                    coluna_analise=coluna_analise
+                    coluna_analise=coluna_analise,
+                    titulo_grafico='Analise Visualizações'
                 )
                 return dcc.Graph(figure=fig)
 
