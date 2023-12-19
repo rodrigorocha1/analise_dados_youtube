@@ -139,8 +139,6 @@ class GeradorConsulta:
         ]
 
         dataframe = pd.read_parquet(self.__caminho_completo, columns=colunas)
-        print(dataframe.info())
-        print(dataframe.head())
         dataframe = dataframe[dataframe['ID_VIDEO'] == id_video]
 
         dataframe = dataframe.sort_values(by='INDICE_TURNO_EXTRACAO')
