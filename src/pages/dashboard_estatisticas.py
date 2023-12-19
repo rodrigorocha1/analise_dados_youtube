@@ -69,58 +69,37 @@ class DashboardEstatistica:
                                 id='id_grafico_historico_video',
                                 className='graficos_um'
                             ),
-                            lg=6
+                            lg=6,
+
                         ),
                         dbc.Col(
                             [
-                                dbc.Row(
+                                dbc.Select(
+                                    id='id_select_canais',
+                                    className='class_select_canais',
+                                ),
+                                dbc.Tabs(
                                     [
-                                        dbc.Col(
+                                        dbc.Tab(
 
+                                            label='Análise likes',
+                                            tab_id='id_tab_likes'
                                         ),
-                                        dbc.Col(
-                                            dbc.Select(
-                                                id='id_select_canais',
-                                                className='class_select_canais',
-                                            )
+                                        dbc.Tab(
+
+                                            label='Análise Comentários',
+                                            tab_id='id_tab_comentarios'
+                                        ),
+                                        dbc.Tab(
+
+                                            label='Análise Visualizações',
+                                            tab_id='id_tab_visualizações'
                                         ),
                                     ],
-                                    id='id_linha_input_tempo',
-                                    className='class_input_desempenho'
+                                    id='id_tabs_desempenho',
+                                    active_tab='id_tab_likes'
                                 ),
-                                dbc.Row(
-                                    id='id_linha_input_canal',
-                                    className='class_input_canal'
-                                ),
-                                dbc.Row(
-                                    [
-
-                                        dbc.Tabs(
-                                            [
-                                                dbc.Tab(
-
-                                                    label='Análise likes',
-                                                    tab_id='id_tab_likes'
-                                                ),
-                                                dbc.Tab(
-
-                                                    label='Análise Comentários',
-                                                    tab_id='id_tab_comentarios'
-                                                ),
-                                                dbc.Tab(
-
-                                                    label='Análise Visualizações',
-                                                    tab_id='id_tab_visualizações'
-                                                ),
-                                            ],
-                                            id='id_tabs_desempenho',
-                                            active_tab='id_tab_likes'
-                                        ),
-                                        html.Div(id='grafico-selecionado')
-                                    ],
-                                    className='class_desempenho',
-                                    id='id_desempenho',
-                                ),
+                                html.Div(id='grafico-selecionado')
                             ],
                             lg=6,
                             id='id_colunas_desempeho',

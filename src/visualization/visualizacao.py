@@ -64,6 +64,7 @@ class Visualizacao:
             paper_bgcolor='#021E56',
             xaxis=dict(title='', tickfont=dict(color='white'), showgrid=False),
             legend=dict(font=dict(color='white')),
+            height=350
         )
         return fig
 
