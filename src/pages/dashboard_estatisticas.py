@@ -25,10 +25,10 @@ class DashboardEstatistica:
 
     def __obter_opcoes(self, indice_opcao: str) -> List[str] | None:
         opcoes = {
-            '1': ['assunto_cities_skylines', 'Cities Skylines'],
-            '2': ['assunto_cities_skylines_2', 'Cities Skylines 2'],
-            '3': ['assunto_python_and_dados', 'Python e dados'],
-            '4': ['assunto_power_bi', 'Power Bi']
+            '1': ['assunto_cities_skylines', 'Cities Skylines', 2],
+            '2': ['assunto_cities_skylines_2', 'Cities Skylines 2', 0],
+            '3': ['assunto_python_and_dados', 'Python e dados', 3],
+            '4': ['assunto_power_bi', 'Power Bi', 1]
         }
         opcao = opcoes.get(indice_opcao)
         return opcao
@@ -143,7 +143,12 @@ class DashboardEstatistica:
                         ),
                         dbc.Col(
                             [
-
+                                html.Iframe(
+                                    src='http://www.youtube.com/embed/UCbOlpd5hYE',
+                                    width='800',
+                                    height='600',
+                                    id='id_video_url'
+                                ),
                             ],
                             lg=6
                         ),
@@ -189,11 +194,13 @@ class DashboardEstatistica:
         )
         def trocar_input_desempenho(indice_assunto: str):
             assunto = self.__obter_opcoes(indice_assunto)
+            numero_assunto = assunto[2]
             assunto = assunto[0]
-            for canal in obter_lista_canais():
-                if canal['ASSUNTO'] == assunto:
-                    canal_valores = canal['VALORES']
-            valor_padrao = obter_lista_canais()[0]['VALORES'][0]['value']
+
+            valor_padrao = obter_lista_canais(
+            )[numero_assunto]['VALORES'][0]['value']
+            canal_valores = obter_lista_canais()[numero_assunto]['VALORES']
+            print(valor_padrao)
 
             return canal_valores, valor_padrao
 
@@ -206,12 +213,12 @@ class DashboardEstatistica:
         )
         def trocar_input_video(indice_assunto: str):
             assunto = self.__obter_opcoes(indice_assunto)
+            numero_assunto = assunto[2]
             assunto = assunto[0]
-            for video in obter_lista_video():
-                if video['ASSUNTO'] == assunto:
-                    video_valores = video['VALORES']
-            valor_padrao = obter_lista_canais()[0]['VALORES'][0]['value']
 
+            valor_padrao = obter_lista_video(
+            )[numero_assunto]['VALORES'][0]['value']
+            video_valores = obter_lista_video()[numero_assunto]['VALORES']
             return video_valores, valor_padrao
 
         @callback(
@@ -278,7 +285,6 @@ class DashboardEstatistica:
                 )
                 if dataframe.empty:
                     return
-                print('tab', dataframe)
                 visualizacao = Visualizacao(df_resultado=dataframe)
                 fig = visualizacao.gerar_grafico_barras_agrupado(
                     coluna_analise=coluna_analise,
@@ -315,6 +321,14 @@ class DashboardEstatistica:
                     titulo_grafico='Analise Visualizações'
                 )
                 return dcc.Graph(figure=fig)
+
+        @callback(
+            Output('id_video_url', 'src'),
+            Input('id_select_video', 'value'),
+        )
+        def gerar_url_video(id_video: str):
+            print(id_video)
+            return f'https://www.youtube.com/embed/{id_video}'
 
 
 de = DashboardEstatistica()
