@@ -31,3 +31,13 @@
 .class_tab_desempenho_video {
     margin-top: 10px;
 }
+
+#id_titulo_video{
+    margin: 0 auto;
+}
+
+#id_select_canal_desempenho{
+    width: 50%;  
+    margin: 10px auto;
+
+}

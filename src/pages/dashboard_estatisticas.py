@@ -69,7 +69,7 @@ class DashboardEstatistica:
                                 id='id_grafico_historico_video',
                                 className='graficos_um'
                             ),
-                            lg=6,
+                            lg=4,
 
                         ),
                         dbc.Col(
@@ -101,21 +101,36 @@ class DashboardEstatistica:
                                 ),
                                 html.Div(id='grafico-selecionado')
                             ],
-                            lg=6,
+                            lg=4,
                             id='id_colunas_desempeho',
                             className='class_coluna_desempenho'
                         ),
+                        dbc.Col(
+                            dcc.Graph(),
+                            lg=4
+                        )
                     ],
                     id='id_linha_graficos',
                     className='class_graficos'
                 ),
                 dbc.Row(
                     [
+                        html.P('Análise de desempenho do Vídeo',
+                               style={'color': 'white', 'textAlign': 'center'},
+                               id='id_titulo_video'
+                               ),
+                        dbc.Select(
+                            id='id_select_canal_desempenho',
+                            placeholder='Selecione o canal'
+
+                        ),
+                        dbc.Select(
+                            id='id_select_video',
+
+                        ),
                         dbc.Col(
                             [
-                                dbc.Select(
-                                    id='id_select_video',
-                                ),
+
                                 dbc.Tabs(
                                     [
                                         dbc.Tab(
@@ -144,13 +159,21 @@ class DashboardEstatistica:
                         dbc.Col(
                             [
                                 html.Iframe(
-                                    src='http://www.youtube.com/embed/UCbOlpd5hYE',
-                                    width='800',
-                                    height='600',
-                                    id='id_video_url'
+                                    width='905',
+                                    height='492',
+                                    id='id_video_url',
+                                    style={
+                                        'border': 'none',
+                                        'margin-top': '10px'
+                                    }
                                 ),
                             ],
-                            lg=6
+
+                            lg=6,
+
+                            md=12,
+
+                            xs=12
                         ),
                     ],
                     id='id_segunda_linha_dsh',
@@ -188,7 +211,10 @@ class DashboardEstatistica:
         @callback(
             [
                 Output('id_select_canais', 'options'),
+                # id_select_canal_desempenho
                 Output('id_select_canais', 'value'),
+                Output('id_select_canal_desempenho', 'options'),
+                Output('id_select_canal_desempenho', 'value'),
             ],
             Input('id_input_assunto', 'value')
         )
@@ -202,7 +228,7 @@ class DashboardEstatistica:
             canal_valores = obter_lista_canais()[numero_assunto]['VALORES']
             print(valor_padrao)
 
-            return canal_valores, valor_padrao
+            return canal_valores, valor_padrao, canal_valores, valor_padrao
 
         @callback(
             [
@@ -239,6 +265,7 @@ class DashboardEstatistica:
             dataframe = gerador_consulta.gerar_indicadores(
                 id_canal=id_canal,
             )
+
             visualizacao = Visualizacao(df_resultado=dataframe)
             if tab == 'id_tab_likes':
                 titulo = 'Desempenho de likes'
@@ -290,6 +317,7 @@ class DashboardEstatistica:
                     coluna_analise=coluna_analise,
                     titulo_grafico='Analise Likes'
                 )
+                print(dataframe)
                 return dcc.Graph(figure=fig)
             elif tab == 'id_tab_comentarios_video':
                 coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
@@ -300,7 +328,7 @@ class DashboardEstatistica:
                 if dataframe.empty:
                     return
                 visualizacao = Visualizacao(df_resultado=dataframe)
-
+                print(dataframe)
                 fig = visualizacao.gerar_grafico_barras_agrupado(
                     coluna_analise=coluna_analise,
                     titulo_grafico='Analise Comentários'
@@ -315,7 +343,7 @@ class DashboardEstatistica:
                 if dataframe.empty:
                     return
                 visualizacao = Visualizacao(df_resultado=dataframe)
-
+                print(dataframe)
                 fig = visualizacao.gerar_grafico_barras_agrupado(
                     coluna_analise=coluna_analise,
                     titulo_grafico='Analise Visualizações'
@@ -327,7 +355,6 @@ class DashboardEstatistica:
             Input('id_select_video', 'value'),
         )
         def gerar_url_video(id_video: str):
-            print(id_video)
             return f'https://www.youtube.com/embed/{id_video}'
 
 
