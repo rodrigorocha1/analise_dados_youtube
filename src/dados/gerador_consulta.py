@@ -148,6 +148,17 @@ class GeradorConsulta:
 
         return dataframe
 
+    def obter_desempenho_assunto_completo(self, coluna_analise: str):
+
+        colunas = [coluna_analise, 'data_extracao']
+
+        dataframe = pd.read_parquet(
+            self.__caminho_completo, columns=colunas)
+        dataframe = dataframe.groupby('data_extracao', observed=False).agg(
+            TOTAL_VISUALIZACOES=(coluna_analise, 'sum')
+        ).reset_index()
+        return dataframe
+
 
 if __name__ == '__main__':
     gerador_consulta = GeradorConsulta(
@@ -155,7 +166,6 @@ if __name__ == '__main__':
         metricas='total_visualizacoes_por_semana',
         nome_arquivo='total_visualizacoes_por_semana.parquet'
     )
-    print(gerador_consulta.obter_desempenho_video(
-        coluna_analise='TOTAL_VISUALIZACOES_TURNO',
-        id_video='wCLSZxLfUAk'))
+    print(gerador_consulta.obter_desempenho_assunto_completo(
+        coluna_analise='TOTAL_VISUALIZACOES_TURNO'))
     print()

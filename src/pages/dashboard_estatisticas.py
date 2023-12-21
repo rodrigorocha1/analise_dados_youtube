@@ -65,10 +65,52 @@ class DashboardEstatistica:
                 dbc.Row(
                     [
                         dbc.Col(
-                            dcc.Graph(
-                                id='id_grafico_historico_video',
-                                className='graficos_um'
-                            ),
+                            [
+
+                                dbc.Tabs(
+                                    [
+                                        dbc.Tab(
+                                            dcc.Graph(
+                                                id='id_grafico_historico_video',
+                                                className='graficos_um'
+                                            ),
+                                            label='Gráfico Envio de Vídeo por Semana',
+                                            id='id_tab_historico_video'
+                                        ),
+                                        dbc.Tab(
+                                            [
+                                                dbc.RadioItems(
+                                                    id='id_checklist_perfomance',
+                                                    options=[
+                                                        {
+                                                            'label': 'Likes',
+                                                            'value': '1'
+                                                        },
+                                                        {
+                                                            'label': 'Comentários',
+                                                            'value': '2'
+                                                        },
+                                                        {
+                                                            'label': 'Visualizações',
+                                                            'value': '3'
+                                                        },
+                                                    ],
+                                                    value='1',
+                                                    inline=True
+
+                                                ),
+                                                dcc.Graph(
+                                                    id='id_grafico_desempenho_completo')
+
+                                            ],
+                                            label='Performance Vídeo',
+                                            id='id_perfomance_video',
+                                        ),
+                                        html.Div(id='id_grafico_visualizacao')
+                                    ]
+                                )
+                            ],
+
                             lg=4,
 
                         ),
@@ -168,11 +210,8 @@ class DashboardEstatistica:
                                     }
                                 ),
                             ],
-
                             lg=6,
-
                             md=12,
-
                             xs=12
                         ),
                     ],
@@ -226,8 +265,6 @@ class DashboardEstatistica:
             valor_padrao = obter_lista_canais(
             )[numero_assunto]['VALORES'][0]['value']
             canal_valores = obter_lista_canais()[numero_assunto]['VALORES']
-            print(valor_padrao)
-
             return canal_valores, valor_padrao, canal_valores, valor_padrao
 
         @callback(
@@ -317,7 +354,7 @@ class DashboardEstatistica:
                     coluna_analise=coluna_analise,
                     titulo_grafico='Analise Likes'
                 )
-                print(dataframe)
+
                 return dcc.Graph(figure=fig)
             elif tab == 'id_tab_comentarios_video':
                 coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
@@ -328,7 +365,7 @@ class DashboardEstatistica:
                 if dataframe.empty:
                     return
                 visualizacao = Visualizacao(df_resultado=dataframe)
-                print(dataframe)
+
                 fig = visualizacao.gerar_grafico_barras_agrupado(
                     coluna_analise=coluna_analise,
                     titulo_grafico='Analise Comentários'
@@ -343,7 +380,7 @@ class DashboardEstatistica:
                 if dataframe.empty:
                     return
                 visualizacao = Visualizacao(df_resultado=dataframe)
-                print(dataframe)
+
                 fig = visualizacao.gerar_grafico_barras_agrupado(
                     coluna_analise=coluna_analise,
                     titulo_grafico='Analise Visualizações'
@@ -353,9 +390,36 @@ class DashboardEstatistica:
         @callback(
             Output('id_video_url', 'src'),
             Input('id_select_video', 'value'),
+
         )
         def gerar_url_video(id_video: str):
             return f'https://www.youtube.com/embed/{id_video}'
+
+        # @callback(
+        #     Output('id_grafico_desempenho_completo', 'figure'),
+        #     Input('id_input_assunto', 'value'),
+        #     Input('id_checklist_perfomance', 'value')
+        # )
+        # def obter_desempenho_completo(id_assunto: str, id_performance: str):
+        #     assunto = self.__obter_opcoes(id_assunto)
+        #     gerador_consulta = GeradorConsulta(
+        #         assunto=assunto[0],
+        #         metricas='total_visualizacoes_por_semana',
+        #         nome_arquivo='total_visualizacoes_por_semana.parquet'
+        #     )
+        #     if id_assunto == '1':
+        #         coluna_analise = 'TOTAL_LIKES_TURNO'
+        #     elif id_assunto == '2':
+        #         coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
+        #     else:
+        #         coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
+
+        #     dataframe = gerador_consulta.obter_desempenho_assunto_completo(
+        #         coluna_analise=coluna_analise)
+        #     visualizacao = Visualizacao(df_resultado=dataframe)
+        #     fig = visualizacao.gerar_tabela_desempenho(
+        #         titulo='Desempenho', coluna_analise=coluna_analise)
+        #     return fig
 
 
 de = DashboardEstatistica()
