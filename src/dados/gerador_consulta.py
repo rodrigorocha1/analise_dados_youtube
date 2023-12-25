@@ -9,7 +9,7 @@ class GeradorConsulta:
     def __init__(self, assunto: str, metricas: str, nome_arquivo: str) -> None:
         self.__caminho_base = os.getcwd()
         self.__caminho_completo = os.path.join(
-            self.__caminho_base, 'data', 'dados_youtube', 'ouro', assunto, metricas, nome_arquivo)
+            self.__caminho_base, 'data','dados_youtube' ,'ouro', assunto, metricas, nome_arquivo)
 
     def __indice_semana(self, dia: str) -> int | None:
         dias_semana = {
