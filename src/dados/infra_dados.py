@@ -26,7 +26,7 @@ class InfraDados(IInfraDados):
         self._path_extracao = path_extracao
         self._metrica = metrica
         self._nome_arquivo = nome_arquivo
-        self._CAMINHO_BASE = '/home/rodrigo/projetos/analise_dados_youtube/data/projetos_youtube/'
+        self._CAMINHO_BASE = os.getcwd()
         self._diretorio_completo = os.path.join(
             self._CAMINHO_BASE,
             self._diretorio_datalake,
