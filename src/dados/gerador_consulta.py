@@ -1,7 +1,5 @@
-import pandas as pd
-from typing import Tuple, Dict
-from datetime import date
 import os
+import pandas as pd
 
 
 class GeradorConsulta:
@@ -182,21 +180,24 @@ class GeradorConsulta:
             'id_canal': 'string',
             'total_visualizacoes_turno': 'int32'
         }
-        colunas = ['ID_CANAL', coluna_analise]
+        colunas = ['ID_CANAL', 'data_extracao',  coluna_analise]
 
         dataframe = pd.read_csv(
             self.__caminho_completo,
             usecols=colunas,
             dtype=tipos,
-            sep='|'
+            sep='|',
+            parse_dates=['data_extracao']
         )
-        print(dataframe)
+
+        dataframe = dataframe.query(f'data_extracao == "{data_extracao}"')
+
         df_views_canal = dataframe.groupby('ID_CANAL') \
             .sum(coluna_analise) \
-                .sort_values(
+            .sort_values(
                     by=coluna_analise,
-                      ascending=False
-                      ).reset_index()
+                    ascending=False
+            ).reset_index()
 
         return df_views_canal.head(10)
 

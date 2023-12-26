@@ -8,7 +8,7 @@ from typing import List
 from datetime import datetime, timedelta, date
 import dash
 import dash_bootstrap_components as dbc
-from dash import html, dcc, callback, Input, Output
+from dash import html, dcc, callback, Input, Output, ctx
 from src.dados.depara import *
 from src.etl_base.etl_base import *
 from src.visualization.visualizacao import Visualizacao
@@ -181,7 +181,7 @@ class DashboardEstatistica:
                                     min_date_allowed=(min(obter_lista_datas())),
                                     max_date_allowed=(max(obter_lista_datas())),
                                     display_format='DD/MM/YYYY',
-                                    date=date(2023, 10, 18)
+                                    date=date(2023, 10, 27)
                                 ),
                                 dcc.Graph(id='id_grafico_top_10'),
                             ],
@@ -463,6 +463,7 @@ class DashboardEstatistica:
             Input('id_data_desempenho', 'date')
         )
         def obter_top_dez(id_assunto: str, id_performance: int, data_extracao: str):
+        
             assunto = self.__obter_opcoes(id_assunto)
             gerador_consulta = GeradorConsulta(
                 assunto=assunto[0],
@@ -474,12 +475,12 @@ class DashboardEstatistica:
                 coluna_analise=coluna_analise,
                 data_extracao=data_extracao
             )
-            print(dataframe)
+            titulo_grafico = ' '.join(dataframe.columns.values[1].split('_')[0:2])
             visualizacao = Visualizacao(df_resultado=dataframe)
             fig = visualizacao.gerar_grafico_barra_horizontal(
                 coluna_x=coluna_analise,
                 coluna_y='ID_CANAL',
-                titulo='TOP 10'
+                titulo=f'TOP 10 {titulo_grafico}'
             )
             return fig
 
