@@ -75,7 +75,6 @@ class DashboardEstatistica:
                     [
                         dbc.Col(
                             [
-
                                 dbc.Tabs(
                                     [
                                         dbc.Tab(
@@ -106,9 +105,8 @@ class DashboardEstatistica:
                                                     ],
                                                     value='1',
                                                     inline=True
-
                                                 ),
-                                                dcc.DatePickerSingle(),
+                                               
                                                 dcc.Graph(
                                                     id='id_grafico_desempenho_completo')
 
@@ -177,6 +175,13 @@ class DashboardEstatistica:
                                     ],
                                     value='1',
                                     inline=True
+                                ),
+                                dcc.DatePickerSingle(
+                                    id='id_data_desempenho',
+                                    min_date_allowed=(min(obter_lista_datas())),
+                                    max_date_allowed=(max(obter_lista_datas())),
+                                    display_format='DD/MM/YYYY',
+                                    date=date(2023, 10, 18)
                                 ),
                                 dcc.Graph(id='id_grafico_top_10'),
                             ],
@@ -454,9 +459,10 @@ class DashboardEstatistica:
         @callback(
             Output('id_grafico_top_10', 'figure'),
             Input('id_input_assunto', 'value'),
-            Input('id_checklist_perfomance_top_10', 'value')
+            Input('id_checklist_perfomance_top_10', 'value'),
+            Input('id_data_desempenho', 'date')
         )
-        def obter_top_dez(id_assunto: str, id_performance: int):
+        def obter_top_dez(id_assunto: str, id_performance: int, data_extracao: str):
             assunto = self.__obter_opcoes(id_assunto)
             gerador_consulta = GeradorConsulta(
                 assunto=assunto[0],
@@ -464,12 +470,19 @@ class DashboardEstatistica:
                 nome_arquivo='total_visualizacoes_por_semana.csv'
             )
             coluna_analise = self.__obter_opcao_peformance(id_performance)
-            dataframe = gerador_consulta.obter_top_dez()
-
-    
-
+            dataframe = gerador_consulta.obter_top_dez(
+                coluna_analise=coluna_analise,
+                data_extracao=data_extracao
+            )
+            print(dataframe)
+            visualizacao = Visualizacao(df_resultado=dataframe)
+            fig = visualizacao.gerar_grafico_barra_horizontal(
+                coluna_x=coluna_analise,
+                coluna_y='ID_CANAL',
+                titulo='TOP 10'
+            )
+            return fig
 
 
 de = DashboardEstatistica()
-
 layout = de.tela

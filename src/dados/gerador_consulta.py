@@ -182,17 +182,19 @@ class GeradorConsulta:
             'id_canal': 'string',
             'total_visualizacoes_turno': 'int32'
         }
-        colunas = ['ID_CANAL', 'TOTAL_VISUALIZACOES_TURNO']
+        colunas = ['ID_CANAL', coluna_analise]
 
         dataframe = pd.read_csv(
-            self.__caminho_base,
+            self.__caminho_completo,
             usecols=colunas,
-            dtype=tipos
+            dtype=tipos,
+            sep='|'
         )
-        df_views_canal = dataframe.groupby('id_canal') \
-            .sum('total_visualizacoes_turno') \
+        print(dataframe)
+        df_views_canal = dataframe.groupby('ID_CANAL') \
+            .sum(coluna_analise) \
                 .sort_values(
-                    by='total_visualizacoes_turno',
+                    by=coluna_analise,
                       ascending=False
                       ).reset_index()
 
@@ -202,9 +204,14 @@ class GeradorConsulta:
 if __name__ == '__main__':
     gerador_consulta = GeradorConsulta(
                 assunto='assunto_cities_skylines',
-                metricas='total_video_publicado_semana',
-                nome_arquivo='total_video_publicado_semana.csv')
+                metricas='total_visualizacoes_por_semana',
+                nome_arquivo='total_visualizacoes_por_semana.csv'
+    )
+    coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
+    dataframe = gerador_consulta.obter_top_dez(
+                coluna_analise=coluna_analise,
+                data_extracao='2023-10-18'
+            )
 
-    dataframe_resultado = gerador_consulta.gerar_consulta_publicacao_video()
-    print(dataframe_resultado)
+    print(dataframe)
     print()
