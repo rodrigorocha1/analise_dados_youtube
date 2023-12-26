@@ -302,6 +302,20 @@ class DashboardEstatistica:
             )[numero_assunto]['VALORES'][0]['value']
             canal_valores = obter_lista_canais()[numero_assunto]['VALORES']
             return canal_valores, valor_padrao, canal_valores, valor_padrao
+        
+        # @callback(
+        #     [
+        #         Output('id_select_video', 'options'),
+        #         Output('id_select_video', 'value')
+        #     ],
+        #     Input('id_select_canal_desempenho', 'value'),   
+        #     Input('id_input_assunto', 'value')        
+        # )
+        def trocar_input_canais_video(id_canal: str, indice_assunto: str):
+            assunto = self.__obter_opcoes(indice_assunto)
+            numero_assunto = assunto[2]
+            assunto = assunto[0]
+            pass
 
         @callback(
             [
@@ -361,7 +375,7 @@ class DashboardEstatistica:
                     titulo=titulo, coluna_analise=coluna_analise
                 )
                 return dcc.Graph(figure=fig)
-
+    
         @callback(
             Output('id_content_video', 'children'),
             Input('id_input_assunto', 'value'),

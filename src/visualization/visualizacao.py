@@ -126,11 +126,28 @@ class Visualizacao:
             plot_bgcolor='#1F2326',
             margin=dict(l=10, r=20, t=40, b=20, pad=2),
             paper_bgcolor='#1F2326',
-            yaxis=dict(title='', tickfont=dict(color='white', size=13), tickmode='array', ticklen=1),
-            xaxis=dict(title='', tickfont=dict(color='white'), visible=False),
-            legend=dict(font=dict(color='white'), orientation='h', y=4)
+            yaxis=dict(
+                title='',
+                tickfont=dict(
+                    color='white',
+                    size=13
+                ),
+                tickmode='array', ticklen=1),
+            xaxis=dict(
+                title='',
+                tickfont=dict(
+                    color='white'
+                ), 
+                visible=False),
+            legend=dict(
+                font=dict(
+                    color='white'
+                ), 
+                orientation='h',
+                y=4
+            )
         )
-        
+       
         fig.update_traces(
             textfont_color='white',
             marker_color='#F11A8E',

@@ -1,4 +1,5 @@
 import os
+from typing import List, Dict
 import pandas as pd
 
 
@@ -7,7 +8,7 @@ class GeradorConsulta:
     def __init__(self, assunto: str, metricas: str, nome_arquivo: str) -> None:
         self.__caminho_base = os.getcwd()
         self.__caminho_completo = os.path.join(
-            self.__caminho_base, 
+            self.__caminho_base,
             'data',
             'ouro_csv',
             metricas,
@@ -27,6 +28,25 @@ class GeradorConsulta:
         }
 
         return dias_semana.get(dia)
+    
+    def __carregar_dataframe(self, colunas: List, tipos: Dict, parse_dates: List=None):
+        if parse_dates is not None:
+            dataframe = pd.read_csv(
+                self.__caminho_completo,
+                usecols=colunas,
+                dtype=tipos,
+                sep='|',
+                parse_dates=parse_dates
+            )
+        else:
+            dataframe = pd.read_csv(
+                    self.__caminho_completo,
+                    usecols=colunas,
+                    dtype=tipos,
+                    sep='|',
+                   
+                )
+        return dataframe
 
     def gerar_consulta_publicacao_video(self) -> pd.DataFrame:
         tipos = {
@@ -37,14 +57,9 @@ class GeradorConsulta:
         }
         colunas = ['SEMANA_TRADUZIDA', 'NM_CANAL', 'TOTAL_VIDEOS',
                    'DATA_PUBLICACAO']
+        dataframe = self.__carregar_dataframe(colunas=colunas, tipos=tipos, parse_dates=['DATA_PUBLICACAO'])
 
-        dataframe = pd.read_csv(
-            self.__caminho_completo,
-            usecols=colunas,
-            dtype=tipos,
-            sep='|',
-            parse_dates=['DATA_PUBLICACAO']
-        )
+
         dataframe[['SEMANA_TRADUZIDA', 'NM_CANAL']] = dataframe[[
             'SEMANA_TRADUZIDA', 'NM_CANAL']].astype('string')
    
@@ -74,17 +89,22 @@ class GeradorConsulta:
             'TOTAL_VISUALIZACOES_TURNO',
             'TOTAL_COMENTARIOS_TURNO',
             'TOTAL_LIKES_TURNO'
-
-
         ]
+        tipos = {
+            # 'TURNO_EXTRACAO' : 'string',
+            # 'ID_CANAL': 'string',
+            # 'TOTAL_VISUALIZACOES_TURNO': 'float32',
+            # 'TOTAL_COMENTARIOS_TURNO': 'float32',
+            # 'TOTAL_LIKES_TURNO': 'float32'
+        }
 
-        dataframe = pd.read_csv(
-            self.__caminho_completo,
-            usecols=colunas,
-            sep='|',
-            parse_dates=['data_extracao']
-
+        dataframe = self.__carregar_dataframe(
+            colunas=colunas,
+            parse_dates=['data_extracao'], 
+            tipos=tipos 
         )
+
+    
         dataframe = dataframe[dataframe['ID_CANAL'] == id_canal]
 
         dataframe['data_extracao'] = pd.to_datetime(
@@ -144,13 +164,17 @@ class GeradorConsulta:
             'ID_VIDEO'
         ]
 
-        dataframe = pd.read_csv(
-            self.__caminho_completo,
-            usecols=colunas,
-            sep='|',
-            parse_dates=['data_extracao']
+        tipos =  {
+            'INDICE_TURNO_EXTRACAO': 'string',
+            f'{coluna_analise}': 'string',
+            'TURNO_EXTRACAO': 'string',
+            'ID_VIDEO': 'string'
+        }
 
-        )
+        dataframe = self.__carregar_dataframe(colunas=colunas, tipos=tipos, parse_dates=['data_extracao'])
+
+  
+      
         dataframe = dataframe[dataframe['ID_VIDEO'] == id_video]
 
         dataframe = dataframe.sort_values(by='INDICE_TURNO_EXTRACAO')
@@ -162,13 +186,12 @@ class GeradorConsulta:
 
     def obter_desempenho_assunto_completo(self, coluna_analise: str):
         colunas = [coluna_analise, 'data_extracao']
+        tipos = {
+            f'{coluna_analise}' : 'float32',
+        }
 
-        dataframe = pd.read_csv(
-            self.__caminho_completo,
-            usecols=colunas,
-            sep='|',
-            parse_dates=['data_extracao']
-        )     
+        dataframe = self.__carregar_dataframe(colunas=colunas, tipos=tipos, parse_dates=['data_extracao'])
+     
         dataframe = dataframe.groupby('data_extracao', observed=False).agg(
             TOTAL=(coluna_analise, 'sum')
         ).reset_index()  
@@ -178,15 +201,14 @@ class GeradorConsulta:
     def obter_top_dez(self, data_extracao: str, coluna_analise: str):
         tipos = {
             'id_canal': 'string',
-            'total_visualizacoes_turno': 'int32'
+            'total_visualizacoes_turno': 'int32',
+            f'{coluna_analise}': 'float32'
         }
         colunas = ['ID_CANAL', 'data_extracao',  coluna_analise]
 
-        dataframe = pd.read_csv(
-            self.__caminho_completo,
-            usecols=colunas,
-            dtype=tipos,
-            sep='|',
+        dataframe = self.__carregar_dataframe(
+            colunas=colunas,
+            tipos=tipos,
             parse_dates=['data_extracao']
         )
 
@@ -200,6 +222,29 @@ class GeradorConsulta:
             ).reset_index()
 
         return df_views_canal.head(10)
+    
+    def obter_input_canais(self, id_canal: str) -> List[Dict]:
+        lista_inputs_videos = []
+        tipos = {
+            'ID_VIDEO': 'string',
+            'TITULO_VIDEO': 'string',
+            'ID_CANAL': 'string'
+        }
+        colunas = ['TITULO_VIDEO', 'ID_CANAL', 'ID_VIDEO']
+        dataframe = self.__carregar_dataframe(
+            colunas=colunas,
+            tipos=tipos
+        )
+        dataframe = dataframe.query(f'ID_CANAL == "{id_canal}"')
+        dataframe = dataframe[['ID_VIDEO', 'TITULO_VIDEO']]
+        dataframe.drop_duplicates(inplace=True)
+        for _, valor in dataframe.iterrows():
+            inputs_video = {
+                'label': valor['ID_VIDEO'],
+                'value': valor['TITULO_VIDEO']
+            }
+            lista_inputs_videos.append(inputs_video)
+        return lista_inputs_videos
 
 
 if __name__ == '__main__':
@@ -209,9 +254,8 @@ if __name__ == '__main__':
                 nome_arquivo='total_visualizacoes_por_semana.csv'
     )
     coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
-    dataframe = gerador_consulta.obter_top_dez(
-                coluna_analise=coluna_analise,
-                data_extracao='2023-10-18'
+    dataframe = gerador_consulta.obter_input_canais(
+                id_canal='UCe9jrI0YQ5SM6h5QRZ9FZlA'
             )
 
     print(dataframe)
