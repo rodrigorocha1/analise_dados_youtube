@@ -4,15 +4,15 @@ try:
     sys.path.insert(0, os.path.abspath(os.curdir))
 except ModuleNotFoundError:
     pass
-from dash import html, Dash, dcc, callback, Input, Output
-import dash
-import dash_bootstrap_components as dbc
-from dados.gerador_consulta import GeradorConsulta
-from src.etl_base.etl_base import *
-from src.visualization.visualizacao import Visualizacao
-from src.dados.depara import *
 from typing import List
 from datetime import datetime, timedelta, date
+import dash
+import dash_bootstrap_components as dbc
+from dash import html, dcc, callback, Input, Output
+from src.dados.depara import *
+from src.etl_base.etl_base import *
+from src.visualization.visualizacao import Visualizacao
+from dados.gerador_consulta import GeradorConsulta
 
 dash.register_page(__name__, name='Analise Estátistica', path='/')
 
@@ -32,6 +32,15 @@ class DashboardEstatistica:
         }
         opcao = opcoes.get(indice_opcao)
         return opcao
+    
+    def __obter_opcao_peformance(self, opcao: int) -> str:
+        if int(opcao) == 1:
+            coluna_analise = 'TOTAL_LIKES_TURNO'
+        elif int(opcao) == 2:
+            coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
+        else:
+            coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
+        return coluna_analise
 
     def __gerar_inputs_assunto(self):
         return [
@@ -99,6 +108,7 @@ class DashboardEstatistica:
                                                     inline=True
 
                                                 ),
+                                                dcc.DatePickerSingle(),
                                                 dcc.Graph(
                                                     id='id_grafico_desempenho_completo')
 
@@ -148,7 +158,28 @@ class DashboardEstatistica:
                             className='class_coluna_desempenho'
                         ),
                         dbc.Col(
-                            dcc.Graph(),
+                            [
+                                dbc.RadioItems(
+                                    id='id_checklist_perfomance_top_10',
+                                    options=[
+                                        {
+                                            'label': 'Likes',
+                                            'value': '1'
+                                        },
+                                        {
+                                            'label': 'Comentários',
+                                            'value': '2'
+                                        },
+                                        {
+                                            'label': 'Visualizações',
+                                            'value': '3'
+                                        },
+                                    ],
+                                    value='1',
+                                    inline=True
+                                ),
+                                dcc.Graph(id='id_grafico_top_10'),
+                            ],
                             lg=4
                         )
                     ],
@@ -407,13 +438,7 @@ class DashboardEstatistica:
                 metricas='total_visualizacoes_por_semana',
                 nome_arquivo='total_visualizacoes_por_semana.csv'
             )
-            if int(id_performance) == 1:
-                coluna_analise = 'TOTAL_LIKES_TURNO'
-            elif int(id_performance) == 2:
-                coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
-            else:
-                coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
-
+            coluna_analise = self.__obter_opcao_peformance(id_performance)
             dataframe = gerador_consulta.obter_desempenho_assunto_completo(
                 coluna_analise=coluna_analise)
             visualizacao = Visualizacao(df_resultado=dataframe)
@@ -425,6 +450,24 @@ class DashboardEstatistica:
                 coluna_analise='_'.join(coluna_df[0:2])
             )
             return fig
+        
+        @callback(
+            Output('id_grafico_top_10', 'figure'),
+            Input('id_input_assunto', 'value'),
+            Input('id_checklist_perfomance_top_10', 'value')
+        )
+        def obter_top_dez(id_assunto: str, id_performance: int):
+            assunto = self.__obter_opcoes(id_assunto)
+            gerador_consulta = GeradorConsulta(
+                assunto=assunto[0],
+                metricas='total_visualizacoes_por_semana',
+                nome_arquivo='total_visualizacoes_por_semana.csv'
+            )
+            coluna_analise = self.__obter_opcao_peformance(id_performance)
+            dataframe = gerador_consulta.obter_top_dez()
+
+    
+
 
 
 de = DashboardEstatistica()
