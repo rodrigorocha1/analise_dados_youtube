@@ -169,11 +169,7 @@ class GeradorConsulta:
         }
 
         dataframe = self.__carregar_dataframe(colunas=colunas, tipos=tipos, parse_dates=['data_extracao'])
-
-  
-      
         dataframe = dataframe[dataframe['ID_VIDEO'] == id_video]
-
         dataframe = dataframe.sort_values(by='INDICE_TURNO_EXTRACAO')
         dataframe['ID_VIDEO'] = dataframe['ID_VIDEO'].astype('string')
         dataframe['TURNO_EXTRACAO'] = dataframe['TURNO_EXTRACAO'].astype(
@@ -184,15 +180,12 @@ class GeradorConsulta:
     def obter_desempenho_assunto_completo(self, coluna_analise: str):
         colunas = [coluna_analise, 'data_extracao']
         tipos = {
-            f'{coluna_analise}' : 'float32',
+            f'{coluna_analise}': 'float32',
         }
-
         dataframe = self.__carregar_dataframe(colunas=colunas, tipos=tipos, parse_dates=['data_extracao'])
-     
         dataframe = dataframe.groupby('data_extracao', observed=False).agg(
             TOTAL=(coluna_analise, 'sum')
-        ).reset_index()  
-
+        ).reset_index()
         return dataframe
     
     def obter_top_dez(self, data_extracao: str, coluna_analise: str):
