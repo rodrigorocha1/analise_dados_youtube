@@ -204,7 +204,6 @@ class DashboardEstatistica:
                         ),
                         dbc.Select(
                             id='id_select_video',
-
                         ),
                         dbc.Col(
                             [
@@ -303,36 +302,26 @@ class DashboardEstatistica:
             canal_valores = obter_lista_canais()[numero_assunto]['VALORES']
             return canal_valores, valor_padrao, canal_valores, valor_padrao
         
-        # @callback(
-        #     [
-        #         Output('id_select_video', 'options'),
-        #         Output('id_select_video', 'value')
-        #     ],
-        #     Input('id_select_canal_desempenho', 'value'),   
-        #     Input('id_input_assunto', 'value')        
-        # )
-        def trocar_input_canais_video(id_canal: str, indice_assunto: str):
-            assunto = self.__obter_opcoes(indice_assunto)
-            numero_assunto = assunto[2]
-            assunto = assunto[0]
-            pass
-
         @callback(
             [
                 Output('id_select_video', 'options'),
-                Output('id_select_video', 'value'),
+                Output('id_select_video', 'value')
             ],
-            Input('id_input_assunto', 'value')
+            Input('id_select_canal_desempenho', 'value'),
+            Input('id_input_assunto', 'value')   
         )
-        def trocar_input_video(indice_assunto: str):
+        def trocar_input_desempeho_canais_video(id_canal: str, indice_assunto: str):
             assunto = self.__obter_opcoes(indice_assunto)
-            numero_assunto = assunto[2]
-            assunto = assunto[0]
 
-            valor_padrao = obter_lista_video(
-            )[numero_assunto]['VALORES'][0]['value']
-            video_valores = obter_lista_video()[numero_assunto]['VALORES']
-            return video_valores, valor_padrao
+            assunto = assunto[0]
+            gerador_consulta = GeradorConsulta(
+                assunto=assunto,
+                metricas='total_visualizacoes_por_semana',
+                nome_arquivo='total_visualizacoes_por_semana.csv'
+                )
+            lista_inputs_videos = gerador_consulta.obter_input_canais(id_canal=id_canal)
+            valor_padrao = lista_inputs_videos[0]['value']
+            return lista_inputs_videos, valor_padrao
 
         @callback(
             Output('grafico-selecionado', 'children'),

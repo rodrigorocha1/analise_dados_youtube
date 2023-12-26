@@ -91,20 +91,17 @@ class GeradorConsulta:
             'TOTAL_LIKES_TURNO'
         ]
         tipos = {
-            # 'TURNO_EXTRACAO' : 'string',
-            # 'ID_CANAL': 'string',
-            # 'TOTAL_VISUALIZACOES_TURNO': 'float32',
-            # 'TOTAL_COMENTARIOS_TURNO': 'float32',
-            # 'TOTAL_LIKES_TURNO': 'float32'
+            'TURNO_EXTRACAO' : 'string',
+            'ID_CANAL': 'string',
+            'TOTAL_VISUALIZACOES_TURNO': 'float32',
+            'TOTAL_COMENTARIOS_TURNO': 'float32',
+            'TOTAL_LIKES_TURNO': 'float32'
         }
-
         dataframe = self.__carregar_dataframe(
             colunas=colunas,
             parse_dates=['data_extracao'], 
             tipos=tipos 
         )
-
-    
         dataframe = dataframe[dataframe['ID_CANAL'] == id_canal]
 
         dataframe['data_extracao'] = pd.to_datetime(
@@ -155,7 +152,7 @@ class GeradorConsulta:
 
         return dataframe
 
-    def obter_desempenho_video(self, coluna_analise, id_video: str):
+    def obter_desempenho_video(self, coluna_analise: str, id_video: str):
         colunas = [
             'INDICE_TURNO_EXTRACAO',
             coluna_analise,
@@ -230,18 +227,18 @@ class GeradorConsulta:
             'TITULO_VIDEO': 'string',
             'ID_CANAL': 'string'
         }
-        colunas = ['TITULO_VIDEO', 'ID_CANAL', 'ID_VIDEO']
+        colunas = ['ID_VIDEO', 'TITULO_VIDEO', 'ID_CANAL']
         dataframe = self.__carregar_dataframe(
             colunas=colunas,
             tipos=tipos
         )
         dataframe = dataframe.query(f'ID_CANAL == "{id_canal}"')
         dataframe = dataframe[['ID_VIDEO', 'TITULO_VIDEO']]
-        dataframe.drop_duplicates(inplace=True)
+        dataframe = dataframe.drop_duplicates()
         for _, valor in dataframe.iterrows():
             inputs_video = {
-                'label': valor['ID_VIDEO'],
-                'value': valor['TITULO_VIDEO']
+                "label": valor['TITULO_VIDEO'],
+                "value": valor['ID_VIDEO']
             }
             lista_inputs_videos.append(inputs_video)
         return lista_inputs_videos
@@ -259,4 +256,5 @@ if __name__ == '__main__':
             )
 
     print(dataframe)
+    print(len(dataframe))
     print()
