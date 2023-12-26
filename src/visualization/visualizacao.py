@@ -147,6 +147,7 @@ class Visualizacao:
                 y=4
             )
         )
+
        
         fig.update_traces(
             textfont_color='white',

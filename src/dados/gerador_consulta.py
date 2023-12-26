@@ -161,9 +161,9 @@ class GeradorConsulta:
             'ID_VIDEO'
         ]
 
-        tipos =  {
+        tipos = {
             'INDICE_TURNO_EXTRACAO': 'string',
-            f'{coluna_analise}': 'string',
+            f'{coluna_analise}': 'float32',
             'TURNO_EXTRACAO': 'string',
             'ID_VIDEO': 'string'
         }
