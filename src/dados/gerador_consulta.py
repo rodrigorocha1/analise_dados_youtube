@@ -83,6 +83,8 @@ class GeradorConsulta:
         dataframe = pd.read_csv(
             self.__caminho_completo,
             usecols=colunas,
+            sep='|',
+            parse_dates=['data_extracao']
 
         )
         dataframe = dataframe[dataframe['ID_CANAL'] == id_canal]
@@ -146,7 +148,9 @@ class GeradorConsulta:
 
         dataframe = pd.read_csv(
             self.__caminho_completo,
-            usecols=colunas
+            usecols=colunas,
+            sep='|',
+            parse_dates=['data_extracao']
 
         )
         dataframe = dataframe[dataframe['ID_VIDEO'] == id_video]
@@ -159,14 +163,20 @@ class GeradorConsulta:
         return dataframe
 
     def obter_desempenho_assunto_completo(self, coluna_analise: str):
-
+        print('coluna analise', coluna_analise)
         colunas = [coluna_analise, 'data_extracao']
 
         dataframe = pd.read_csv(
-            self.__caminho_completo, usecols=colunas, sep='|')
+            self.__caminho_completo,
+            usecols=colunas,
+            sep='|',
+            parse_dates=['data_extracao']
+        )     
         dataframe = dataframe.groupby('data_extracao', observed=False).agg(
-            TOTAL_VISUALIZACOES=(coluna_analise, 'sum')
-        ).reset_index()
+            TOTAL=(coluna_analise, 'sum')
+        ).reset_index()  
+        print('depois')
+        print(dataframe)
         return dataframe
 
 

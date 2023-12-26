@@ -52,8 +52,15 @@ class Visualizacao:
             markers=True
         )
 
-        fig.update_xaxes(title='', tickformat='%d/%m/%Y')
-        fig.update_yaxes(title='')
+        fig.update_xaxes(
+            title='',
+            tickformat='%d/%m/%Y'
+        )
+
+        fig.update_yaxes(
+            title=''
+        )
+
         fig.update_layout(
             showlegend=True,
             title=dict(x=0.5, font=dict(color='white')),
@@ -66,6 +73,7 @@ class Visualizacao:
             legend=dict(font=dict(color='white')),
             height=350
         )
+        
         return fig
 
     def gerar_grafico_barras_agrupado(self, coluna_analise: str, titulo_grafico: str):
