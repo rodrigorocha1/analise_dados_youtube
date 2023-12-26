@@ -163,7 +163,6 @@ class GeradorConsulta:
         return dataframe
 
     def obter_desempenho_assunto_completo(self, coluna_analise: str):
-        print('coluna analise', coluna_analise)
         colunas = [coluna_analise, 'data_extracao']
 
         dataframe = pd.read_csv(
@@ -175,8 +174,7 @@ class GeradorConsulta:
         dataframe = dataframe.groupby('data_extracao', observed=False).agg(
             TOTAL=(coluna_analise, 'sum')
         ).reset_index()  
-        print('depois')
-        print(dataframe)
+
         return dataframe
 
 
