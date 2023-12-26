@@ -176,6 +176,27 @@ class GeradorConsulta:
         ).reset_index()  
 
         return dataframe
+    
+    def obter_top_dez(self, data_extracao: str, coluna_analise: str):
+        tipos = {
+            'id_canal': 'string',
+            'total_visualizacoes_turno': 'int32'
+        }
+        colunas = ['ID_CANAL', 'TOTAL_VISUALIZACOES_TURNO']
+
+        dataframe = pd.read_csv(
+            self.__caminho_base,
+            usecols=colunas,
+            dtype=tipos
+        )
+        df_views_canal = dataframe.groupby('id_canal') \
+            .sum('total_visualizacoes_turno') \
+                .sort_values(
+                    by='total_visualizacoes_turno',
+                      ascending=False
+                      ).reset_index()
+
+        return df_views_canal
 
 
 if __name__ == '__main__':
