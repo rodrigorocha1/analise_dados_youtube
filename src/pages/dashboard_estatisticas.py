@@ -420,6 +420,11 @@ class DashboardEstatistica:
             coluna_df = coluna_analise.split('_')
 
             dataframe.rename(columns={'TOTAL': '_'.join(coluna_df[0:2])}, inplace=True)
+<<<<<<< HEAD
+=======
+            print('Depois de Renomear')
+            print(dataframe)
+>>>>>>> 848c3d9484941fffff98db1c2b993c0322c3da16
             fig = visualizacao.gerar_tabela_desempenho(
                 titulo='Desempenho por Assunto', 
                 coluna_analise='_'.join(coluna_df[0:2])
