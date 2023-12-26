@@ -235,7 +235,7 @@ class DashboardEstatistica:
             gerador_consulta = GeradorConsulta(
                 assunto=assunto[0],
                 metricas='total_video_publicado_semana',
-                nome_arquivo='total_video_publicado_semana.parquet')
+                nome_arquivo='total_video_publicado_semana.csv')
 
             dataframe_resultado = gerador_consulta.gerar_consulta_publicacao_video()
             visualizacao = Visualizacao(df_resultado=dataframe_resultado)
@@ -247,153 +247,153 @@ class DashboardEstatistica:
             )
             return fig
 
-        @callback(
-            [
-                Output('id_select_canais', 'options'),
-                # id_select_canal_desempenho
-                Output('id_select_canais', 'value'),
-                Output('id_select_canal_desempenho', 'options'),
-                Output('id_select_canal_desempenho', 'value'),
-            ],
-            Input('id_input_assunto', 'value')
-        )
-        def trocar_input_desempenho(indice_assunto: str):
-            assunto = self.__obter_opcoes(indice_assunto)
-            numero_assunto = assunto[2]
-            assunto = assunto[0]
+        # @callback(
+        #     [
+        #         Output('id_select_canais', 'options'),
+        #         # id_select_canal_desempenho
+        #         Output('id_select_canais', 'value'),
+        #         Output('id_select_canal_desempenho', 'options'),
+        #         Output('id_select_canal_desempenho', 'value'),
+        #     ],
+        #     Input('id_input_assunto', 'value')
+        # )
+        # def trocar_input_desempenho(indice_assunto: str):
+        #     assunto = self.__obter_opcoes(indice_assunto)
+        #     numero_assunto = assunto[2]
+        #     assunto = assunto[0]
 
-            valor_padrao = obter_lista_canais(
-            )[numero_assunto]['VALORES'][0]['value']
-            canal_valores = obter_lista_canais()[numero_assunto]['VALORES']
-            return canal_valores, valor_padrao, canal_valores, valor_padrao
+        #     valor_padrao = obter_lista_canais(
+        #     )[numero_assunto]['VALORES'][0]['value']
+        #     canal_valores = obter_lista_canais()[numero_assunto]['VALORES']
+        #     return canal_valores, valor_padrao, canal_valores, valor_padrao
 
-        @callback(
-            [
-                Output('id_select_video', 'options'),
-                Output('id_select_video', 'value'),
-            ],
-            Input('id_input_assunto', 'value')
-        )
-        def trocar_input_video(indice_assunto: str):
-            assunto = self.__obter_opcoes(indice_assunto)
-            numero_assunto = assunto[2]
-            assunto = assunto[0]
+        # @callback(
+        #     [
+        #         Output('id_select_video', 'options'),
+        #         Output('id_select_video', 'value'),
+        #     ],
+        #     Input('id_input_assunto', 'value')
+        # )
+        # def trocar_input_video(indice_assunto: str):
+        #     assunto = self.__obter_opcoes(indice_assunto)
+        #     numero_assunto = assunto[2]
+        #     assunto = assunto[0]
 
-            valor_padrao = obter_lista_video(
-            )[numero_assunto]['VALORES'][0]['value']
-            video_valores = obter_lista_video()[numero_assunto]['VALORES']
-            return video_valores, valor_padrao
+        #     valor_padrao = obter_lista_video(
+        #     )[numero_assunto]['VALORES'][0]['value']
+        #     video_valores = obter_lista_video()[numero_assunto]['VALORES']
+        #     return video_valores, valor_padrao
 
-        @callback(
-            Output('grafico-selecionado', 'children'),
-            Input('id_input_assunto', 'value'),
-            Input('id_select_canais', 'value'),
-            [Input('id_tabs_desempenho', 'active_tab')]
+        # @callback(
+        #     Output('grafico-selecionado', 'children'),
+        #     Input('id_input_assunto', 'value'),
+        #     Input('id_select_canais', 'value'),
+        #     [Input('id_tabs_desempenho', 'active_tab')]
 
-        )
-        def obter_desempenho_canal(indice_assunto: str, id_canal: str, tab):
-            assunto = self.__obter_opcoes(indice_assunto)
-            gerador_consulta = GeradorConsulta(
-                assunto=assunto[0],
-                metricas='total_visualizacoes_por_semana',
-                nome_arquivo='total_visualizacoes_por_semana.parquet'
-            )
+        # )
+        # def obter_desempenho_canal(indice_assunto: str, id_canal: str, tab):
+        #     assunto = self.__obter_opcoes(indice_assunto)
+        #     gerador_consulta = GeradorConsulta(
+        #         assunto=assunto[0],
+        #         metricas='total_visualizacoes_por_semana',
+        #         nome_arquivo='total_visualizacoes_por_semana.csv'
+        #     )
 
-            dataframe = gerador_consulta.gerar_indicadores(
-                id_canal=id_canal,
-            )
+        #     dataframe = gerador_consulta.gerar_indicadores(
+        #         id_canal=id_canal,
+        #     )
 
-            visualizacao = Visualizacao(df_resultado=dataframe)
-            if tab == 'id_tab_likes':
-                titulo = 'Desempenho de likes'
-                coluna_analise = 'total_likes'
-                fig = visualizacao.gerar_tabela_desempenho(
-                    titulo=titulo,
-                    coluna_analise=coluna_analise
-                )
-                return dcc.Graph(figure=fig)
-            elif tab == 'id_tab_comentarios':
-                titulo = 'Desempenho de comentários'
-                coluna_analise = 'total_comentarios'
-                fig = visualizacao.gerar_tabela_desempenho(
-                    titulo=titulo, coluna_analise='total_comentarios')
-                return dcc.Graph(figure=fig)
-            else:
-                titulo = 'Desempenho de visualização'
-                coluna_analise = 'total_visualizacoes'
-                fig = visualizacao.gerar_tabela_desempenho(
-                    titulo=titulo, coluna_analise=coluna_analise
-                )
-                return dcc.Graph(figure=fig)
+        #     visualizacao = Visualizacao(df_resultado=dataframe)
+        #     if tab == 'id_tab_likes':
+        #         titulo = 'Desempenho de likes'
+        #         coluna_analise = 'total_likes'
+        #         fig = visualizacao.gerar_tabela_desempenho(
+        #             titulo=titulo,
+        #             coluna_analise=coluna_analise
+        #         )
+        #         return dcc.Graph(figure=fig)
+        #     elif tab == 'id_tab_comentarios':
+        #         titulo = 'Desempenho de comentários'
+        #         coluna_analise = 'total_comentarios'
+        #         fig = visualizacao.gerar_tabela_desempenho(
+        #             titulo=titulo, coluna_analise='total_comentarios')
+        #         return dcc.Graph(figure=fig)
+        #     else:
+        #         titulo = 'Desempenho de visualização'
+        #         coluna_analise = 'total_visualizacoes'
+        #         fig = visualizacao.gerar_tabela_desempenho(
+        #             titulo=titulo, coluna_analise=coluna_analise
+        #         )
+        #         return dcc.Graph(figure=fig)
 
-        @callback(
-            Output('id_content_video', 'children'),
-            Input('id_input_assunto', 'value'),
-            Input('id_select_video', 'value'),
-            [
-                Input('id_tabs_desempenho_video', 'active_tab')
-            ]
-        )
-        def obter_desempeho_video(indice_assunto: str, id_video: str, tab):
-            assunto = self.__obter_opcoes(indice_assunto)
-            gerador_consulta = GeradorConsulta(
-                assunto=assunto[0],
-                metricas='total_visualizacoes_por_semana',
-                nome_arquivo='total_visualizacoes_por_semana.parquet'
-            )
-            if tab == 'id_tab_like_video':
-                coluna_analise = 'TOTAL_LIKES_TURNO'
-                dataframe = gerador_consulta.obter_desempenho_video(
-                    id_video=id_video,
-                    coluna_analise=coluna_analise
-                )
-                if dataframe.empty:
-                    return
-                visualizacao = Visualizacao(df_resultado=dataframe)
-                fig = visualizacao.gerar_grafico_barras_agrupado(
-                    coluna_analise=coluna_analise,
-                    titulo_grafico='Analise Likes'
-                )
+        # @callback(
+        #     Output('id_content_video', 'children'),
+        #     Input('id_input_assunto', 'value'),
+        #     Input('id_select_video', 'value'),
+        #     [
+        #         Input('id_tabs_desempenho_video', 'active_tab')
+        #     ]
+        # )
+        # def obter_desempeho_video(indice_assunto: str, id_video: str, tab):
+        #     assunto = self.__obter_opcoes(indice_assunto)
+        #     gerador_consulta = GeradorConsulta(
+        #         assunto=assunto[0],
+        #         metricas='total_visualizacoes_por_semana',
+        #         nome_arquivo='total_visualizacoes_por_semana.csv'
+        #     )
+        #     if tab == 'id_tab_like_video':
+        #         coluna_analise = 'TOTAL_LIKES_TURNO'
+        #         dataframe = gerador_consulta.obter_desempenho_video(
+        #             id_video=id_video,
+        #             coluna_analise=coluna_analise
+        #         )
+        #         if dataframe.empty:
+        #             return
+        #         visualizacao = Visualizacao(df_resultado=dataframe)
+        #         fig = visualizacao.gerar_grafico_barras_agrupado(
+        #             coluna_analise=coluna_analise,
+        #             titulo_grafico='Analise Likes'
+        #         )
 
-                return dcc.Graph(figure=fig)
-            elif tab == 'id_tab_comentarios_video':
-                coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
-                dataframe = gerador_consulta.obter_desempenho_video(
-                    id_video=id_video,
-                    coluna_analise=coluna_analise
-                )
-                if dataframe.empty:
-                    return
-                visualizacao = Visualizacao(df_resultado=dataframe)
+        #         return dcc.Graph(figure=fig)
+        #     elif tab == 'id_tab_comentarios_video':
+        #         coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
+        #         dataframe = gerador_consulta.obter_desempenho_video(
+        #             id_video=id_video,
+        #             coluna_analise=coluna_analise
+        #         )
+        #         if dataframe.empty:
+        #             return
+        #         visualizacao = Visualizacao(df_resultado=dataframe)
 
-                fig = visualizacao.gerar_grafico_barras_agrupado(
-                    coluna_analise=coluna_analise,
-                    titulo_grafico='Analise Comentários'
-                )
-                return dcc.Graph(figure=fig)
-            else:
-                coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
-                dataframe = gerador_consulta.obter_desempenho_video(
-                    id_video=id_video,
-                    coluna_analise=coluna_analise
-                )
-                if dataframe.empty:
-                    return
-                visualizacao = Visualizacao(df_resultado=dataframe)
+        #         fig = visualizacao.gerar_grafico_barras_agrupado(
+        #             coluna_analise=coluna_analise,
+        #             titulo_grafico='Analise Comentários'
+        #         )
+        #         return dcc.Graph(figure=fig)
+        #     else:
+        #         coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
+        #         dataframe = gerador_consulta.obter_desempenho_video(
+        #             id_video=id_video,
+        #             coluna_analise=coluna_analise
+        #         )
+        #         if dataframe.empty:
+        #             return
+        #         visualizacao = Visualizacao(df_resultado=dataframe)
 
-                fig = visualizacao.gerar_grafico_barras_agrupado(
-                    coluna_analise=coluna_analise,
-                    titulo_grafico='Analise Visualizações'
-                )
-                return dcc.Graph(figure=fig)
+        #         fig = visualizacao.gerar_grafico_barras_agrupado(
+        #             coluna_analise=coluna_analise,
+        #             titulo_grafico='Analise Visualizações'
+        #         )
+        #         return dcc.Graph(figure=fig)
 
-        @callback(
-            Output('id_video_url', 'src'),
-            Input('id_select_video', 'value'),
+        # @callback(
+        #     Output('id_video_url', 'src'),
+        #     Input('id_select_video', 'value'),
 
-        )
-        def gerar_url_video(id_video: str):
-            return f'https://www.youtube.com/embed/{id_video}'
+        # )
+        # def gerar_url_video(id_video: str):
+        #     return f'https://www.youtube.com/embed/{id_video}'
 
         # @callback(
         #     Output('id_grafico_desempenho_completo', 'figure'),

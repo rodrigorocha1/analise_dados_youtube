@@ -9,7 +9,13 @@ class GeradorConsulta:
     def __init__(self, assunto: str, metricas: str, nome_arquivo: str) -> None:
         self.__caminho_base = os.getcwd()
         self.__caminho_completo = os.path.join(
-            self.__caminho_base, 'data','ouro', assunto, metricas, nome_arquivo)
+            self.__caminho_base, 
+            'data',
+            'ouro_csv',
+            metricas,
+            assunto,
+            nome_arquivo
+        )
 
     def __indice_semana(self, dia: str) -> int | None:
         dias_semana = {
@@ -29,20 +35,21 @@ class GeradorConsulta:
             'SEMANA_TRADUZIDA': 'string',
             'NM_CANAL': 'string',
             'TOTAL_VIDEOS': 'int32',
-            'DATA_PUBLICACAO': 'datetime64[ns]',
+
         }
         colunas = ['SEMANA_TRADUZIDA', 'NM_CANAL', 'TOTAL_VIDEOS',
                    'DATA_PUBLICACAO']
 
-        dataframe = pd.read_parquet(
+        dataframe = pd.read_csv(
             self.__caminho_completo,
-            columns=colunas,
-
+            usecols=colunas,
+            dtype=tipos,
+            sep='|',
+            parse_dates=['DATA_PUBLICACAO']
         )
         dataframe[['SEMANA_TRADUZIDA', 'NM_CANAL']] = dataframe[[
             'SEMANA_TRADUZIDA', 'NM_CANAL']].astype('string')
-        dataframe['DATA_PUBLICACAO'] = dataframe['DATA_PUBLICACAO'].astype(
-            'datetime64')
+   
 
         dataframe['TOTAL_VIDEOS'] = dataframe['TOTAL_VIDEOS'].astype('int32')
 
@@ -73,12 +80,11 @@ class GeradorConsulta:
 
         ]
 
-        dataframe = pd.read_parquet(
+        dataframe = pd.read_csv(
             self.__caminho_completo,
-            columns=colunas
+            usecols=colunas,
 
         )
-
         dataframe = dataframe[dataframe['ID_CANAL'] == id_canal]
 
         dataframe['data_extracao'] = pd.to_datetime(
@@ -138,7 +144,11 @@ class GeradorConsulta:
             'ID_VIDEO'
         ]
 
-        dataframe = pd.read_parquet(self.__caminho_completo, columns=colunas)
+        dataframe = pd.read_csv(
+            self.__caminho_completo,
+            usecols=colunas
+
+        )
         dataframe = dataframe[dataframe['ID_VIDEO'] == id_video]
 
         dataframe = dataframe.sort_values(by='INDICE_TURNO_EXTRACAO')
@@ -152,8 +162,8 @@ class GeradorConsulta:
 
         colunas = [coluna_analise, 'data_extracao']
 
-        dataframe = pd.read_parquet(
-            self.__caminho_completo, columns=colunas)
+        dataframe = pd.read_csv(
+            self.__caminho_completo, usecols=colunas, sep='|')
         dataframe = dataframe.groupby('data_extracao', observed=False).agg(
             TOTAL_VISUALIZACOES=(coluna_analise, 'sum')
         ).reset_index()
@@ -162,10 +172,10 @@ class GeradorConsulta:
 
 if __name__ == '__main__':
     gerador_consulta = GeradorConsulta(
-        assunto='assunto_cities_skylines',
-        metricas='total_visualizacoes_por_semana',
-        nome_arquivo='total_visualizacoes_por_semana.parquet'
-    )
-    print(gerador_consulta.obter_desempenho_assunto_completo(
-        coluna_analise='TOTAL_VISUALIZACOES_TURNO'))
+                assunto='assunto_cities_skylines',
+                metricas='total_video_publicado_semana',
+                nome_arquivo='total_video_publicado_semana.csv')
+
+    dataframe_resultado = gerador_consulta.gerar_consulta_publicacao_video()
+    print(dataframe_resultado)
     print()
