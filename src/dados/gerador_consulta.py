@@ -198,7 +198,7 @@ class GeradorConsulta:
                       ascending=False
                       ).reset_index()
 
-        return df_views_canal
+        return df_views_canal.head(10)
 
 
 if __name__ == '__main__':
