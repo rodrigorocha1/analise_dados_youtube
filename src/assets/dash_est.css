@@ -45,15 +45,28 @@
 }
 
 #id_titulo_video{
-    margin: 0 auto;
+    margin: 20px;
 }
 
-#id_select_canal_desempenho{
-    width: 50%;  
-    margin: 10px auto;
 
-}
 
 #id_checklist_perfomance, #id_checklist_perfomance_top_10 {
     color: white;
+}
+
+.class_titulo_desempenho{
+    color: white;
+    margin: 20px;
+}
+
+#id_range_data{
+    margin: 10px;
+}
+
+#id_content_video {
+    margin: 20px;
+}
+
+#id_select_canal_desempenho, #id_select_video {
+    width: 30vw;
 }

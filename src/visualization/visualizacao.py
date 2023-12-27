@@ -93,7 +93,7 @@ class Visualizacao:
             title=dict(x=0.5, font=dict(color='white')),
             plot_bgcolor='#021E56',
             yaxis=dict(visible=False),
-            margin=dict(l=20, r=20, t=40, b=20, pad=4),
+            margin=dict(l=20, r=20, t=40, b=30, pad=4),
             paper_bgcolor='#021E56',
             xaxis=dict(title='', tickfont=dict(color='white', size=10)),
             legend=dict(font=dict(color='white')),
