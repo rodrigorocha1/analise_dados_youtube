@@ -174,11 +174,40 @@ class GeradorConsulta:
             (dataframe['data_extracao'] >= data_inicio) &
             (dataframe['data_extracao'] <= data_fim)
         ]
-        dataframe = dataframe.sort_values(by='INDICE_TURNO_EXTRACAO')
-        dataframe['ID_VIDEO'] = dataframe['ID_VIDEO'].astype('string')
-        dataframe['TURNO_EXTRACAO'] = dataframe['TURNO_EXTRACAO'].astype(
-            'string')
+        dataframe = dataframe.sort_values(by=['data_extracao', 'INDICE_TURNO_EXTRACAO'])
 
+        dataframe['ID_VIDEO'] = dataframe['ID_VIDEO'].astype('string')
+        dataframe['TURNO_EXTRACAO'] = dataframe['TURNO_EXTRACAO'].astype('string')
+        dataframe[f'{coluna_analise}_DESLOCADO'] = round(dataframe[coluna_analise].shift(1), 0)
+
+        dataframe[
+            ['ID_VIDEO', 'TURNO_EXTRACAO']
+        ] = dataframe[
+            ['ID_VIDEO', 'TURNO_EXTRACAO']
+        ].astype('string')
+        dataframe.fillna('0', axis=1, inplace=True)
+       
+
+        dataframe[
+            [
+                coluna_analise, 
+                'INDICE_TURNO_EXTRACAO', 
+                f'{coluna_analise}_DESLOCADO'
+            ]
+            ] = dataframe[
+                [
+                    coluna_analise,
+                    'INDICE_TURNO_EXTRACAO', 
+                    f'{coluna_analise}_DESLOCADO'
+                ]
+            ].astype('int32')
+        
+        dataframe[
+            ['data_extracao']
+        ] = dataframe[
+            ['data_extracao']
+        ].astype('datetime64[ns]')
+        dataframe[f'{coluna_analise}_VARIACAO'] = dataframe[coluna_analise] - dataframe[f'{coluna_analise}_DESLOCADO']      
         return dataframe
 
     def obter_desempenho_assunto_completo(self, coluna_analise: str):
@@ -248,8 +277,11 @@ if __name__ == '__main__':
                 nome_arquivo='total_visualizacoes_por_semana.csv'
     )
     coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
-    dataframe = gerador_consulta.obter_input_canais(
-                id_canal='UCe9jrI0YQ5SM6h5QRZ9FZlA'
+    dataframe = gerador_consulta.obter_desempenho_video(
+                id_video='YhXTcceM1NA',
+                data_fim='2023-10-25',
+                data_inicio='2023-10-24',
+                coluna_analise='TOTAL_VISUALIZACOES'
             )
 
     print(dataframe)

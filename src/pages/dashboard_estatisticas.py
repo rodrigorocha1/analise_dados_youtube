@@ -421,7 +421,7 @@ class DashboardEstatistica:
                 nome_arquivo='total_visualizacoes_por_semana.csv'
             )
             if tab == 'id_tab_like_video':
-                coluna_analise = 'TOTAL_LIKES_TURNO'
+                coluna_analise = 'TOTAL_LIKES'
                 dataframe = gerador_consulta.obter_desempenho_video(
                     id_video=id_video,
                     coluna_analise=coluna_analise,
@@ -438,7 +438,7 @@ class DashboardEstatistica:
 
                 return dcc.Graph(figure=fig)
             elif tab == 'id_tab_comentarios_video':
-                coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
+                coluna_analise = 'TOTAL_COMENTARIOS'
                 dataframe = gerador_consulta.obter_desempenho_video(
                     id_video=id_video,
                     coluna_analise=coluna_analise,
@@ -455,7 +455,7 @@ class DashboardEstatistica:
                 )
                 return dcc.Graph(figure=fig)
             else:
-                coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
+                coluna_analise = 'TOTAL_VISUALIZACOES'
                 dataframe = gerador_consulta.obter_desempenho_video(
                     id_video=id_video,
                     coluna_analise=coluna_analise,
