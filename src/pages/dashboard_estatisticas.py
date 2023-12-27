@@ -169,6 +169,7 @@ class DashboardEstatistica:
                                     id='id_titulo_top_dez', 
                                     className='class_titulo_grafico'
                                 ),
+                                dbc.Label('Escolha a métrica: '),
                                 dbc.RadioItems(
                                     id='id_checklist_perfomance_top_10',
                                     options=[
@@ -188,13 +189,26 @@ class DashboardEstatistica:
                                     value='1',
                                     inline=True
                                 ),
-                                dcc.DatePickerSingle(
-                                    id='id_data_desempenho',
-                                    min_date_allowed=(min(obter_lista_datas())),
-                                    max_date_allowed=(max(obter_lista_datas())),
-                                    display_format='DD/MM/YYYY',
-                                    date=date(2023, 10, 27)
-                                ),
+                              html.Div(
+                                [
+                                    html.Div(
+                                        html.Label('Escolha a data: ', style={'text-align': 'center'}),
+                                        style={'text-align': 'center'}
+                                    ),
+                                    html.Div(
+                                        dcc.DatePickerSingle(
+                                            id='id_data_desempenho',
+                                            min_date_allowed=min(obter_lista_datas()),
+                                            max_date_allowed=max(obter_lista_datas()),
+                                            display_format='DD/MM/YYYY',
+                                            date=date(2023, 10, 27),
+                                            style={'display': 'inline-block'}
+                                        ),
+                                        style={'text-align': 'center'}
+                                    ),
+                                ],
+                                style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'}
+                            ),
                                 dcc.Graph(id='id_grafico_top_10'),
                             ],
                             lg=4,
