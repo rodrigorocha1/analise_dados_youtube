@@ -33,6 +33,7 @@ class Visualizacao:
             paper_bgcolor='#021E56',
             xaxis=dict(title='', tickfont=dict(color='white')),
             legend=dict(font=dict(color='white')),
+            height=533
         )
 
         fig.update_traces(
@@ -71,7 +72,7 @@ class Visualizacao:
             paper_bgcolor='#021E56',
             xaxis=dict(title='', tickfont=dict(color='white'), showgrid=False),
             legend=dict(font=dict(color='white')),
-            height=412
+            height=495
         )
         
         return fig
