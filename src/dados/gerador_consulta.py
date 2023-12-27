@@ -152,7 +152,7 @@ class GeradorConsulta:
 
         return dataframe
 
-    def obter_desempenho_video(self, coluna_analise: str, id_video: str):
+    def obter_desempenho_video(self, coluna_analise: str, id_video: str , data_inicio: str, data_fim: str):
         colunas = [
             'INDICE_TURNO_EXTRACAO',
             coluna_analise,
@@ -169,7 +169,11 @@ class GeradorConsulta:
         }
 
         dataframe = self.__carregar_dataframe(colunas=colunas, tipos=tipos, parse_dates=['data_extracao'])
-        dataframe = dataframe[dataframe['ID_VIDEO'] == id_video]
+        dataframe = dataframe[
+            (dataframe['ID_VIDEO'] == id_video) &
+            (dataframe['data_extracao'] >= data_inicio) &
+            (dataframe['data_extracao'] <= data_fim)
+        ]
         dataframe = dataframe.sort_values(by='INDICE_TURNO_EXTRACAO')
         dataframe['ID_VIDEO'] = dataframe['ID_VIDEO'].astype('string')
         dataframe['TURNO_EXTRACAO'] = dataframe['TURNO_EXTRACAO'].astype(

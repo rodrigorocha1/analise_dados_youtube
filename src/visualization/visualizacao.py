@@ -84,6 +84,7 @@ class Visualizacao:
             y=coluna_analise,
             color='TURNO_EXTRACAO',
             barmode='group',
+            text_auto=True
             # color_discrete_sequence=cores
         )
         fig.update_layout(

@@ -76,8 +76,8 @@ class DashboardEstatistica:
                         dbc.Col(
                             [
                                  html.P(
-                                    'Desempenho Geral Por Assunto', 
-                                    id='id_titulo_desempenho_geral', 
+                                    'Desempenho Geral Por Assunto',
+                                    id='id_titulo_desempenho_geral',
                                     className='class_titulo_grafico'
                                 ),
                                 dbc.Tabs(
@@ -219,7 +219,15 @@ class DashboardEstatistica:
                         ),
                         dbc.Col(
                             [
-
+                                dcc.DatePickerRange(
+                                    display_format='DD/MM/YYYY',
+                                    start_date=date(2023, 10, 15),
+                                    end_date=date(2023, 10, 27),
+                                    id='id_range_data',
+                                    min_date_allowed=date(2023, 10, 15),
+                                    max_date_allowed=date(2023, 10, 27),
+                                    
+                                ),
                                 dbc.Tabs(
                                     [
                                         dbc.Tab(
@@ -252,7 +260,7 @@ class DashboardEstatistica:
                         dbc.Col(
                             [
                                 html.Iframe(
-                                    width='905',
+                                    width='730',
                                     height='492',
                                     id='id_video_url',
                                     style={
@@ -386,10 +394,12 @@ class DashboardEstatistica:
             Input('id_input_assunto', 'value'),
             Input('id_select_video', 'value'),
             [
-                Input('id_tabs_desempenho_video', 'active_tab')
+                Input('id_tabs_desempenho_video', 'active_tab'),
+                Input('id_range_data', 'start_date'),
+                Input('id_range_data', 'end_date'),
             ]
         )
-        def obter_desempeho_video(indice_assunto: str, id_video: str, tab):
+        def obter_desempeho_video(indice_assunto: str, id_video: str, tab, data_inicio, data_fim ):
             assunto = self.__obter_opcoes(indice_assunto)
             gerador_consulta = GeradorConsulta(
                 assunto=assunto[0],
@@ -400,14 +410,16 @@ class DashboardEstatistica:
                 coluna_analise = 'TOTAL_LIKES_TURNO'
                 dataframe = gerador_consulta.obter_desempenho_video(
                     id_video=id_video,
-                    coluna_analise=coluna_analise
+                    coluna_analise=coluna_analise,
+                    data_fim=data_fim,
+                    data_inicio=data_inicio
                 )
                 if dataframe.empty:
                     return
                 visualizacao = Visualizacao(df_resultado=dataframe)
                 fig = visualizacao.gerar_grafico_barras_agrupado(
                     coluna_analise=coluna_analise,
-                    titulo_grafico='Analise Likes'
+                    titulo_grafico='Analise Likes',
                 )
 
                 return dcc.Graph(figure=fig)
@@ -415,7 +427,9 @@ class DashboardEstatistica:
                 coluna_analise = 'TOTAL_COMENTARIOS_TURNO'
                 dataframe = gerador_consulta.obter_desempenho_video(
                     id_video=id_video,
-                    coluna_analise=coluna_analise
+                    coluna_analise=coluna_analise,
+                    data_fim=data_fim,
+                    data_inicio=data_inicio
                 )
                 if dataframe.empty:
                     return
@@ -430,7 +444,9 @@ class DashboardEstatistica:
                 coluna_analise = 'TOTAL_VISUALIZACOES_TURNO'
                 dataframe = gerador_consulta.obter_desempenho_video(
                     id_video=id_video,
-                    coluna_analise=coluna_analise
+                    coluna_analise=coluna_analise,
+                    data_fim=data_fim,
+                    data_inicio=data_inicio
                 )
                 if dataframe.empty:
                     return
