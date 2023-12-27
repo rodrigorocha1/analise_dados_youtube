@@ -250,7 +250,6 @@ class DashboardEstatistica:
                             style={'color': 'white', 'textAlign': 'center'},
                             id='id_titulo_video'
                         ),
-                        
                         dbc.Col(
                             [  
                                 html.Div(
@@ -337,7 +336,6 @@ class DashboardEstatistica:
                                     className='class_tab_desempenho_video'
                                 ),
                                 html.Div(id='id_content_video')
-
                             ],
                             id='id_coluna_desempenho_video',
                             className='class_coluna_desempenho_video',
