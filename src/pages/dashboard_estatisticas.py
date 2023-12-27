@@ -432,7 +432,7 @@ class DashboardEstatistica:
                     return
                 visualizacao = Visualizacao(df_resultado=dataframe)
                 fig = visualizacao.gerar_grafico_barras_agrupado(
-                    coluna_analise=coluna_analise,
+                    coluna_analise=f'{coluna_analise}_VARIACAO',
                     titulo_grafico='Analise Likes',
                 )
 
@@ -450,7 +450,7 @@ class DashboardEstatistica:
                 visualizacao = Visualizacao(df_resultado=dataframe)
 
                 fig = visualizacao.gerar_grafico_barras_agrupado(
-                    coluna_analise=coluna_analise,
+                    coluna_analise=f'{coluna_analise}_VARIACAO',
                     titulo_grafico='Analise Comentários'
                 )
                 return dcc.Graph(figure=fig)
@@ -467,7 +467,7 @@ class DashboardEstatistica:
                 visualizacao = Visualizacao(df_resultado=dataframe)
 
                 fig = visualizacao.gerar_grafico_barras_agrupado(
-                    coluna_analise=coluna_analise,
+                    coluna_analise=f'{coluna_analise}_VARIACAO',
                     titulo_grafico='Analise Visualizações'
                 )
                 return dcc.Graph(figure=fig)

@@ -207,7 +207,12 @@ class GeradorConsulta:
         ] = dataframe[
             ['data_extracao']
         ].astype('datetime64[ns]')
-        dataframe[f'{coluna_analise}_VARIACAO'] = dataframe[coluna_analise] - dataframe[f'{coluna_analise}_DESLOCADO']      
+
+        dataframe[f'{coluna_analise}_VARIACAO'] = dataframe[coluna_analise] - dataframe[f'{coluna_analise}_DESLOCADO']
+        # dataframe = dataframe[['data_extracao', 'INDICE_TURNO_EXTRACAO', 'ID_VIDEO', coluna_analise, f'{coluna_analise}_DESLOCADO', f'{coluna_analise}_VARIACAO']]
+        # print(dataframe)
+       
+
         return dataframe
 
     def obter_desempenho_assunto_completo(self, coluna_analise: str):
