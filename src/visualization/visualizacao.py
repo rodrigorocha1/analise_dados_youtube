@@ -26,7 +26,7 @@ class Visualizacao:
         fig.update_layout(
             title_text=titulo,
             showlegend=True,
-            title=dict(x=0.5, font=dict(color='white')),
+            title=dict(x=0.5,  font=dict(color='white', size=12)),
             plot_bgcolor='#021E56',
             yaxis=dict(visible=False),
             margin=dict(l=20, r=20, t=40, b=20, pad=4),
@@ -38,7 +38,7 @@ class Visualizacao:
         fig.update_traces(
             textfont_color='white',
             marker_color='#A343FF',
-            textfont_size=16
+            textfont_size=11
         )
         return fig
 
@@ -71,7 +71,7 @@ class Visualizacao:
             paper_bgcolor='#021E56',
             xaxis=dict(title='', tickfont=dict(color='white'), showgrid=False),
             legend=dict(font=dict(color='white')),
-            height=350
+            height=412
         )
         
         return fig
@@ -82,7 +82,6 @@ class Visualizacao:
             data_frame=self.__df_resultado,
             x='data_extracao',
             y=coluna_analise,
-            text_auto=True,
             color='TURNO_EXTRACAO',
             barmode='group',
             # color_discrete_sequence=cores
@@ -91,20 +90,21 @@ class Visualizacao:
             title_text=titulo_grafico,
             showlegend=True,
             title=dict(x=0.5, font=dict(color='white')),
-            plot_bgcolor='#1F2326',
+            plot_bgcolor='#021E56',
             yaxis=dict(visible=False),
             margin=dict(l=20, r=20, t=40, b=20, pad=4),
-            paper_bgcolor='#1F2326',
-            xaxis=dict(title='', tickfont=dict(color='white')),
+            paper_bgcolor='#021E56',
+            xaxis=dict(title='', tickfont=dict(color='white', size=10)),
             legend=dict(font=dict(color='white')),
             xaxis_tickformat='%d/%m/%Y',
-            bargap=0.2
+            bargap=0.4
         )
         fig.update_traces(
             textfont_color='white',
             # marker_color='#246DFB',
-            textfont_size=14,
+            textfont_size=12,
             textposition='outside',
+      
         )
         return fig
     
@@ -123,9 +123,9 @@ class Visualizacao:
             title_text=titulo,
             showlegend=True,
             title=dict(x=0.5, font=dict(color='white')),
-            plot_bgcolor='#1F2326',
+            plot_bgcolor='#021E56',
             margin=dict(l=10, r=20, t=40, b=20, pad=2),
-            paper_bgcolor='#1F2326',
+            paper_bgcolor='#021E56',
             yaxis=dict(
                 title='',
                 tickfont=dict(
@@ -151,7 +151,7 @@ class Visualizacao:
        
         fig.update_traces(
             textfont_color='white',
-            marker_color='#F11A8E',
+            marker_color='#00b3FF',
             textfont_size=14,
             textposition='auto',
         )

@@ -5,10 +5,10 @@ try:
 except ModuleNotFoundError:
     pass
 from typing import List
-from datetime import datetime, timedelta, date
+from datetime import date
 import dash
 import dash_bootstrap_components as dbc
-from dash import html, dcc, callback, Input, Output, ctx
+from dash import html, dcc, callback, Input, Output
 from src.dados.depara import *
 from src.etl_base.etl_base import *
 from src.visualization.visualizacao import Visualizacao
@@ -75,6 +75,11 @@ class DashboardEstatistica:
                     [
                         dbc.Col(
                             [
+                                 html.P(
+                                    'Desempenho Geral Por Assunto', 
+                                    id='id_titulo_desempenho_geral', 
+                                    className='class_titulo_grafico'
+                                ),
                                 dbc.Tabs(
                                     [
                                         dbc.Tab(
@@ -118,12 +123,15 @@ class DashboardEstatistica:
                                     ]
                                 )
                             ],
-
                             lg=4,
-
                         ),
                         dbc.Col(
                             [
+                                html.P(
+                                    'Desempenho por Canal', 
+                                    id='id_titulo_desempenho', 
+                                    className='class_titulo_grafico'
+                                ),
                                 dbc.Select(
                                     id='id_select_canais',
                                     className='class_select_canais',
@@ -141,7 +149,6 @@ class DashboardEstatistica:
                                             tab_id='id_tab_comentarios'
                                         ),
                                         dbc.Tab(
-
                                             label='Análise Visualizações',
                                             tab_id='id_tab_visualizações'
                                         ),
@@ -157,6 +164,11 @@ class DashboardEstatistica:
                         ),
                         dbc.Col(
                             [
+                                 html.P(
+                                    'TOP 10 desempenho do canal por dia', 
+                                    id='id_titulo_top_dez', 
+                                    className='class_titulo_grafico'
+                                ),
                                 dbc.RadioItems(
                                     id='id_checklist_perfomance_top_10',
                                     options=[
@@ -185,7 +197,7 @@ class DashboardEstatistica:
                                 ),
                                 dcc.Graph(id='id_grafico_top_10'),
                             ],
-                            lg=4
+                            lg=4,
                         )
                     ],
                     id='id_linha_graficos',
@@ -212,15 +224,19 @@ class DashboardEstatistica:
                                     [
                                         dbc.Tab(
                                             label='Análise likes',
-                                            tab_id='id_tab_like_video'
+                                            tab_id='id_tab_like_video',
+                                           
                                         ),
                                         dbc.Tab(
                                             label='Análise Comentários',
-                                            tab_id='id_tab_comentarios_video'
+                                            tab_id='id_tab_comentarios_video',
+                                          
+                                            
                                         ),
                                         dbc.Tab(
                                             label='Análise Visualizações',
-                                            tab_id='id_tab_visualizacoes_video'
+                                            tab_id='id_tab_visualizacoes_video',
+                                       
                                         )
                                     ],
                                     id='id_tabs_desempenho_video',

@@ -50,7 +50,7 @@ class APP:
         )
 
     def rodar_servico(self):
-        self.app.run_server(debug=True)
+        self.app.run(debug=True, port=8051)
 
 
 app = APP()

@@ -10,7 +10,19 @@
 
 .graficos_um, .class_graficos {
     margin: 10px 10px 10px;
+
 }
+
+
+.class_titulo_grafico{
+    text-align: center;
+    color: white;
+
+}  
+.class_coluna_desempenho {
+    font-size: 15px;
+}
+
 
 #grafico-selecionado {
     margin-top: 20px;
