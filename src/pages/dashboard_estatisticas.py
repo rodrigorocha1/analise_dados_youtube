@@ -344,8 +344,8 @@ class DashboardEstatistica:
                         dbc.Col(
                             [
                                 html.Iframe(
-                                    width='640',
-                                    height='360',
+                                    width='650',
+                                    height='370',
                                     id='id_video_url',
                                     style={
                                         'border': 'none',
