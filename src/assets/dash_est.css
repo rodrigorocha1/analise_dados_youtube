@@ -1,24 +1,28 @@
 .class_linha_selecao_assunto {
     margin-top: 15px;
     border-radius: 34px;
+    margin-bottom: 15px;
 
 }
 
-#id_label_assunto, #id_input_assunto {
+#id_label_assunto,
+#id_input_assunto {
     color: white;
 }
 
-.graficos_um, .class_graficos {
+.graficos_um,
+.class_graficos {
     margin: 10px 10px 10px;
 
 }
 
 
-.class_titulo_grafico{
+.class_titulo_grafico {
     text-align: center;
     color: white;
 
-}  
+}
+
 .class_coluna_desempenho {
     font-size: 15px;
 }
@@ -36,30 +40,33 @@
     color: blue !important;
 }
 
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
     background-color: lightblue !important;
 
 }
+
 .class_tab_desempenho_video {
     margin-top: 10px;
 }
 
-#id_titulo_video{
+#id_titulo_video {
     margin: 20px;
 }
 
 
 
-#id_checklist_perfomance, #id_checklist_perfomance_top_10 {
+#id_checklist_perfomance,
+#id_checklist_perfomance_top_10 {
     color: white;
 }
 
-.class_titulo_desempenho{
+.class_titulo_desempenho {
     color: white;
     margin: 20px;
 }
 
-#id_range_data{
+#id_range_data {
     margin: 10px;
 }
 
@@ -67,6 +74,12 @@
     margin: 20px;
 }
 
-#id_select_canal_desempenho, #id_select_video {
+#id_select_canal_desempenho,
+#id_select_video {
     width: 35vw;
+}
+
+
+.class_div_coluna {
+    max-height: 500px;
 }
