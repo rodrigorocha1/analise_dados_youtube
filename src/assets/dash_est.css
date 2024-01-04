@@ -38,6 +38,7 @@
 
 .nav-tabs .nav-link {
     color: blue !important;
+    font-size: 14px;
 }
 
 .nav-tabs .nav-item.show .nav-link,
@@ -59,6 +60,8 @@
 #id_checklist_perfomance,
 #id_checklist_perfomance_top_10 {
     color: white;
+    margin: 10px 10px;
+    font-size: 14px;
 }
 
 .class_titulo_desempenho {
@@ -82,4 +85,10 @@
 
 .class_div_coluna {
     max-height: 500px;
+}
+
+.class_graficos {
+    padding: 10px;
+    height: 70vh;
+    margin: 20px 20px;
 }

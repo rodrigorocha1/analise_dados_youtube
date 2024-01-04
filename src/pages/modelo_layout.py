@@ -133,35 +133,213 @@ class DashboardEstatistica:
                         ),
                         dbc.Col(
                             [
+                                html.P(
+                                    "Desempenho por Canal",
+                                    id="id_titulo_desempenho",
+                                    className="class_titulo_grafico",
+                                ),
+                                dbc.Select(
+                                    id="id_select_canais",
+                                    className="class_select_canais",
+                                ),
+                                dbc.Tabs(
+                                    [
+                                        dbc.Tab(
+                                            label="Análise likes", tab_id="id_tab_likes"
+                                        ),
+                                        dbc.Tab(
+                                            label="Análise Comentários",
+                                            tab_id="id_tab_comentarios",
+                                        ),
+                                        dbc.Tab(
+                                            label="Análise Visualizações",
+                                            tab_id="id_tab_visualizações",
+                                        ),
+                                    ],
+                                    id="id_tabs_desempenho",
+                                    active_tab="id_tab_likes",
+                                ),
+                                html.Div(id="grafico-selecionado"),
+                            ],
+                            lg=4,
+                            id="id_colunas_desempeho",
+                            className="class_coluna_desempenho",
+                        ),
+                        dbc.Col(
+                            [
+                                html.P(
+                                    "TOP 10 desempenho do canal por dia",
+                                    id="id_titulo_top_dez",
+                                    className="class_titulo_grafico",
+                                ),
                                 html.Div(
                                     [
-                                        # html.P(
-                                        #     "Outro texto aqui", style={"color": "white"}
-                                        # ),
-                                        dcc.Graph(id="gráfico2"),
+                                        html.Div(
+                                            dbc.Label(
+                                                "Escolha a métrica: ",
+                                                className="class_titulo_grafico",
+                                                style={"text-align": "center"},
+                                            ),
+                                            style={"text-align": "center"},
+                                        ),
+                                    ]
+                                ),
+                                dbc.RadioItems(
+                                    id="id_checklist_perfomance_top_10",
+                                    options=[
+                                        {"label": "Likes", "value": "1"},
+                                        {"label": "Comentários", "value": "2"},
+                                        {"label": "Visualizações", "value": "3"},
                                     ],
-                                    className="class_div_coluna",
-                                )
+                                    value="1",
+                                    inline=True,
+                                    style={
+                                        "display": "flex",
+                                        "justify-content": "center",
+                                        "align-items": "center",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        html.Label(
+                                            "Escolha a data: ",
+                                            style={"text-align": "center"},
+                                            className="class_titulo_grafico",
+                                        ),
+                                    ],
+                                    style={
+                                        "display": "flex",
+                                        "justify-content": "center",
+                                        "align-items": "center",
+                                    },
+                                ),
+                                html.Div(
+                                    dcc.DatePickerSingle(
+                                        id="id_data_desempenho",
+                                        min_date_allowed=min(obter_lista_datas()),
+                                        max_date_allowed=max(obter_lista_datas()),
+                                        display_format="DD/MM/YYYY",
+                                        date=date(2023, 10, 27),
+                                    ),
+                                    style={
+                                        "display": "flex",
+                                        "justify-content": "center",
+                                        "align-items": "center",
+                                        "margin": "10px 10px",
+                                    },
+                                ),
+                                dcc.Graph(id="id_grafico_top_10"),
                             ],
-                            id="coluna2",
                             lg=4,
+                        ),
+                    ],
+                    id="id_linha_graficos",
+                    className="class_graficos",
+                ),
+                dbc.Row(
+                    [
+                        html.P(
+                            "Análise de desempenho do Vídeo",
+                            style={"color": "white", "textAlign": "center"},
+                            id="id_titulo_video",
                         ),
                         dbc.Col(
                             [
                                 html.Div(
                                     [
                                         html.P(
-                                            "Texto adicional", style={"color": "white"}
+                                            "Selecione o Canal",
+                                            className="class_titulo_desempenho text-center",
+                                            style={
+                                                "display": "inline-block",
+                                                "margin-right": "20px",
+                                            },
                                         ),
-                                        dcc.Graph(id="gráfico3"),
+                                        dbc.Select(
+                                            id="id_select_canal_desempenho",
+                                            placeholder="Selecione o canal",
+                                            style={"display": "inline-block"},
+                                        ),
+                                    ]
+                                ),
+                                html.Div(
+                                    [
+                                        html.P(
+                                            "Selecione o Vídeo",
+                                            className="class_titulo_desempenho text-center",
+                                            style={
+                                                "display": "inline-block",
+                                                "margin-right": "20px",
+                                            },
+                                        ),
+                                        dbc.Select(
+                                            id="id_select_video",
+                                            style={"display": "inline-block"},
+                                        ),
+                                    ]
+                                ),
+                                html.Div(
+                                    [
+                                        html.P(
+                                            "Selecione a Data",
+                                            className="class_titulo_desempenho text-center",
+                                            style={
+                                                "display": "inline-block",
+                                                "margin-right": "20px",
+                                            },
+                                        ),
+                                        dcc.DatePickerRange(
+                                            display_format="DD/MM/YYYY",
+                                            start_date=date(2023, 10, 15),
+                                            end_date=date(2023, 10, 27),
+                                            id="id_range_data",
+                                            min_date_allowed=date(2023, 10, 15),
+                                            max_date_allowed=date(2023, 10, 27),
+                                            style={"display": "inline-block"},
+                                        ),
+                                    ]
+                                ),
+                                dbc.Tabs(
+                                    [
+                                        dbc.Tab(
+                                            label="Análise likes",
+                                            tab_id="id_tab_like_video",
+                                            style={"background-color": "red"},
+                                        ),
+                                        dbc.Tab(
+                                            label="Análise Comentários",
+                                            tab_id="id_tab_comentarios_video",
+                                        ),
+                                        dbc.Tab(
+                                            label="Análise Visualizações",
+                                            tab_id="id_tab_visualizacoes_video",
+                                        ),
                                     ],
-                                    className="class_div_coluna",
-                                )
+                                    id="id_tabs_desempenho_video",
+                                    className="class_tab_desempenho_video",
+                                ),
+                                html.Div(id="id_content_video"),
                             ],
-                            lg=4,
+                            id="id_coluna_desempenho_video",
+                            className="class_coluna_desempenho_video",
+                            lg=6,
+                        ),
+                        dbc.Col(
+                            [
+                                html.Iframe(
+                                    width="650",
+                                    height="370",
+                                    id="id_video_url",
+                                    style={"border": "none", "margin-top": "10px"},
+                                ),
+                            ],
+                            lg=6,
+                            md=12,
+                            xs=12,
                         ),
                     ],
-                    style={"border": "2px solid #ff0000", "padding": "20px"},
+                    id="id_segunda_linha_dsh",
+                    className="class_segunda_linha_dsh",
                 ),
             ],
         )
@@ -397,6 +575,7 @@ class DashboardEstatistica:
                 coluna_x=coluna_analise,
                 coluna_y="ID_CANAL",
                 titulo=f"TOP 10 {titulo_grafico}",
+                altura=300,
             )
             return fig
 

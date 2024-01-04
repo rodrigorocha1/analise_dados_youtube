@@ -96,7 +96,9 @@ class Visualizacao:
         )
         return fig
 
-    def gerar_grafico_barra_horizontal(self, coluna_x: str, coluna_y: str, titulo: str):
+    def gerar_grafico_barra_horizontal(
+        self, coluna_x: str, coluna_y: str, titulo: str, altura: int
+    ):
         fig = px.bar(
             self.__df_resultado,
             x=coluna_x,
@@ -108,6 +110,7 @@ class Visualizacao:
         fig.update_layout(
             title_text=titulo,
             showlegend=True,
+            height=altura,
             title=dict(x=0.5, font=dict(color="white")),
             plot_bgcolor="#021E56",
             margin=dict(l=10, r=20, t=40, b=20, pad=2),
