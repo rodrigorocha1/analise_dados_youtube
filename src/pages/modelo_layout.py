@@ -123,7 +123,7 @@ class DashboardEstatistica:
                                                 ),
                                                 html.Div(
                                                     id="id_grafico_visualizacao",
-                                                ),  # Definindo altura para o elemento Div
+                                                ),
                                             ],
                                         ),
                                     ],
@@ -192,10 +192,6 @@ class DashboardEstatistica:
                                             id="id_select_canal_desempenho",
                                             placeholder="Selecione o canal",
                                         ),
-                                    ]
-                                ),
-                                html.Div(
-                                    [
                                         html.P(
                                             "Selecione o Vídeo",
                                             className="class_titulo_desempenho text-center",
@@ -206,10 +202,6 @@ class DashboardEstatistica:
                                         dbc.Select(
                                             id="id_select_video",
                                         ),
-                                    ]
-                                ),
-                                html.Div(
-                                    [
                                         html.P(
                                             "Selecione a Data",
                                             className="class_titulo_desempenho text-center",
@@ -225,82 +217,66 @@ class DashboardEstatistica:
                                             min_date_allowed=date(2023, 10, 15),
                                             max_date_allowed=date(2023, 10, 27),
                                         ),
-                                    ]
-                                ),
-                                dbc.Tabs(
-                                    [
-                                        dbc.Tab(
-                                            label="Análise likes",
-                                            tab_id="id_tab_like_video",
+                                        dbc.Tabs(
+                                            [
+                                                dbc.Tab(
+                                                    label="Análise likes",
+                                                    tab_id="id_tab_like_video",
+                                                ),
+                                                dbc.Tab(
+                                                    label="Análise Comentários",
+                                                    tab_id="id_tab_comentarios_video",
+                                                ),
+                                                dbc.Tab(
+                                                    label="Análise Visualizações",
+                                                    tab_id="id_tab_visualizacoes_video",
+                                                ),
+                                            ],
+                                            id="id_tabs_desempenho_video",
+                                            className="class_tab_desempenho_video",
                                         ),
-                                        dbc.Tab(
-                                            label="Análise Comentários",
-                                            tab_id="id_tab_comentarios_video",
-                                        ),
-                                        dbc.Tab(
-                                            label="Análise Visualizações",
-                                            tab_id="id_tab_visualizacoes_video",
-                                        ),
+                                        html.Div(id="id_content_video"),
                                     ],
-                                    id="id_tabs_desempenho_video",
-                                    className="class_tab_desempenho_video",
-                                ),
-                                html.Div(id="id_content_video"),
+                                    className="class_div_desempenho_grafico",
+                                    id="id_div_desempenho_grafico",
+                                )
                             ],
-                            id="id_coluna_desempenho_video",
-                            className="class_coluna_desempenho_video",
+                            id="id_desemenho_grafico",
+                            className="class_desempenho_grafico",
                             lg=6,
                         ),
                         dbc.Col(
                             [
-                                dbc.Row(
-                                    html.P(
-                                        "TOP 10 desempenho do canal por dia",
-                                        id="id_titulo_top_dez",
-                                        className="class_titulo_grafico",
-                                    ),
-                                ),
-                                dbc.Row(
+                                html.Div(
                                     [
-                                        dbc.Col(
-                                            [
-                                                dbc.Label(
-                                                    "Escolha a métrica: ",
-                                                    className="class_titulo_grafico",
-                                                ),
-                                            ],
-                                            lg=6,
+                                        html.P(
+                                            "TOP 10 desempenho do canal por dia",
+                                            id="id_titulo_top_dez",
+                                            className="class_titulo_grafico",
                                         ),
-                                        dbc.Col(
-                                            [
-                                                dbc.RadioItems(
-                                                    id="id_checklist_perfomance_top_10",
-                                                    options=[
-                                                        {
-                                                            "label": "Likes",
-                                                            "value": "1",
-                                                        },
-                                                        {
-                                                            "label": "Comentários",
-                                                            "value": "2",
-                                                        },
-                                                        {
-                                                            "label": "Visualizações",
-                                                            "value": "3",
-                                                        },
-                                                    ],
-                                                    value="3",
-                                                    inline=True,
-                                                ),
-                                            ],
-                                            lg=6,
+                                        dbc.Label(
+                                            "Escolha a métrica: ",
+                                            className="class_titulo_grafico",
                                         ),
-                                    ],
-                                    className="class_selecao_metrica",
-                                    id="id_selecao_metrica",
-                                ),
-                                dbc.Row(
-                                    [
+                                        dbc.RadioItems(
+                                            id="id_checklist_perfomance_top_10",
+                                            options=[
+                                                {
+                                                    "label": "Likes",
+                                                    "value": "1",
+                                                },
+                                                {
+                                                    "label": "Comentários",
+                                                    "value": "2",
+                                                },
+                                                {
+                                                    "label": "Visualizações",
+                                                    "value": "3",
+                                                },
+                                            ],
+                                            value="3",
+                                            inline=True,
+                                        ),
                                         dbc.Col(
                                             html.Label(
                                                 "Escolha a data: ",
@@ -322,18 +298,19 @@ class DashboardEstatistica:
                                             ),
                                             lg=6,
                                         ),
+                                        dcc.Graph(id="id_grafico_top_10"),
                                     ],
-                                    className="class_input_data",
-                                ),
-                                dcc.Graph(id="id_grafico_top_10"),
+                                    id="id_div_top_dez",
+                                    className="class_div_top_dez",
+                                )
                             ],
+                            id="id_top_dez",
+                            className="class_top_dez",
                             lg=6,
-                            id="id_coluna_segunda_linha",
-                            className="class_coluna_segunda_linha",
                         ),
                     ],
-                    id="id_segunda_linha_dsh",
-                    className="class_segunda_linha_dsh",
+                    id="id_segunda_linha",
+                    className="class_segunda_linha",
                 ),
             ],
         )
@@ -562,7 +539,7 @@ class DashboardEstatistica:
                 coluna_x=coluna_analise,
                 coluna_y="ID_CANAL",
                 titulo=f"TOP 10 {titulo_grafico}".capitalize(),
-                altura=510,
+                altura=498,
             )
             return fig
 

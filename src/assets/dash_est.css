@@ -15,7 +15,7 @@
     margin-top: 10px;
     border: 1px #021E56 solid;
     border-radius: 10px;
-
+    background-color: #021E56;
     padding: 10px;
 }
 
@@ -32,17 +32,29 @@ class_select_canais {
     margin-bottom: 10px;
 }
 
-.class_segunda_linha_dsh {
+.class_segunda_linha {
     margin-top: 10px;
+    height: 100vh;
 }
 
 .class_coluna_desempenho_video {
     border: 1px #021E56 solid;
     border-radius: 10px;
+    background-color: #021E56;
 }
 
 .class_coluna_segunda_linha {
     border: 1px #021E56 solid;
     border-radius: 10px;
+    background-color: #021E56;
 
+}
+
+
+.class_div_desempenho_grafico,
+.class_div_top_dez {
+    border: 1px #021E56 solid;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #021E56;
 }
