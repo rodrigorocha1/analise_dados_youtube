@@ -1,49 +1,3 @@
-.class_linha_selecao_assunto {
-    margin-top: 15px;
-    border-radius: 34px;
-    margin-bottom: 15px;
-
-}
-
-#id_label_assunto,
-#id_input_assunto {
-    color: white;
-}
-
-.graficos_um,
-.class_graficos {
-    margin: 10px 10px 10px;
-
-}
-
-.class_selecao_metrica,
-.class_input_data {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-
-
-.class_titulo_grafico {
-    text-align: center;
-    color: white;
-    margin: 10px;
-
-}
-
-.class_coluna_desempenho {
-    font-size: 15px;
-}
-
-
-#grafico-selecionado {
-    margin-top: 20px;
-}
-
-#id_tabs_desempenho {
-    margin-top: 10px;
-}
-
 .nav-tabs .nav-link {
     color: blue !important;
     font-size: 14px;
@@ -52,54 +6,28 @@
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
     background-color: lightblue !important;
-
-}
-
-.class_tab_desempenho_video {
     margin-top: 10px;
+
 }
 
-#id_titulo_video {
-    margin: 20px;
-}
-
-
-
-#id_checklist_perfomance,
-#id_checklist_perfomance_top_10 {
-    color: white;
-    margin: 10px 10px;
-    font-size: 14px;
-}
-
-.class_titulo_desempenho {
-    color: white;
-}
-
-#id_range_data {
-    margin: 10px;
-}
-
-#id_content_video {
-    margin: 20px;
-}
-
-#id_select_canal_desempenho,
-#id_select_video {
-    width: 35vw;
-}
-
-
-.class_div_coluna {
-    max-height: 500px;
-}
-
-.class_graficos {
+.class_div_coluna_performance_assunto,
+.class_div_desempenho {
+    margin-top: 10px;
+    border: 1px #021E56 solid;
+    border-radius: 10px;
+    background-color: #021E56;
     padding: 10px;
-    height: 70vh;
-    margin: 20px 20px;
 }
 
-#id_data_desempenho {
-    background-color: black;
+.class_titulo_grafico,
+class_select_canais {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+class_select_canais {
+
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

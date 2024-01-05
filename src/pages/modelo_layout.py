@@ -76,54 +76,58 @@ class DashboardEstatistica:
                     [
                         dbc.Col(
                             [
-                                html.P(
-                                    "Desempenho Geral Por Assunto",
-                                    id="id_titulo_desempenho_geral",
-                                    className="class_titulo_grafico",
-                                ),
-                                dbc.Tabs(
+                                html.Div(
                                     [
-                                        dbc.Tab(
-                                            dcc.Graph(
-                                                id="id_grafico_historico_video",
-                                                className="graficos_um",
-                                            ),
-                                            label="Gráfico Envio de Vídeo por Semana",
-                                            id="id_tab_historico_video",
+                                        html.P(
+                                            "Desempenho Geral Por Assunto",
+                                            id="id_titulo_desempenho_geral",
+                                            className="class_titulo_grafico",
                                         ),
-                                        dbc.Tab(
+                                        dbc.Tabs(
                                             [
-                                                dbc.RadioItems(
-                                                    id="id_checklist_perfomance",
-                                                    options=[
-                                                        {
-                                                            "label": "Likes",
-                                                            "value": "1",
-                                                        },
-                                                        {
-                                                            "label": "Comentários",
-                                                            "value": "2",
-                                                        },
-                                                        {
-                                                            "label": "Visualizações",
-                                                            "value": "3",
-                                                        },
+                                                dbc.Tab(
+                                                    dcc.Graph(
+                                                        id="id_grafico_historico_video",
+                                                        className="graficos_um",
+                                                    ),
+                                                    label="Gráfico Envio de Vídeo por Semana",
+                                                    id="id_tab_historico_video",
+                                                ),
+                                                dbc.Tab(
+                                                    [
+                                                        dbc.RadioItems(
+                                                            id="id_checklist_perfomance",
+                                                            options=[
+                                                                {
+                                                                    "label": "Likes",
+                                                                    "value": "1",
+                                                                },
+                                                                {
+                                                                    "label": "Comentários",
+                                                                    "value": "2",
+                                                                },
+                                                                {
+                                                                    "label": "Visualizações",
+                                                                    "value": "3",
+                                                                },
+                                                            ],
+                                                            value="1",
+                                                            inline=True,
+                                                        ),
+                                                        dcc.Graph(
+                                                            id="id_grafico_desempenho_completo",
+                                                        ),
                                                     ],
-                                                    value="1",
-                                                    inline=True,
+                                                    label="Performance Assunto",
+                                                    id="id_perfomance_video",
                                                 ),
-                                                dcc.Graph(
-                                                    id="id_grafico_desempenho_completo",
-                                                ),
+                                                html.Div(
+                                                    id="id_grafico_visualizacao",
+                                                ),  # Definindo altura para o elemento Div
                                             ],
-                                            label="Performance Assunto",
-                                            id="id_perfomance_video",
                                         ),
-                                        html.Div(
-                                            id="id_grafico_visualizacao",
-                                            style={"height": "400px"},
-                                        ),  # Definindo altura para o elemento Div
                                     ],
+                                    className="class_div_coluna_performance_assunto",
                                 ),
                             ],
                             lg=6,
@@ -132,33 +136,39 @@ class DashboardEstatistica:
                         ),
                         dbc.Col(
                             [
-                                html.P(
-                                    "Desempenho por Canal",
-                                    id="id_titulo_desempenho",
-                                    className="class_titulo_grafico",
-                                ),
-                                dbc.Select(
-                                    id="id_select_canais",
-                                    className="class_select_canais",
-                                ),
-                                dbc.Tabs(
+                                html.Div(
                                     [
-                                        dbc.Tab(
-                                            label="Análise likes", tab_id="id_tab_likes"
+                                        html.P(
+                                            "Desempenho por Canal",
+                                            id="id_titulo_desempenho",
+                                            className="class_titulo_grafico",
                                         ),
-                                        dbc.Tab(
-                                            label="Análise Comentários",
-                                            tab_id="id_tab_comentarios",
+                                        dbc.Select(
+                                            id="id_select_canais",
+                                            className="class_select_canais",
                                         ),
-                                        dbc.Tab(
-                                            label="Análise Visualizações",
-                                            tab_id="id_tab_visualizações",
+                                        dbc.Tabs(
+                                            [
+                                                dbc.Tab(
+                                                    label="Análise likes",
+                                                    tab_id="id_tab_likes",
+                                                ),
+                                                dbc.Tab(
+                                                    label="Análise Comentários",
+                                                    tab_id="id_tab_comentarios",
+                                                ),
+                                                dbc.Tab(
+                                                    label="Análise Visualizações",
+                                                    tab_id="id_tab_visualizações",
+                                                ),
+                                            ],
+                                            id="id_tabs_desempenho",
+                                            active_tab="id_tab_likes",
                                         ),
+                                        html.Div(id="grafico-selecionado"),
                                     ],
-                                    id="id_tabs_desempenho",
-                                    active_tab="id_tab_likes",
+                                    className="class_div_desempenho",
                                 ),
-                                html.Div(id="grafico-selecionado"),
                             ],
                             lg=6,
                             id="id_colunas_desempeho",
@@ -424,27 +434,27 @@ class DashboardEstatistica:
             dataframe = gerador_consulta.gerar_indicadores(
                 id_canal=id_canal,
             )
-
+            altura = 313
             visualizacao = Visualizacao(df_resultado=dataframe)
             if tab == "id_tab_likes":
                 titulo = "Desempenho de likes"
                 coluna_analise = "total_likes"
                 fig = visualizacao.gerar_tabela_desempenho(
-                    titulo=titulo, coluna_analise=coluna_analise, altura=300
+                    titulo=titulo, coluna_analise=coluna_analise, altura=altura
                 )
                 return dcc.Graph(figure=fig)
             elif tab == "id_tab_comentarios":
                 titulo = "Desempenho de comentários"
                 coluna_analise = "total_comentarios"
                 fig = visualizacao.gerar_tabela_desempenho(
-                    titulo=titulo, coluna_analise="total_comentarios", altura=300
+                    titulo=titulo, coluna_analise="total_comentarios", altura=altura
                 )
                 return dcc.Graph(figure=fig)
             else:
                 titulo = "Desempenho de visualização"
                 coluna_analise = "total_visualizacoes"
                 fig = visualizacao.gerar_tabela_desempenho(
-                    titulo=titulo, coluna_analise=coluna_analise, altura=300
+                    titulo=titulo, coluna_analise=coluna_analise, altura=altura
                 )
                 return dcc.Graph(figure=fig)
 
