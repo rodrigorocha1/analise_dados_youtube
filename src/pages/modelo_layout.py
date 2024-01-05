@@ -214,6 +214,60 @@ class DashboardEstatistica:
             id="id_div_desempenho_grafico",
         )
 
+    def __gerar_top_dez(self):
+        return html.Div(
+            [
+                html.P(
+                    "TOP 10 desempenho do canal por dia",
+                    id="id_titulo_top_dez",
+                    className="class_titulo_grafico",
+                ),
+                dbc.Label(
+                    "Escolha a métrica: ",
+                    className="class_titulo_grafico",
+                ),
+                dbc.RadioItems(
+                    id="id_checklist_perfomance_top_10",
+                    options=[
+                        {
+                            "label": "Likes",
+                            "value": "1",
+                        },
+                        {
+                            "label": "Comentários",
+                            "value": "2",
+                        },
+                        {
+                            "label": "Visualizações",
+                            "value": "3",
+                        },
+                    ],
+                    value="3",
+                    inline=True,
+                ),
+                dbc.Col(
+                    html.Label(
+                        "Escolha a data: ",
+                        className="class_titulo_grafico",
+                    ),
+                    lg=6,
+                ),
+                dbc.Col(
+                    dcc.DatePickerSingle(
+                        id="id_data_desempenho",
+                        min_date_allowed=min(obter_lista_datas()),
+                        max_date_allowed=max(obter_lista_datas()),
+                        display_format="DD/MM/YYYY",
+                        date=date(2023, 10, 27),
+                    ),
+                    lg=6,
+                ),
+                dcc.Graph(id="id_grafico_top_10"),
+            ],
+            id="id_div_top_dez",
+            className="class_div_top_dez",
+        )
+
     def __get_layout(self):
         return html.Div(
             [
@@ -256,64 +310,7 @@ class DashboardEstatistica:
                             lg=6,
                         ),
                         dbc.Col(
-                            [
-                                html.Div(
-                                    [
-                                        html.P(
-                                            "TOP 10 desempenho do canal por dia",
-                                            id="id_titulo_top_dez",
-                                            className="class_titulo_grafico",
-                                        ),
-                                        dbc.Label(
-                                            "Escolha a métrica: ",
-                                            className="class_titulo_grafico",
-                                        ),
-                                        dbc.RadioItems(
-                                            id="id_checklist_perfomance_top_10",
-                                            options=[
-                                                {
-                                                    "label": "Likes",
-                                                    "value": "1",
-                                                },
-                                                {
-                                                    "label": "Comentários",
-                                                    "value": "2",
-                                                },
-                                                {
-                                                    "label": "Visualizações",
-                                                    "value": "3",
-                                                },
-                                            ],
-                                            value="3",
-                                            inline=True,
-                                        ),
-                                        dbc.Col(
-                                            html.Label(
-                                                "Escolha a data: ",
-                                                className="class_titulo_grafico",
-                                            ),
-                                            lg=6,
-                                        ),
-                                        dbc.Col(
-                                            dcc.DatePickerSingle(
-                                                id="id_data_desempenho",
-                                                min_date_allowed=min(
-                                                    obter_lista_datas()
-                                                ),
-                                                max_date_allowed=max(
-                                                    obter_lista_datas()
-                                                ),
-                                                display_format="DD/MM/YYYY",
-                                                date=date(2023, 10, 27),
-                                            ),
-                                            lg=6,
-                                        ),
-                                        dcc.Graph(id="id_grafico_top_10"),
-                                    ],
-                                    id="id_div_top_dez",
-                                    className="class_div_top_dez",
-                                )
-                            ],
+                            [self.__gerar_top_dez()],
                             id="id_top_dez",
                             className="class_top_dez",
                             lg=6,
