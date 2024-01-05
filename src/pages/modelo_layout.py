@@ -325,16 +325,18 @@ class DashboardEstatistica:
                                                 ),
                                                 display_format="DD/MM/YYYY",
                                                 date=date(2023, 10, 27),
+                                                style={"background-color": "lightblue"},
                                             ),
                                             lg=6,
                                         ),
-                                    ]
+                                    ],
+                                    className="class_input_data",
                                 ),
                                 dcc.Graph(id="id_grafico_top_10"),
                             ],
                             lg=6,
-                            id='id_coluna_segunda_linha',
-                            className='class_coluna_segunda_linha'
+                            id="id_coluna_segunda_linha",
+                            className="class_coluna_segunda_linha",
                         ),
                     ],
                     id="id_segunda_linha_dsh",
@@ -566,8 +568,8 @@ class DashboardEstatistica:
             fig = visualizacao.gerar_grafico_barra_horizontal(
                 coluna_x=coluna_analise,
                 coluna_y="ID_CANAL",
-                titulo=f"TOP 10 {titulo_grafico}",
-                altura=300,
+                titulo=f"TOP 10 {titulo_grafico}".capitalize(),
+                altura=510,
             )
             return fig
 

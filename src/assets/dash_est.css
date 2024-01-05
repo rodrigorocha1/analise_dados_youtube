@@ -16,10 +16,18 @@
 
 }
 
+.class_selecao_metrica,
+.class_input_data {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
 
 .class_titulo_grafico {
     text-align: center;
     color: white;
+    margin: 10px;
 
 }
 
@@ -90,4 +98,8 @@
     padding: 10px;
     height: 70vh;
     margin: 20px 20px;
+}
+
+#id_data_desempenho {
+    background-color: black;
 }
