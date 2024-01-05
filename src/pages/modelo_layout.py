@@ -154,6 +154,66 @@ class DashboardEstatistica:
             className="class_div_desempenho",
         )
 
+    def __gerar_comparacoes_turno(self):
+        return html.Div(
+            [
+                html.P(
+                    "Selecione o Canal",
+                    className="class_titulo_desempenho text-center",
+                ),
+                dbc.Select(
+                    id="id_select_canal_desempenho",
+                    placeholder="Selecione o canal",
+                ),
+                html.P(
+                    "Selecione o Vídeo",
+                    className="class_titulo_desempenho text-center",
+                    style={
+                        "display": "inline-block",
+                    },
+                ),
+                dbc.Select(
+                    id="id_select_video",
+                ),
+                html.P(
+                    "Selecione a Data",
+                    className="class_titulo_desempenho text-center",
+                    style={
+                        "display": "inline-block",
+                    },
+                ),
+                dcc.DatePickerRange(
+                    display_format="DD/MM/YYYY",
+                    start_date=date(2023, 10, 15),
+                    end_date=date(2023, 10, 27),
+                    id="id_range_data",
+                    min_date_allowed=date(2023, 10, 15),
+                    max_date_allowed=date(2023, 10, 27),
+                ),
+                dbc.Tabs(
+                    [
+                        dbc.Tab(
+                            label="Análise likes",
+                            tab_id="id_tab_like_video",
+                        ),
+                        dbc.Tab(
+                            label="Análise Comentários",
+                            tab_id="id_tab_comentarios_video",
+                        ),
+                        dbc.Tab(
+                            label="Análise Visualizações",
+                            tab_id="id_tab_visualizacoes_video",
+                        ),
+                    ],
+                    id="id_tabs_desempenho_video",
+                    className="class_tab_desempenho_video",
+                ),
+                html.Div(id="id_content_video"),
+            ],
+            className="class_div_desempenho_grafico",
+            id="id_div_desempenho_grafico",
+        )
+
     def __get_layout(self):
         return html.Div(
             [
@@ -190,66 +250,7 @@ class DashboardEstatistica:
                 dbc.Row(
                     [
                         dbc.Col(
-                            [
-                                html.Div(
-                                    [
-                                        html.P(
-                                            "Selecione o Canal",
-                                            className="class_titulo_desempenho text-center",
-                                        ),
-                                        dbc.Select(
-                                            id="id_select_canal_desempenho",
-                                            placeholder="Selecione o canal",
-                                        ),
-                                        html.P(
-                                            "Selecione o Vídeo",
-                                            className="class_titulo_desempenho text-center",
-                                            style={
-                                                "display": "inline-block",
-                                            },
-                                        ),
-                                        dbc.Select(
-                                            id="id_select_video",
-                                        ),
-                                        html.P(
-                                            "Selecione a Data",
-                                            className="class_titulo_desempenho text-center",
-                                            style={
-                                                "display": "inline-block",
-                                            },
-                                        ),
-                                        dcc.DatePickerRange(
-                                            display_format="DD/MM/YYYY",
-                                            start_date=date(2023, 10, 15),
-                                            end_date=date(2023, 10, 27),
-                                            id="id_range_data",
-                                            min_date_allowed=date(2023, 10, 15),
-                                            max_date_allowed=date(2023, 10, 27),
-                                        ),
-                                        dbc.Tabs(
-                                            [
-                                                dbc.Tab(
-                                                    label="Análise likes",
-                                                    tab_id="id_tab_like_video",
-                                                ),
-                                                dbc.Tab(
-                                                    label="Análise Comentários",
-                                                    tab_id="id_tab_comentarios_video",
-                                                ),
-                                                dbc.Tab(
-                                                    label="Análise Visualizações",
-                                                    tab_id="id_tab_visualizacoes_video",
-                                                ),
-                                            ],
-                                            id="id_tabs_desempenho_video",
-                                            className="class_tab_desempenho_video",
-                                        ),
-                                        html.Div(id="id_content_video"),
-                                    ],
-                                    className="class_div_desempenho_grafico",
-                                    id="id_div_desempenho_grafico",
-                                )
-                            ],
+                            [self.__gerar_comparacoes_turno()],
                             id="id_desemenho_grafico",
                             className="class_desempenho_grafico",
                             lg=6,
