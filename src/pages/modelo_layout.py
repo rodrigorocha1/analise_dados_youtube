@@ -187,15 +187,10 @@ class DashboardEstatistica:
                                         html.P(
                                             "Selecione o Canal",
                                             className="class_titulo_desempenho text-center",
-                                            style={
-                                                "display": "inline-block",
-                                                "margin-right": "20px",
-                                            },
                                         ),
                                         dbc.Select(
                                             id="id_select_canal_desempenho",
                                             placeholder="Selecione o canal",
-                                            style={"display": "inline-block"},
                                         ),
                                     ]
                                 ),
@@ -206,12 +201,10 @@ class DashboardEstatistica:
                                             className="class_titulo_desempenho text-center",
                                             style={
                                                 "display": "inline-block",
-                                                "margin-right": "20px",
                                             },
                                         ),
                                         dbc.Select(
                                             id="id_select_video",
-                                            style={"display": "inline-block"},
                                         ),
                                     ]
                                 ),
@@ -222,7 +215,6 @@ class DashboardEstatistica:
                                             className="class_titulo_desempenho text-center",
                                             style={
                                                 "display": "inline-block",
-                                                "margin-right": "20px",
                                             },
                                         ),
                                         dcc.DatePickerRange(
@@ -232,7 +224,6 @@ class DashboardEstatistica:
                                             id="id_range_data",
                                             min_date_allowed=date(2023, 10, 15),
                                             max_date_allowed=date(2023, 10, 27),
-                                            style={"display": "inline-block"},
                                         ),
                                     ]
                                 ),
@@ -241,7 +232,6 @@ class DashboardEstatistica:
                                         dbc.Tab(
                                             label="Análise likes",
                                             tab_id="id_tab_like_video",
-                                            style={"background-color": "red"},
                                         ),
                                         dbc.Tab(
                                             label="Análise Comentários",
@@ -277,7 +267,6 @@ class DashboardEstatistica:
                                                 dbc.Label(
                                                     "Escolha a métrica: ",
                                                     className="class_titulo_grafico",
-                                                    style={"text-align": "center"},
                                                 ),
                                             ],
                                             lg=6,
@@ -330,7 +319,6 @@ class DashboardEstatistica:
                                                 ),
                                                 display_format="DD/MM/YYYY",
                                                 date=date(2023, 10, 27),
-                                                style={"background-color": "lightblue"},
                                             ),
                                             lg=6,
                                         ),
