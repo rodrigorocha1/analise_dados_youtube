@@ -64,6 +64,96 @@ class DashboardEstatistica:
             ),
         ]
 
+    def __gerar_grafico_desempenho(self):
+        return html.Div(
+            [
+                html.P(
+                    "Desempenho Geral Por Assunto",
+                    id="id_titulo_desempenho_geral",
+                    className="class_titulo_grafico",
+                ),
+                dbc.Tabs(
+                    [
+                        dbc.Tab(
+                            dcc.Graph(
+                                id="id_grafico_historico_video",
+                                className="graficos_um",
+                            ),
+                            label="Gráfico Envio de Vídeo por Semana",
+                            id="id_tab_historico_video",
+                        ),
+                        dbc.Tab(
+                            [
+                                dbc.RadioItems(
+                                    id="id_checklist_perfomance",
+                                    options=[
+                                        {
+                                            "label": "Likes",
+                                            "value": "1",
+                                        },
+                                        {
+                                            "label": "Comentários",
+                                            "value": "2",
+                                        },
+                                        {
+                                            "label": "Visualizações",
+                                            "value": "3",
+                                        },
+                                    ],
+                                    value="1",
+                                    inline=True,
+                                ),
+                                dcc.Graph(
+                                    id="id_grafico_desempenho_completo",
+                                ),
+                            ],
+                            label="Performance Assunto",
+                            id="id_perfomance_video",
+                        ),
+                        html.Div(
+                            id="id_grafico_visualizacao",
+                        ),
+                    ],
+                ),
+            ],
+            className="class_div_coluna_performance_assunto",
+        )
+
+    def gerar_grafico_desempenho_canal(self):
+        return html.Div(
+            [
+                html.P(
+                    "Desempenho por Canal",
+                    id="id_titulo_desempenho",
+                    className="class_titulo_grafico",
+                ),
+                dbc.Select(
+                    id="id_select_canais",
+                    className="class_select_canais",
+                ),
+                dbc.Tabs(
+                    [
+                        dbc.Tab(
+                            label="Análise likes",
+                            tab_id="id_tab_likes",
+                        ),
+                        dbc.Tab(
+                            label="Análise Comentários",
+                            tab_id="id_tab_comentarios",
+                        ),
+                        dbc.Tab(
+                            label="Análise Visualizações",
+                            tab_id="id_tab_visualizações",
+                        ),
+                    ],
+                    id="id_tabs_desempenho",
+                    active_tab="id_tab_likes",
+                ),
+                html.Div(id="grafico-selecionado"),
+            ],
+            className="class_div_desempenho",
+        )
+
     def __get_layout(self):
         return html.Div(
             [
@@ -76,59 +166,7 @@ class DashboardEstatistica:
                     [
                         dbc.Col(
                             [
-                                html.Div(
-                                    [
-                                        html.P(
-                                            "Desempenho Geral Por Assunto",
-                                            id="id_titulo_desempenho_geral",
-                                            className="class_titulo_grafico",
-                                        ),
-                                        dbc.Tabs(
-                                            [
-                                                dbc.Tab(
-                                                    dcc.Graph(
-                                                        id="id_grafico_historico_video",
-                                                        className="graficos_um",
-                                                    ),
-                                                    label="Gráfico Envio de Vídeo por Semana",
-                                                    id="id_tab_historico_video",
-                                                ),
-                                                dbc.Tab(
-                                                    [
-                                                        dbc.RadioItems(
-                                                            id="id_checklist_perfomance",
-                                                            options=[
-                                                                {
-                                                                    "label": "Likes",
-                                                                    "value": "1",
-                                                                },
-                                                                {
-                                                                    "label": "Comentários",
-                                                                    "value": "2",
-                                                                },
-                                                                {
-                                                                    "label": "Visualizações",
-                                                                    "value": "3",
-                                                                },
-                                                            ],
-                                                            value="1",
-                                                            inline=True,
-                                                        ),
-                                                        dcc.Graph(
-                                                            id="id_grafico_desempenho_completo",
-                                                        ),
-                                                    ],
-                                                    label="Performance Assunto",
-                                                    id="id_perfomance_video",
-                                                ),
-                                                html.Div(
-                                                    id="id_grafico_visualizacao",
-                                                ),
-                                            ],
-                                        ),
-                                    ],
-                                    className="class_div_coluna_performance_assunto",
-                                ),
+                                self.__gerar_grafico_desempenho(),
                             ],
                             lg=6,
                             id="id_grafico_desempenho_assunto",
@@ -137,36 +175,7 @@ class DashboardEstatistica:
                         dbc.Col(
                             [
                                 html.Div(
-                                    [
-                                        html.P(
-                                            "Desempenho por Canal",
-                                            id="id_titulo_desempenho",
-                                            className="class_titulo_grafico",
-                                        ),
-                                        dbc.Select(
-                                            id="id_select_canais",
-                                            className="class_select_canais",
-                                        ),
-                                        dbc.Tabs(
-                                            [
-                                                dbc.Tab(
-                                                    label="Análise likes",
-                                                    tab_id="id_tab_likes",
-                                                ),
-                                                dbc.Tab(
-                                                    label="Análise Comentários",
-                                                    tab_id="id_tab_comentarios",
-                                                ),
-                                                dbc.Tab(
-                                                    label="Análise Visualizações",
-                                                    tab_id="id_tab_visualizações",
-                                                ),
-                                            ],
-                                            id="id_tabs_desempenho",
-                                            active_tab="id_tab_likes",
-                                        ),
-                                        html.Div(id="grafico-selecionado"),
-                                    ],
+                                    [self.gerar_grafico_desempenho_canal()],
                                     className="class_div_desempenho",
                                 ),
                             ],
