@@ -10,13 +10,19 @@
 
 }
 
+.class_graficos {
+    margin-top: 10px;
+}
+
 .class_div_coluna_performance_assunto,
 .class_div_desempenho {
-    margin-top: 10px;
+
     border: 1px #021E56 solid;
     border-radius: 10px;
     background-color: #021E56;
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+
 }
 
 .class_titulo_grafico,
@@ -35,6 +41,7 @@ class_select_canais {
 .class_segunda_linha {
     margin-top: 10px;
     height: 100vh;
+    margin-bottom: 10px;
 }
 
 .class_coluna_desempenho_video {
@@ -57,4 +64,5 @@ class_select_canais {
     border-radius: 10px;
     padding: 10px;
     background-color: #021E56;
+
 }
