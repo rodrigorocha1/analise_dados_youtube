@@ -180,11 +180,6 @@ class DashboardEstatistica:
                 ),
                 dbc.Row(
                     [
-                        html.P(
-                            "Análise de desempenho do Vídeo",
-                            style={"color": "white", "textAlign": "center"},
-                            id="id_titulo_video",
-                        ),
                         dbc.Col(
                             [
                                 html.Div(
@@ -434,7 +429,7 @@ class DashboardEstatistica:
             dataframe = gerador_consulta.gerar_indicadores(
                 id_canal=id_canal,
             )
-            altura = 313
+            altura = 300
             visualizacao = Visualizacao(df_resultado=dataframe)
             if tab == "id_tab_likes":
                 titulo = "Desempenho de likes"

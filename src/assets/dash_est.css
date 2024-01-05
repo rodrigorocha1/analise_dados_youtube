@@ -26,8 +26,18 @@ class_select_canais {
     margin-bottom: 10px;
 }
 
-class_select_canais {
+.class_select_canais {
 
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.class_segunda_linha_dsh {
+    margin: 10px;
+}
+
+.class_coluna_desempenho_video {
+    border: 1px #021E56 solid;
+    border-radius: 10px;
+    background-color: #021E56;
 }
