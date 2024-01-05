@@ -18,7 +18,7 @@
 .class_div_desempenho {
 
     border: 1px #021E56 solid;
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: #021E56;
     padding-left: 10px;
     padding-right: 10px;
@@ -61,7 +61,7 @@ class_select_canais {
 .class_div_desempenho_grafico,
 .class_div_top_dez {
     border: 1px #021E56 solid;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 10px;
     background-color: #021E56;
 
