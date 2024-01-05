@@ -126,10 +126,9 @@ class DashboardEstatistica:
                                     ],
                                 ),
                             ],
-                            lg=4,
-                            style={
-                                "height": "300px"
-                            },  # Definindo altura para o dbc.Col
+                            lg=6,
+                            id="id_grafico_desempenho_assunto",
+                            className="class_grafico_desempenho_assunto",
                         ),
                         dbc.Col(
                             [
@@ -161,76 +160,9 @@ class DashboardEstatistica:
                                 ),
                                 html.Div(id="grafico-selecionado"),
                             ],
-                            lg=4,
+                            lg=6,
                             id="id_colunas_desempeho",
                             className="class_coluna_desempenho",
-                        ),
-                        dbc.Col(
-                            [
-                                html.P(
-                                    "TOP 10 desempenho do canal por dia",
-                                    id="id_titulo_top_dez",
-                                    className="class_titulo_grafico",
-                                ),
-                                html.Div(
-                                    [
-                                        html.Div(
-                                            dbc.Label(
-                                                "Escolha a métrica: ",
-                                                className="class_titulo_grafico",
-                                                style={"text-align": "center"},
-                                            ),
-                                            style={"text-align": "center"},
-                                        ),
-                                    ]
-                                ),
-                                dbc.RadioItems(
-                                    id="id_checklist_perfomance_top_10",
-                                    options=[
-                                        {"label": "Likes", "value": "1"},
-                                        {"label": "Comentários", "value": "2"},
-                                        {"label": "Visualizações", "value": "3"},
-                                    ],
-                                    value="1",
-                                    inline=True,
-                                    style={
-                                        "display": "flex",
-                                        "justify-content": "center",
-                                        "align-items": "center",
-                                    },
-                                ),
-                                html.Div(
-                                    [
-                                        html.Label(
-                                            "Escolha a data: ",
-                                            style={"text-align": "center"},
-                                            className="class_titulo_grafico",
-                                        ),
-                                    ],
-                                    style={
-                                        "display": "flex",
-                                        "justify-content": "center",
-                                        "align-items": "center",
-                                    },
-                                ),
-                                html.Div(
-                                    dcc.DatePickerSingle(
-                                        id="id_data_desempenho",
-                                        min_date_allowed=min(obter_lista_datas()),
-                                        max_date_allowed=max(obter_lista_datas()),
-                                        display_format="DD/MM/YYYY",
-                                        date=date(2023, 10, 27),
-                                    ),
-                                    style={
-                                        "display": "flex",
-                                        "justify-content": "center",
-                                        "align-items": "center",
-                                        "margin": "10px 10px",
-                                    },
-                                ),
-                                dcc.Graph(id="id_grafico_top_10"),
-                            ],
-                            lg=4,
                         ),
                     ],
                     id="id_linha_graficos",
@@ -326,16 +258,83 @@ class DashboardEstatistica:
                         ),
                         dbc.Col(
                             [
-                                html.Iframe(
-                                    width="650",
-                                    height="370",
-                                    id="id_video_url",
-                                    style={"border": "none", "margin-top": "10px"},
+                                dbc.Row(
+                                    html.P(
+                                        "TOP 10 desempenho do canal por dia",
+                                        id="id_titulo_top_dez",
+                                        className="class_titulo_grafico",
+                                    ),
                                 ),
+                                dbc.Row(
+                                    [
+                                        dbc.Col(
+                                            [
+                                                dbc.Label(
+                                                    "Escolha a métrica: ",
+                                                    className="class_titulo_grafico",
+                                                    style={"text-align": "center"},
+                                                ),
+                                            ],
+                                            lg=6,
+                                        ),
+                                        dbc.Col(
+                                            [
+                                                dbc.RadioItems(
+                                                    id="id_checklist_perfomance_top_10",
+                                                    options=[
+                                                        {
+                                                            "label": "Likes",
+                                                            "value": "1",
+                                                        },
+                                                        {
+                                                            "label": "Comentários",
+                                                            "value": "2",
+                                                        },
+                                                        {
+                                                            "label": "Visualizações",
+                                                            "value": "3",
+                                                        },
+                                                    ],
+                                                    value="3",
+                                                    inline=True,
+                                                ),
+                                            ],
+                                            lg=6,
+                                        ),
+                                    ],
+                                    className="class_selecao_metrica",
+                                    id="id_selecao_metrica",
+                                ),
+                                dbc.Row(
+                                    [
+                                        dbc.Col(
+                                            html.Label(
+                                                "Escolha a data: ",
+                                                className="class_titulo_grafico",
+                                            ),
+                                            lg=6,
+                                        ),
+                                        dbc.Col(
+                                            dcc.DatePickerSingle(
+                                                id="id_data_desempenho",
+                                                min_date_allowed=min(
+                                                    obter_lista_datas()
+                                                ),
+                                                max_date_allowed=max(
+                                                    obter_lista_datas()
+                                                ),
+                                                display_format="DD/MM/YYYY",
+                                                date=date(2023, 10, 27),
+                                            ),
+                                            lg=6,
+                                        ),
+                                    ]
+                                ),
+                                dcc.Graph(id="id_grafico_top_10"),
                             ],
                             lg=6,
-                            md=12,
-                            xs=12,
+                            id='id_coluna_segunda_linha',
+                            className='class_coluna_segunda_linha'
                         ),
                     ],
                     id="id_segunda_linha_dsh",
@@ -517,13 +516,6 @@ class DashboardEstatistica:
                     titulo_grafico="Analise Visualizações",
                 )
                 return dcc.Graph(figure=fig)
-
-        @callback(
-            Output("id_video_url", "src"),
-            Input("id_select_video", "value"),
-        )
-        def gerar_url_video(id_video: str):
-            return f"https://www.youtube.com/embed/{id_video}"
 
         @callback(
             Output("id_grafico_desempenho_completo", "figure"),

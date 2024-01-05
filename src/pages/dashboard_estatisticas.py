@@ -124,6 +124,8 @@ class DashboardEstatistica:
                                 ),
                             ],
                             lg=4,
+                            id="id_grafico_desempenho_assunto",
+                            className="class_grafico_desempenho_assunto",
                         ),
                         dbc.Col(
                             [
@@ -272,24 +274,25 @@ class DashboardEstatistica:
                                         ),
                                     ]
                                 ),
-                                html.Div(
+                                dbc.Row(
                                     [
-                                        html.P(
-                                            "Selecione a Data",
-                                            className="class_titulo_desempenho text-center",
-                                            style={
-                                                "display": "inline-block",
-                                                "margin-right": "20px",
-                                            },
+                                        dbc.Col(
+                                            html.P(
+                                                "Selecione a Data",
+                                                className="class_titulo_desempenho",
+                                            ),
+                                            lg=6,
                                         ),
-                                        dcc.DatePickerRange(
-                                            display_format="DD/MM/YYYY",
-                                            start_date=date(2023, 10, 15),
-                                            end_date=date(2023, 10, 27),
-                                            id="id_range_data",
-                                            min_date_allowed=date(2023, 10, 15),
-                                            max_date_allowed=date(2023, 10, 27),
-                                            style={"display": "inline-block"},
+                                        dbc.Col(
+                                            dcc.DatePickerRange(
+                                                display_format="DD/MM/YYYY",
+                                                start_date=date(2023, 10, 15),
+                                                end_date=date(2023, 10, 27),
+                                                id="id_range_data",
+                                                min_date_allowed=date(2023, 10, 15),
+                                                max_date_allowed=date(2023, 10, 27),
+                                            ),
+                                            lg=6,
                                         ),
                                     ]
                                 ),
