@@ -39,11 +39,12 @@ def obter_lista_categorias_trends() -> List:
         os.path.join(CAMINHO_LISTA_CATEGORIA, "categoria.pkl"), "rb"
     ) as categoria:
         lista_categorias = pickle.load(categoria)
-    lista_opcoes_categorias = [
-        {"label": elemento, "value": key}
-        for key, elemento in lista_categorias.to_dict()["NOME_CATEGORIA"].items()
-    ]
-    return lista_opcoes_categorias
+    lista_categorias = lista_categorias.rename(
+        columns={"ID": "value", "NOME_CATEGORIA": "label"}
+    )
+    lista_dicionarios = lista_categorias.to_dict("records")
+    lista_dicionarios
+    return lista_dicionarios
 
 
 if __name__ == "__main__":

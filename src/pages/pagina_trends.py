@@ -247,6 +247,8 @@ class PaginaTrends:
                 )
                 print("top 10")
                 print(dataframe)
+                if dataframe.empty:
+                    return dbc.Alert("Nenhum dado encontrado", duration=10000)
                 visualizacao_trends = VisualizacaoTrends(df_resultado=dataframe)
                 fig = visualizacao_trends.gerar_grafico_barras_horizontal(
                     coluna_x="TOTAL_VISUALIZACOES_DIA_ATUAL",
