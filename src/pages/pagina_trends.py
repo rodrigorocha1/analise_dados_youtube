@@ -245,8 +245,6 @@ class PaginaTrends:
                 dataframe = dataframe.sort_values(
                     by=["TOTAL_VISUALIZACOES_DIA_ATUAL"], ascending=True
                 )
-                print("top 10")
-                print(dataframe)
                 if dataframe.empty:
                     return dbc.Alert("Nenhum dado encontrado", duration=10000)
                 visualizacao_trends = VisualizacaoTrends(df_resultado=dataframe)
