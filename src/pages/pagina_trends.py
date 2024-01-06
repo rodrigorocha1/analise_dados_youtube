@@ -60,19 +60,18 @@ class PaginaTrends:
             ),
             dbc.Row(
                 [
-                    dbc.Col(html.Label("Selecione a categoria"), lg=6),
+                    dbc.Col(html.Label("Selecione a categoria"), lg=3),
                     dbc.Col(
                         dbc.Select(
                             id="id_select_categoria_trends",
                             options=obter_lista_categorias_trends(),
                         ),
-                        lg=6,
+                        lg=3,
                     ),
-                ]
-            ),
-            dbc.Row(
-                [
-                    dbc.Col(html.Label("Selecione o dia"), lg=6),
+                    dbc.Col(
+                        html.Label("Selecione o dia"),
+                        lg=3,
+                    ),
                     dbc.Col(
                         dcc.DatePickerSingle(
                             id="id_selecao_data_categoria_trend",
@@ -81,8 +80,12 @@ class PaginaTrends:
                             min_date_allowed=date(2023, 10, 15),
                             max_date_allowed=date(2023, 10, 27),
                         ),
-                        lg=6,
+                        lg=3,
                     ),
+                ]
+            ),
+            dbc.Row(
+                [
                     dbc.Tabs(
                         [
                             dbc.Tab(
