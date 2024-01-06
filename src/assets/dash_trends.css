@@ -1,0 +1,27 @@
+.class_div_top_dez_trends,
+.class_div_popularidade_categoria {
+    border: 1px #021E56 solid;
+    background-color: #021E56;
+    height: 60vh;
+    border-radius: 10px;
+
+}
+
+.class_linha_trends {
+    height: 60vh;
+    margin: 15px;
+}
+
+.class_titulo_div_popularidede {
+    text-align: center;
+}
+
+.class_top_dez_trends,
+.class_popularidade_categoria {
+    padding: 10px;
+}
+
+
+/* .class_name_trends {
+    margin-bottom: 20px;
+} */
