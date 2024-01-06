@@ -4,6 +4,7 @@ import dash_bootstrap_components as dbc
 from dash import html, dcc, callback, Output, Input
 from src.dados.gerador_consulta_trends import GeradorConsultaTrends
 from src.visualization.visualizacao_trends import VisualizacaoTrends
+from src.dados.depara import obter_lista_categorias_trends
 
 
 dash.register_page(__name__, name="Analise Trends Brasil")
@@ -50,6 +51,57 @@ class PaginaTrends:
             html.Div(id="id_content_desempenho"),
         ]
 
+    def __gerar_layout_desempenho_video(self):
+        return [
+            html.P(
+                "Top 10 desempenho vídeo por categoria",
+                id="id_titulo_video_categoria_trends",
+                className="class_titulo_video_categoria_trensds",
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(html.Label("Selecione a categoria"), lg=6),
+                    dbc.Col(
+                        dbc.Select(
+                            id="id_select_categoria_trends",
+                            options=obter_lista_categorias_trends(),
+                        ),
+                        lg=6,
+                    ),
+                ]
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(html.Label("Selecione o dia"), lg=6),
+                    dbc.Col(
+                        dcc.DatePickerSingle(
+                            id="id_selecao_data_categoria_trend",
+                            display_format="DD/MM/YYYY",
+                            date=date(2023, 10, 27),
+                            min_date_allowed=date(2023, 10, 15),
+                            max_date_allowed=date(2023, 10, 27),
+                        ),
+                        lg=6,
+                    ),
+                    dbc.Tabs(
+                        [
+                            dbc.Tab(
+                                label="Visualizações",
+                                tab_id="tab_visualizacoes_categoria",
+                            ),
+                            dbc.Tab(
+                                label="Comentários", tab_id="tab_comentarios_categoria"
+                            ),
+                            dbc.Tab(label="Likes", tab_id="tab_likes_categorias"),
+                        ],
+                        id="id_tabs_categorias_desempenho",
+                        className="class_tabs_categorias_desempenho",
+                    ),
+                    html.Div(id="id_categorias_desempenho"),
+                ]
+            ),
+        ]
+
     def __get_layout(self):
         return html.Div(
             [
@@ -70,7 +122,7 @@ class PaginaTrends:
                         dbc.Col(
                             [
                                 html.Div(
-                                    [],
+                                    self.__gerar_layout_desempenho_video(),
                                     id="id_div_popularidade_categoria",
                                     className="class_div_popularidade_categoria",
                                 )
