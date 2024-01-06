@@ -123,9 +123,45 @@ class PaginaTrends:
 
                 return dcc.Graph(figure=fig)
             elif tab == "tab_comentarios_populares":
-                return f"Teste {tab} - {data_selecao_desempenho}"
+                datafame = datafame[
+                    [
+                        "NOME_CATEGORIA",
+                        "DATA_EXTRACAO",
+                        "ID_CATEGORIA",
+                        "TOTAL_COMENTARIOS",
+                    ]
+                ]
+                datafame = datafame.sort_values(
+                    by=["TOTAL_COMENTARIOS"], ascending=True
+                )
+                datafame = datafame.head(10)
+                visualizacao_trends = VisualizacaoTrends(df_resultado=datafame)
+                fig = visualizacao_trends.gerar_grafico_barras_horizontal(
+                    coluna_x="TOTAL_COMENTARIOS",
+                    coluna_y="NOME_CATEGORIA",
+                    titulo="Desempenho de Comentários",
+                    altura=285,
+                )
+                return dcc.Graph(figure=fig)
             else:
-                return f"Teste {tab} - {data_selecao_desempenho}"
+                datafame = datafame[
+                    [
+                        "NOME_CATEGORIA",
+                        "DATA_EXTRACAO",
+                        "ID_CATEGORIA",
+                        "TOTAL_LIKES",
+                    ]
+                ]
+                datafame = datafame.sort_values(by=["TOTAL_LIKES"], ascending=True)
+                datafame = datafame.head(10)
+                visualizacao_trends = VisualizacaoTrends(df_resultado=datafame)
+                fig = visualizacao_trends.gerar_grafico_barras_horizontal(
+                    coluna_x="TOTAL_LIKES",
+                    coluna_y="NOME_CATEGORIA",
+                    titulo="Desempenho de Likes",
+                    altura=285,
+                )
+                return dcc.Graph(figure=fig)
 
 
 pt = PaginaTrends()
