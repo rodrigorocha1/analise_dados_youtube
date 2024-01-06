@@ -43,7 +43,10 @@ class PaginaTrends:
                         label="Visualizações", tab_id="tab_visualizacoes_populares"
                     ),
                     dbc.Tab(label="Comentários", tab_id="tab_comentarios_populares"),
-                    dbc.Tab(label="Likes", tab_id="tab_likes_populares"),
+                    dbc.Tab(
+                        label="Likes",
+                        tab_id="tab_likes_populares",
+                    ),
                 ],
                 id="id_tabs_desempenho_trend",
                 className="class_tabs_desempenho_trend",
@@ -65,6 +68,7 @@ class PaginaTrends:
                         dbc.Select(
                             id="id_select_categoria_trends",
                             options=obter_lista_categorias_trends(),
+                            value=20,
                         ),
                         lg=3,
                     ),
@@ -214,6 +218,40 @@ class PaginaTrends:
                     coluna_x="TOTAL_LIKES",
                     coluna_y="NOME_CATEGORIA",
                     titulo="Desempenho de Likes",
+                    altura=285,
+                )
+                return dcc.Graph(figure=fig)
+
+        @callback(
+            Output("id_categorias_desempenho", "children"),
+            Input("id_tabs_categorias_desempenho", "active_tab"),
+            Input("id_select_categoria_trends", "value"),
+            Input("id_selecao_data_categoria_trend", "date"),
+        )
+        def obter_desempenho_video_categoria(
+            tabs: str, id_categoria: int, data_desepenho: str
+        ):
+            print("ccccc")
+            print(tabs, id_categoria, data_desepenho)
+            nome_arquivo = "popularidade_video_categoria.parquet"
+            if tabs == "tab_visualizacoes_categoria":
+                gerador_consulta_trends = GeradorConsultaTrends(
+                    nome_arquivo=nome_arquivo
+                )
+                dataframe = gerador_consulta_trends.obter_perfomance(
+                    data=data_desepenho, id_categoria=id_categoria
+                )
+                dataframe = dataframe.head(10)
+                dataframe = dataframe.sort_values(
+                    by=["TOTAL_VISUALIZACOES_DIA_ATUAL"], ascending=True
+                )
+                print("top 10")
+                print(dataframe)
+                visualizacao_trends = VisualizacaoTrends(df_resultado=dataframe)
+                fig = visualizacao_trends.gerar_grafico_barras_horizontal(
+                    coluna_x="TOTAL_VISUALIZACOES_DIA_ATUAL",
+                    coluna_y="TITULO_VIDEO",
+                    titulo="Desempenho Vídeo",
                     altura=285,
                 )
                 return dcc.Graph(figure=fig)

@@ -12,8 +12,9 @@ class GeradorConsultaTrends:
         self.__base = pd.read_parquet(self.__caminho_completo)
 
     def obter_perfomance(self, data: str, id_categoria: int = None) -> pd.DataFrame:
-        consulta = f" DATA_EXTRACAO == '{data}' "
+        consulta = f' DATA_EXTRACAO == "{data}" '
         if id_categoria is not None:
             consulta += f" and ID_CATEGORIA == {id_categoria} "
+        print(consulta)
         dataframe = self.__base.query(consulta)
         return dataframe
