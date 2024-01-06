@@ -2,9 +2,11 @@ from datetime import date
 import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, callback, Output, Input
+from src.dados.gerador_consulta_trends import GeradorConsultaTrends
+from src.visualization.visualizacao_trends import VisualizacaoTrends
 
 
-dash.register_page(__name__, name="Analise Trends")
+dash.register_page(__name__, name="Analise Trends Brasil")
 
 
 class PaginaTrends:
@@ -15,7 +17,7 @@ class PaginaTrends:
     def __gerar_layout_popularidade(self):
         return [
             html.P(
-                "Popularidade da Categoria no dia",
+                "TOP 10 Popularidade da Categoria no dia",
                 id="id_titulo_popularidade",
                 className="class_titulo_div_popularidede",
             ),
@@ -93,9 +95,33 @@ class PaginaTrends:
             Input("id_selecao_data_desempenho", "date"),
         )
         def gerar_grafico_desempenho(tab: str, data_selecao_desempenho: str):
-            print(tab, data_selecao_desempenho)
+            nome_arquivo = "popularidade_categoria_trends.parquet"
+            gerador_consulta_trends = GeradorConsultaTrends(nome_arquivo=nome_arquivo)
+            datafame = gerador_consulta_trends.obter_perfomance(
+                data=data_selecao_desempenho
+            )
             if tab == "tab_visualizacoes_populares":
-                return f"Teste {tab} - {data_selecao_desempenho}"
+                datafame = datafame[
+                    [
+                        "NOME_CATEGORIA",
+                        "DATA_EXTRACAO",
+                        "ID_CATEGORIA",
+                        "TOTAL_VISUALIZACOES",
+                    ]
+                ]
+                datafame = datafame.sort_values(
+                    by=["TOTAL_VISUALIZACOES"], ascending=True
+                )
+                datafame = datafame.head(10)
+                visualizacao_trends = VisualizacaoTrends(df_resultado=datafame)
+                fig = visualizacao_trends.gerar_grafico_barras_horizontal(
+                    coluna_x="TOTAL_VISUALIZACOES",
+                    coluna_y="NOME_CATEGORIA",
+                    titulo="Desempenho de vísualizações",
+                    altura=285,
+                )
+
+                return dcc.Graph(figure=fig)
             elif tab == "tab_comentarios_populares":
                 return f"Teste {tab} - {data_selecao_desempenho}"
             else:
