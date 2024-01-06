@@ -15,6 +15,5 @@ class GeradorConsultaTrends:
         consulta = f' DATA_EXTRACAO == "{data}" '
         if id_categoria is not None:
             consulta += f" and ID_CATEGORIA == {id_categoria} "
-        print(consulta)
         dataframe = self.__base.query(consulta)
         return dataframe
