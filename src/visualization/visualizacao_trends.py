@@ -29,7 +29,9 @@ class VisualizacaoTrends:
             showlegend=False,
             title=dict(x=0.5, font=dict(color="white", size=12)),
             plot_bgcolor="#021E56",
-            yaxis=dict(title="", visible=True, color="white", showline=False),
+            yaxis=dict(
+                title="", visible=True, color="white", showline=False, automargin=True
+            ),
             margin=dict(l=20, r=20, t=40, b=20, pad=4),
             paper_bgcolor="#021E56",
             xaxis=dict(
