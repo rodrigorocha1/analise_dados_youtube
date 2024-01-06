@@ -1,6 +1,7 @@
+from datetime import date
 import dash
 import dash_bootstrap_components as dbc
-from dash import Dash, html, dcc
+from dash import html, dcc, callback, Output, Input
 
 
 dash.register_page(__name__, name="Analise Trends")
@@ -14,14 +15,23 @@ class PaginaTrends:
     def __gerar_layout_popularidade(self):
         return [
             html.P(
-                "Popularidade",
+                "Popularidade da Categoria no dia",
                 id="id_titulo_popularidade",
                 className="class_titulo_div_popularidede",
             ),
             dbc.Row(
                 [
                     dbc.Col(html.Label("Selecione o dia"), lg=6),
-                    dbc.Col(html.Label("Selecione o dia"), lg=6),
+                    dbc.Col(
+                        dcc.DatePickerSingle(
+                            id="id_selecao_data_desempenho",
+                            display_format="DD/MM/YYYY",
+                            date=date(2023, 10, 27),
+                            min_date_allowed=date(2023, 10, 15),
+                            max_date_allowed=date(2023, 10, 27),
+                        ),
+                        lg=6,
+                    ),
                 ]
             ),
             dbc.Tabs(
@@ -31,7 +41,9 @@ class PaginaTrends:
                     ),
                     dbc.Tab(label="Comentários", tab_id="tab_comentarios_populares"),
                     dbc.Tab(label="Likes", tab_id="tab_likes_populares"),
-                ]
+                ],
+                id="id_tabs_desempenho_trend",
+                className="class_tabs_desempenho_trend",
             ),
             html.Div(id="id_content_desempenho"),
         ]
@@ -75,7 +87,19 @@ class PaginaTrends:
         )
 
     def __gerar_calbacks(self):
-        pass
+        @callback(
+            Output("id_content_desempenho", "children"),
+            Input("id_tabs_desempenho_trend", "active_tab"),
+            Input("id_selecao_data_desempenho", "date"),
+        )
+        def gerar_grafico_desempenho(tab: str, data_selecao_desempenho: str):
+            print(tab, data_selecao_desempenho)
+            if tab == "tab_visualizacoes_populares":
+                return f"Teste {tab} - {data_selecao_desempenho}"
+            elif tab == "tab_comentarios_populares":
+                return f"Teste {tab} - {data_selecao_desempenho}"
+            else:
+                return f"Teste {tab} - {data_selecao_desempenho}"
 
 
 pt = PaginaTrends()
