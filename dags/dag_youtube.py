@@ -31,7 +31,10 @@ lista_assunto = [
     'Power BI',
     'Python AND dados',
     'Cities Skylines',
-    'Cities Skylines 2'
+    'Cities Skylines 2',
+    'Linux',
+    'Linux Gamming',
+    'genshin impact'
 ]
 
 
@@ -40,7 +43,7 @@ data = 'extracao_data_' + data_hora_busca.split('T')[0].replace('-', '_')
 
 with DAG(
     dag_id='extracao_youtube',
-    schedule_interval='0 */1 * * *',
+    schedule_interval='0 11,17,22 * * *',
     catchup=False,
     start_date=pendulum.datetime(2023, 9, 8, tz='America/Sao_Paulo')
 ) as dag:
