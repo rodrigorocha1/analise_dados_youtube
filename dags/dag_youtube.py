@@ -34,7 +34,8 @@ lista_assunto = [
     'Cities Skylines 2',
     'Linux',
     'Linux Gamming',
-    'genshin impact'
+    'genshin impact',
+    'zelda'
 ]
 
 
