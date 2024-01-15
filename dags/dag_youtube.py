@@ -20,12 +20,14 @@ from hook.youtube_busca_pesquisa_hook import YoutubeBuscaPesquisaHook
 from hook.youtube_busca_video_hook import YoutubeBuscaVideoHook
 from hook.youtube_busca_comentario_hook import YoutubeBuscaComentarioHook
 from hook.youtube_busca_resposta_hook import YoutubeBuscaRespostaHook
+import logging
 
 
 data_hora_atual = pendulum.now('America/Sao_Paulo').to_iso8601_string()
 data_hora_atual = pendulum.parse(data_hora_atual)
-data_hora_busca = data_hora_atual.subtract(minutes=70)
+data_hora_busca = data_hora_atual.subtract(hours=1)
 data_hora_busca = data_hora_busca.strftime('%Y-%m-%dT%H:%M:%SZ')
+
 
 lista_assunto = [
     'Power BI',
@@ -48,11 +50,16 @@ with DAG(
     catchup=False,
     start_date=pendulum.datetime(2023, 9, 8, tz='America/Sao_Paulo')
 ) as dag:
+
     task_inicio = EmptyOperator(
         task_id='task_inicio_dag',
         dag=dag
     )
     with TaskGroup('task_youtube_api_historico_pesquisa', dag=dag) as tg1:
+        print("===============================================")
+        print(f'DATA_EXTRACAO {data_hora_busca}')
+        logging.debug(f'DATA_EXTRACAO {data_hora_busca}')
+        print("===============================================")
         lista_task_historico = []
         for termo_assunto in lista_assunto:
             id_termo_assunto = termo_assunto.replace(
