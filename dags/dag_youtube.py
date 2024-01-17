@@ -46,7 +46,7 @@ data = 'extracao_data_' + data_hora_busca.split('T')[0].replace('-', '_')
 
 with DAG(
     dag_id='extracao_youtube',
-    schedule_interval='0 11,17,22 * * *',
+    schedule_interval=None,
     catchup=False,
     start_date=pendulum.datetime(2023, 9, 8, tz='America/Sao_Paulo')
 ) as dag:
@@ -91,6 +91,7 @@ with DAG(
                     )
                 )
             )
+
             lista_task_historico.append(
                 extracao_api_youtube_historico_pesquisa
             )

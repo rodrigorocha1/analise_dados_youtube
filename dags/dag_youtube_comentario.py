@@ -27,11 +27,16 @@ data_hora_atual = pendulum.parse(data_hora_atual)
 data_hora_busca = data_hora_atual.subtract(minutes=60)
 data_hora_busca = data_hora_busca.strftime('%Y-%m-%dT%H:%M:%SZ')
 
+
 lista_assunto = [
     'Power BI',
     'Python AND dados',
     'Cities Skylines',
-    'Cities Skylines 2'
+    'Cities Skylines 2',
+    'Linux',
+    'Linux Gamming',
+    'genshin impact',
+    'zelda'
 ]
 
 

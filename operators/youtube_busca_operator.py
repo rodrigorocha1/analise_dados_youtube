@@ -70,7 +70,7 @@ if __name__ == '__main__':
         catchup=False,
         start_date=pendulum.datetime(2023, 9, 8, tz='America/Sao_Paulo')
     ) as dag:
-        termo_assunto = 'Power BI'
+        termo_assunto = 'Power BI DADOS'
         id_termo = termo_assunto.replace(' ', '').lower()
         extracao_api_youtube_historico_pesquisa = YoutubeBuscaOperator(
             task_id=f'id_youtube_api_historico_pesquisa',

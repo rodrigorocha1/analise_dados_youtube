@@ -1,6 +1,7 @@
 from hook.youtube_hook import YoutubeHook
 from src.dados.iinfra_dados import IInfraDados
 import variaveis.variaveis as v
+import logging
 
 
 class YoutubeBuscaPesquisaHook(YoutubeHook):
@@ -27,6 +28,8 @@ class YoutubeBuscaPesquisaHook(YoutubeHook):
                 'pageToken': ''
             }
         ]
+        print("===============================")
+        logging.info(params)
 
         response = self._executar_paginacao(
             url=url, session=session, params=params)
