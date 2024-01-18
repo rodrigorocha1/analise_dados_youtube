@@ -56,8 +56,9 @@ with DAG(
         dag=dag
     )
     with TaskGroup('task_youtube_api_historico_pesquisa', dag=dag) as tg1:
-        print("===============================================")
-        print(f'DATA_EXTRACAO {data_hora_busca}')
+        print("=================DENTRO DA DAG==============================")
+        print(
+            f'DATA_EXTRACAO DA DAG {data_hora_busca}, data_hora_atual {data_hora_atual}')
         logging.debug(f'DATA_EXTRACAO {data_hora_busca}')
         print("===============================================")
         lista_task_historico = []
