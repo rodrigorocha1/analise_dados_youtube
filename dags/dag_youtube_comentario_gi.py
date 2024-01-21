@@ -29,13 +29,7 @@ data_hora_busca = data_hora_busca.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 
 lista_assunto = [
-    'Power BI',
-    'Python AND dados',
-    'Cities Skylines',
-    'Cities Skylines 2',
-    'Linux',
-    'Linux Gamming',
-    'zelda'
+    'genshin impact'
 ]
 
 
@@ -43,7 +37,7 @@ data = 'extracao_data_' + data_hora_busca.split('T')[0].replace('-', '_')
 
 
 with DAG(
-    dag_id='extracao_youtube_comentario',
+    dag_id='extracao_youtube_comentario_gi',
     schedule_interval=None,
     catchup=False,
     start_date=pendulum.datetime(2023, 10, 22, tz='America/Sao_Paulo')
