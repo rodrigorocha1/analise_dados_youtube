@@ -15,24 +15,10 @@ def gerar_layout_dashboard():
         [
             dbc.Row(
                 [
-                    dbc.Col(
-                        html.Div(
-                            id='id_div_primeira_coluna_label_dashboard',
-                            className='class_div_primeira_linha_primeira_coluna_label_dashboard'
-                        ),
-                        lg=6,
-                        id='id_primeira_coluna_label_dashboard',
-                        className='class_primeira_linha_primeira_coluna_label_dashboard'
-                    ),
-                    dbc.Col(
-                        html.Div(
-                            id='id_div_segunda_coluna_primeira_coluna_input_dashboard',
-                            className='class_div_segunda_linha_primeira_coluna_input_dashboard'
-
-                        ),
-                        lg=6,
-                        id='id_primeira_linha_segunda_colunha_input_dashboard',
-                        className='class_primeira_linha_segunda_colunha_input_dashboard'),
+                    html.Div(
+                        id='id_div_primeira_coluna_label_dashboard',
+                        className='class_div_primeira_linha_primeira_coluna_label_dashboard'
+                    )
                 ],
                 id='id_input_primeira_linha_dashboard',
                 className='class_primeira_linha_dashboad'
