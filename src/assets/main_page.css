@@ -1,5 +1,11 @@
-.class_main_container {
-    background-color: #03256C;
-    /* height: 100vh; */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap');
+
+* {
     color: white;
+    font: Roboto sans-serif;
+}
+
+.class_main_container {
+    background-color: #141519;
+    height: 100vh;
 }
