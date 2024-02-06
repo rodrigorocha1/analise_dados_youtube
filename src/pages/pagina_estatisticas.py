@@ -16,6 +16,11 @@ def gerar_layout_dashboard():
             dbc.Row(
                 [
                     html.Div(
+                        html.H3(
+                            'Escolha o assunto de Análise:',
+                            id='id_titulo_pprimeira_linha',
+                            className='class_titulo_primeira_linha'
+                        ),
                         id='id_div_primeira_coluna_label_dashboard',
                         className='class_div_primeira_linha_primeira_coluna_label_dashboard'
                     )
