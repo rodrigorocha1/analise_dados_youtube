@@ -10,6 +10,9 @@ from dash import html, dcc, callback, Output, Input
 dash.register_page(__name__, name="Analise Assunto", path='/')
 
 
+
+
+
 def gerar_layout_dashboard():
     return html.Div(
         [
