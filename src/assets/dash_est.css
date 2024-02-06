@@ -5,8 +5,9 @@
 .class_div_terceira_linha_segunda_coluna_dashboard {
     margin: 20px 0;
     background-color: #21242D;
-    height: 50vh;
+    height: 55vh;
     border-radius: 20px;
+    padding: 10px;
 }
 
 
@@ -21,5 +22,11 @@
 }
 
 .class_titulo_primeira_linha {
+    text-align: center;
+}
+
+#id_select_assunto,
+#id_titulo_comparacao_video,
+#id_input_desempenho {
     text-align: center;
 }

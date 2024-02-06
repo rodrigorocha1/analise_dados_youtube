@@ -10,7 +10,30 @@ from dash import html, dcc, callback, Output, Input
 dash.register_page(__name__, name="Analise Assunto", path='/')
 
 
+def gerar_comparacao():
+    return [
+        html.H5('Comparação desempenho vídeo',
+                id='id_titulo_comparacao_video'),
+        dbc.Checklist(
+            inline=True,
+            options=[
+                {
+                    'label': 'Visualizações',
+                    'value': 'visualizacoes'
+                },
+                {
+                    'label': 'Comentários',
+                    'value': 'comentarios'
+                },
+                {
+                    'label': 'Likes',
+                    'value': 'likes'
+                },
 
+            ],
+            id='id_input_desempenho'
+        )
+    ]
 
 
 def gerar_layout_dashboard():
@@ -19,11 +42,54 @@ def gerar_layout_dashboard():
             dbc.Row(
                 [
                     html.Div(
-                        html.H3(
-                            'Escolha o assunto de Análise:',
-                            id='id_titulo_pprimeira_linha',
-                            className='class_titulo_primeira_linha'
-                        ),
+                        [
+                            html.H5(
+                                'Escolha o assunto de Análise:',
+                                id='id_titulo_pprimeira_linha',
+                                className='class_titulo_primeira_linha'
+                            ),
+                            dbc.RadioItems(
+                                options=[
+                                    {
+                                        'label': 'Cites Skylines',
+                                        'value': 'assunto_cities_skylines'
+                                    },
+                                    {
+                                        'label': 'Linux',
+                                        'value': 'assunto_linux'
+                                    },
+                                    {
+                                        'label': 'Power BI',
+                                        'value': 'assunto_power_bi'
+                                    },
+                                    {
+                                        'label': 'Python AND dados',
+                                        'value': 'assunto_python_and_dados'
+                                    },
+                                    {
+                                        'label': 'Cities Skylines 2',
+                                        'value': 'assunto_cities_skylines_2'
+                                    },
+                                    {
+                                        'label': 'Linux Gamming',
+                                        'value': 'assunto_linux_gamming'
+                                    },
+                                    {
+                                        'label': 'Gensim Impact',
+                                        'value': 'assunto_genshin_impact'
+                                    },
+                                    {
+                                        'label': 'Zelda',
+                                        'value': 'assunto_zelda'
+                                    }
+                                ],
+                                inline=True,
+                                id='id_select_assunto',
+                                value='assunto_cities_skylines'
+                            )
+                        ],
+
+
                         id='id_div_primeira_coluna_label_dashboard',
                         className='class_div_primeira_linha_primeira_coluna_label_dashboard'
                     )
@@ -36,6 +102,7 @@ def gerar_layout_dashboard():
                 [
                     dbc.Col(
                         html.Div(
+                            gerar_comparacao(),
                             id='id_div_segunda_linha_primeira_coluna_label_dashboard',
                             className='class_div_segunda_linha_primeira_coluna_label_dashboard'
                         ),
