@@ -24,8 +24,6 @@ def gerar_layout_dashboard():
                 className='class_primeira_linha_dashboad'
             ),
 
-
-
             dbc.Row(
                 [
                     dbc.Col(
@@ -60,8 +58,31 @@ def gerar_layout_dashboard():
                 ],
                 id='id_segunda_linha_input_dashboard',
                 className='class_segunda_linha_name_dashboad'
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        html.Div(
+                            id='id_div_terceira_linha_primeira_coluna_dashboard',
+                            className='class_div_terceira_linha_primeira_coluna_dashboard'
+                        ),
+                        lg=6,
+                        id='id_terceira_linha_primeira_coluna_dashboard',
+                        className='class_terceira_linha_primeira_coluna_dashboard'
+                    ),
+                    dbc.Col(
+                        html.Div(
+                            id='id_div_terceira_linha_segunda_coluna_dashboard',
+                            className='class_div_terceira_linha_segunda_coluna_dashboard'
+                        ),
+                        lg=6,
+                        id='id_terceira_linha_segunda_coluna_dashboard',
+                        className='class_terceira_linha_segunda_coluna_dashboard'
+                    )
+                ],
+                id='id_terceira_linha_dashboard',
+                class_name='class_terceira_linha_dashboard'
             )
-
         ],
         id='id_main_page_dashboard',
         className='class_name_dashboard'
