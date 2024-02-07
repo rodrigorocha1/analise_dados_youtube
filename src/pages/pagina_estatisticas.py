@@ -42,6 +42,16 @@ def gerar_comparacao():
     ]
 
 
+def gerar_layout_videos_publicados():
+    return [
+        html.H5(
+            'Frequência dos vídeos públicados',
+            id='id_titulo_video_publicado'
+        ),
+        dcc.Graph('id_video_publicado')
+    ]
+
+
 def gerar_layout_dashboard():
     return html.Div(
         [
@@ -118,6 +128,7 @@ def gerar_layout_dashboard():
                     ),
                     dbc.Col(
                         html.Div(
+                            gerar_layout_videos_publicados(),
                             id='id_div_segunda_linha_segunda_coluna_input_dashboard',
                             className='class_div_segunda_linha_segunda_coluna_input_dashboard'
 

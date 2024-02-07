@@ -27,6 +27,7 @@
 
 #id_select_assunto,
 #id_titulo_comparacao_video,
-#id_input_desempenho {
+#id_input_desempenho,
+#id_titulo_video_publicado {
     text-align: center;
 }
