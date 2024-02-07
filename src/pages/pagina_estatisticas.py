@@ -1,11 +1,15 @@
+try:
+    import sys
+    import os
+    sys.path.insert(0, os.path.abspath(os.curdir))
+except ModuleNotFoundError:
+    pass
 from datetime import date
 import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, callback, Output, Input
-# from src.dados.gerador_consulta_trends import GeradorConsultaTrends
-# from src.visualization.visualizacao_trends import VisualizacaoTrends
-# from src.dados.depara import obter_lista_categorias_trends
-
+from src.dados.gerador_consulta import GeradorConsulta
+from src.visualization.visualizacao import Visualizacao
 
 dash.register_page(__name__, name="Analise Assunto", path='/')
 
@@ -14,25 +18,27 @@ def gerar_comparacao():
     return [
         html.H5('Comparação desempenho vídeo',
                 id='id_titulo_comparacao_video'),
-        dbc.Checklist(
+        dbc.RadioItems(
             inline=True,
+            value='TOTAL_VISUALIZACOES',
             options=[
                 {
                     'label': 'Visualizações',
-                    'value': 'visualizacoes'
+                    'value': 'TOTAL_VISUALIZACOES'
                 },
                 {
                     'label': 'Comentários',
-                    'value': 'comentarios'
+                    'value': 'TOTAL_COMENTARIOS'
                 },
                 {
                     'label': 'Likes',
-                    'value': 'likes'
+                    'value': 'TOTAL_LIKES'
                 },
 
             ],
-            id='id_input_desempenho'
-        )
+            id='id_input_desempenho',
+        ),
+        dcc.Graph(id='id_grafico_comparacao_video')
     ]
 
 
@@ -162,6 +168,27 @@ def gerar_layout_dashboard():
         id='id_main_page_dashboard',
         className='class_name_dashboard'
     )
+
+
+@callback(
+    Output('id_grafico_comparacao_video', 'figure'),
+    Input('id_select_assunto', 'value'),
+    Input('id_input_desempenho', 'value')
+)
+def gerar_desempenho(assunto: str, desempenho: str):
+    print('assunto', assunto, 'desempenho', desempenho)
+    nome_arquivo = 'dados_tratado_estatisticas_gerais.parquet'
+    columns = ['ASSUNTO', 'data_extracao', 'ID_VIDEO',
+               desempenho, 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO']
+    gerador_consulta = GeradorConsulta(arquivo=nome_arquivo, colunas=columns)
+
+    dataframe, top_dez_max, top_dez_min, valor_maximo, valor_minimo = gerador_consulta.gerar_desempenho_dia(
+        assunto=assunto, coluna_analise=desempenho)
+    print(dataframe)
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    fig = visualizacao.gerar_grafico_de_barras(
+        coluna_x='data_extracao', coluna_y='TOTAL_MAX_DIA', valor_maximo=valor_maximo, valor_minimo=valor_minimo, text_anotation='teste')
+    return fig
 
 
 layout = gerar_layout_dashboard()
