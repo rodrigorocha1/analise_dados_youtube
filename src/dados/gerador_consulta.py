@@ -92,3 +92,22 @@ class GeradorConsulta:
             TOTAL_VIDEOS_PUBLICADOS=('ID_VIDEO', 'count')
         ).sort_values(by='INDEX_DIA_PUBLICACAO').reset_index()
         return base
+
+    def gerar_top_dez(self, assunto: str, data: str, metrica: str):
+        base = self.__dataframe.query(
+            f' ASSUNTO == "{assunto}" and TURNO_EXTRACAO == "Noite" and data_extracao == "{data}"')
+        base['data_extracao'] = pd.to_datetime(
+            base['data_extracao']).dt.tz_localize(None)
+        base['data_extracao'] = base['data_extracao'].dt.date
+        base['ASSUNTO'] = base['ASSUNTO'].astype('string')
+        base['ID_VIDEO'] = base['ID_VIDEO'].astype('string')
+        base['TURNO_EXTRACAO'] = base['TURNO_EXTRACAO'].astype('string')
+        base['INDICE_TURNO_EXTRACAO'] = base['INDICE_TURNO_EXTRACAO'].astype(
+            'int8')
+        base[metrica] = round(base[metrica].astype('float32'), 0)
+        base = base.groupby(['ID_VIDEO']).agg(
+            TOTAL=(metrica, 'max')
+        ).reset_index()
+
+        base = base.nlargest(10, columns=['TOTAL'])
+        return base

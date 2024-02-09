@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
+from typing import Dict
 
 
 class Visualizacao:
@@ -24,7 +25,8 @@ class Visualizacao:
             color: bool = True,
             tickfont: str = None,
             hovertemplate: str = None,
-            text_update_traces: str = None
+            text_update_traces: str = None,
+            category_orders: Dict = None
     ):
         if color:
 
@@ -39,7 +41,8 @@ class Visualizacao:
             y=coluna_y,
             text_auto='0',
             color=param_color,
-            orientation=orientation
+            orientation=orientation,
+            category_orders=category_orders
         )
         fig.update_layout(
             xaxis_tickformat='%d/%m/%Y',
@@ -55,18 +58,19 @@ class Visualizacao:
             showlegend=False,
 
         )
-        fig.add_annotation(
-            text=text_anotation,
-            xref="paper",
-            yref="paper",
-            axref='x',
-            ayref='y',
-            x=0.01,
-            y=1,
-            ax=8,
-            ay=40e3,
-            showarrow=False
-        )
+        if text_anotation is not None:
+            fig.add_annotation(
+                text=text_anotation,
+                xref="paper",
+                yref="paper",
+                axref='x',
+                ayref='y',
+                x=0.01,
+                y=1,
+                ax=8,
+                ay=40e3,
+                showarrow=False
+            )
         fig.update_traces(
             hovertemplate=hovertemplate,
             text=text_update_traces

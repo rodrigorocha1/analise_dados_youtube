@@ -272,12 +272,45 @@ def gerar_publicacao_video(assunto: str):
     )
     return fig
 
-# @callback(
-#     Output('id_grafico_top_dez', 'figure'),
-#     Output('id_titulo_top_dez', 'children'),
-#     Input('id_select_assunto', 'value'),
 
-# )
+@callback(
+    Output('id_grafico_top_dez', 'figure'),
+    Output('id_titulo_top_dez', 'children'),
+    Input('id_select_assunto', 'value'),
+    Input('id_input_data_top_dez', 'date'),
+    Input('id_input_top_dez', 'value')
+
+)
+def gerar_top_dez(assunto: str, data: str, metricas: str):
+    print(metricas)
+    columns = ['data_extracao', 'ASSUNTO', 'ID_VIDEO',
+               metricas, 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO']
+    nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
+    gerador_consulta = GeradorConsulta(colunas=columns, arquivo=nome_arqruivo)
+    dataframe = gerador_consulta.gerar_top_dez(
+        assunto=assunto, data=data, metrica=metricas)
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    print(dataframe)
+    fig = visualizacao.gerar_grafico_de_barras(
+        coluna_x='TOTAL',
+        coluna_y='ID_VIDEO',
+        valor_maximo=None,
+        valor_minimo=None,
+        text_anotation='',
+        orientation='h',
+        tickfont=None,
+        hovertemplate='<b>Dia Publicação:</b> %{x}<b>Vídeo %{y}',
+        category_orders={'ID_VIDEO': dataframe['ID_VIDEO'].tolist()}
+    )
+
+    metricas_titulos = {
+        'TOTAL_VISUALIZACOES': 'TOP 10 vídeos com mais visualizações',
+        'TOTAL_COMENTARIOS': 'TOP 10 vídeos com mais comentários',
+        'TOTAL_LIKES': 'TOP 10 vídeos com mais likes'
+    }
+
+    titulo = metricas_titulos.get(metricas)
+    return fig, titulo
 
 
 layout = gerar_layout_dashboard()
