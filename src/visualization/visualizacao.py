@@ -17,6 +17,7 @@ class Visualizacao:
             self,
             coluna_x: str,
             coluna_y: str,
+            orientation: str,
             valor_maximo: float = None,
             valor_minimo: float = None,
             text_anotation: str = None,
@@ -38,6 +39,7 @@ class Visualizacao:
             y=coluna_y,
             text_auto='0',
             color=param_color,
+            orientation=orientation
         )
         fig.update_layout(
             xaxis_tickformat='%d/%m/%Y',

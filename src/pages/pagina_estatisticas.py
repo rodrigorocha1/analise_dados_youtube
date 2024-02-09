@@ -10,6 +10,7 @@ import dash_bootstrap_components as dbc
 from dash import html, dcc, callback, Output, Input
 from src.dados.gerador_consulta import GeradorConsulta
 from src.visualization.visualizacao import Visualizacao
+from datetime import date
 
 dash.register_page(__name__, name="Analise Assunto", path='/')
 
@@ -49,6 +50,42 @@ def gerar_layout_videos_publicados():
             id='id_titulo_video_publicado'
         ),
         dcc.Graph('id_video_publicado')
+    ]
+
+
+def gerar_top_dez_desempenho():
+    return [
+        html.H5('Teste', id='id_titulo_top_dez',
+                className='class_titulo_grafico'),
+        dbc.RadioItems(
+            inline=True,
+            value='TOTAL_VISUALIZACOES',
+            options=[
+                {
+                    'label': 'Visualizações',
+                    'value': 'TOTAL_VISUALIZACOES'
+                },
+                {
+                    'label': 'Comentários',
+                    'value': 'TOTAL_COMENTARIOS'
+                },
+                {
+                    'label': 'Likes',
+                    'value': 'TOTAL_LIKES'
+                },
+
+            ],
+            id='id_input_top_dez',
+            className='class_input_select'
+        ),
+        dcc.DatePickerSingle(
+            date='2024-01-20',
+            display_format='DD/MM/YYYY',
+            max_date_allowed=date(2024, 1, 23),
+            min_date_allowed=date(2024, 1, 17),
+            id='id_input_data_top_dez'
+        ),
+        dcc.Graph(id='id_grafico_top_dez')
     ]
 
 
@@ -139,6 +176,7 @@ def gerar_layout_dashboard():
                     ),
                     dbc.Col(
                         html.Div(
+                            gerar_top_dez_desempenho(),
                             id='id_div_segunda_linha_terceira_coluna_input_dashboard',
                             className='class_div_segunda_linha_terceira_coluna_input_dashboard'
 
@@ -205,6 +243,7 @@ def gerar_desempenho(assunto: str, desempenho: str):
         valor_minimo=valor_minimo,
         text_anotation='teste',
         tickfont=tickfont,
+        orientation='v',
         hovertemplate=hovertemplate
     )
     return fig
@@ -219,7 +258,7 @@ def gerar_publicacao_video(assunto: str):
     columns = ['DATA_PUBLICACAO', 'ASSUNTO', 'ID_VIDEO']
     gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=columns)
     dataframe = gerador_consulta.gerar_publicacao_video(assunto=assunto)
-    
+
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_grafico_de_barras(
         coluna_x='DIA_PUBLICACAO',
@@ -227,10 +266,18 @@ def gerar_publicacao_video(assunto: str):
         valor_maximo=None,
         valor_minimo=None,
         text_anotation='Teste',
+        orientation='v',
         tickfont=None,
         hovertemplate='<b>Dia Publicação:</b> %{x}<b>Total Vídeos Públicados: %{y}'
     )
     return fig
+
+# @callback(
+#     Output('id_grafico_top_dez', 'figure'),
+#     Output('id_titulo_top_dez', 'children'),
+#     Input('id_select_assunto', 'value'),
+
+# )
 
 
 layout = gerar_layout_dashboard()

@@ -21,13 +21,15 @@
     padding: 10px;
 }
 
-.class_titulo_primeira_linha {
+.class_titulo_primeira_linha,
+.class_input_select {
     text-align: center;
 }
 
 #id_select_assunto,
 #id_titulo_comparacao_video,
 #id_input_desempenho,
-#id_titulo_video_publicado {
+#id_titulo_video_publicado,
+.class_titulo_grafico {
     text-align: center;
 }
