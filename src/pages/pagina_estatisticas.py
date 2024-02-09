@@ -92,7 +92,7 @@ def gerar_top_dez_desempenho():
 def gerar_desempenho_video_dia():
     return (
         [
-            html.H5('Desempenho Vídeo (Likes/ Comentários/ Visualizações)',
+            html.H5('Desempenho Vídeo e canal (Likes/ Comentários/ Visualizações)',
                     className='class_titulo_grafico')
         ]
     )
