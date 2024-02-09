@@ -25,20 +25,6 @@ class GeradorConsulta:
             'Sunday': 'Domingo'
         }
 
-    @staticmethod
-    def obter_indice_semana(dia: str) -> int:
-        dias_semana = {
-            'Domingo': 1,
-            'Segunda-feira': 2,
-            'Terça-feira': 3,
-            'Quarta-feira': 4,
-            'Quinta-feira': 5,
-            'Sexta-feira': 6,
-            'Sábado': 7
-        }
-
-        return dias_semana.get(dia)
-
     def gerar_desempenho_dia(self, assunto: str, coluna_analise: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 
         dataframe = self.__dataframe.query(f'ASSUNTO == "{assunto}"')
