@@ -15,6 +15,29 @@ class GeradorConsulta:
 
         self.__dataframe = pd.read_parquet(
             self.__caminho_completo, columns=self.__colunas)
+        self.__traducao = {
+            'Monday': 'Segunda-feira',
+            'Tuesday': 'Terça-feira',
+            'Wednesday': 'Quarta-feira',
+            'Thursday': 'Quinta-feira',
+            'Friday': 'Sexta-feira',
+            'Saturday': 'Sábado',
+            'Sunday': 'Domingo'
+        }
+
+    @staticmethod
+    def obter_indice_semana(dia: str) -> int:
+        dias_semana = {
+            'Domingo': 1,
+            'Segunda-feira': 2,
+            'Terça-feira': 3,
+            'Quarta-feira': 4,
+            'Quinta-feira': 5,
+            'Sexta-feira': 6,
+            'Sábado': 7
+        }
+
+        return dias_semana.get(dia)
 
     def gerar_desempenho_dia(self, assunto: str, coluna_analise: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 
@@ -58,3 +81,23 @@ class GeradorConsulta:
         max_value = dataframe['TOTAL_MAX_DIA'].max()
 
         return dataframe, top_dez_asc, top_dez_desc, min_value, max_value
+
+    def gerar_publicacao_video(self, assunto: str) -> pd.DataFrame:
+        base = self.__dataframe.query(
+            f'ASSUNTO == "{assunto}"')
+
+        base['DATA_PUBLICACAO'] = pd.to_datetime(
+            base['DATA_PUBLICACAO']).dt.date
+        base['DIA_PUBLICACAO'] = pd.to_datetime(
+            base['DATA_PUBLICACAO']).dt.day_name()
+        base['INDEX_DIA_PUBLICACAO'] = pd.to_datetime(
+            base['DATA_PUBLICACAO']).dt.day_of_week
+        base['DIA_PUBLICACAO'] = base['DIA_PUBLICACAO'].map(
+            self.__traducao)
+        base = base.drop_duplicates()
+        base = base.groupby(['DIA_PUBLICACAO', 'INDEX_DIA_PUBLICACAO']) \
+            .agg(
+            TOTAL_VIDEOS_PUBLICADOS=('ID_VIDEO', 'count')
+        ).sort_values(by='INDEX_DIA_PUBLICACAO').reset_index()
+        print(base)
+        return base

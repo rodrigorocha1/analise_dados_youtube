@@ -17,17 +17,27 @@ class Visualizacao:
             self,
             coluna_x: str,
             coluna_y: str,
-            valor_maximo: float,
-            valor_minimo: float,
-            text_anotation: str
+            valor_maximo: float = None,
+            valor_minimo: float = None,
+            text_anotation: str = None,
+            color: bool = True,
+            tickfont: str = None,
+            hovertemplate: str = None,
+            text_update_traces: str = None
     ):
+        if color:
+
+            param_color = self.__df_resultado[coluna_y].apply(
+                lambda x: 'blue' if x == valor_minimo else ('green' if x == valor_maximo else 'red'))
+        else:
+            param_color = None
+
         fig = px.bar(
             self.__df_resultado,
             x=coluna_x,
             y=coluna_y,
             text_auto='0',
-            color=self.__df_resultado[coluna_y].apply(
-                lambda x: 'blue' if x == valor_minimo else ('green' if x == valor_maximo else 'red')),
+            color=param_color,
         )
         fig.update_layout(
             xaxis_tickformat='%d/%m/%Y',
@@ -56,8 +66,7 @@ class Visualizacao:
             showarrow=False
         )
         fig.update_traces(
-            hovertemplate='<b>DATA</b>: %{x}'
-            '<br>Total Visualizações dia: %{y}',
-            text='None'
+            hovertemplate=hovertemplate,
+            text=text_update_traces
         )
         return fig

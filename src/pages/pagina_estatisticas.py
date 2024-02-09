@@ -187,7 +187,6 @@ def gerar_layout_dashboard():
     Input('id_input_desempenho', 'value')
 )
 def gerar_desempenho(assunto: str, desempenho: str):
-    print('assunto', assunto, 'desempenho', desempenho)
     nome_arquivo = 'dados_tratado_estatisticas_gerais.parquet'
     columns = ['ASSUNTO', 'data_extracao', 'ID_VIDEO',
                desempenho, 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO']
@@ -195,10 +194,42 @@ def gerar_desempenho(assunto: str, desempenho: str):
 
     dataframe, top_dez_max, top_dez_min, valor_maximo, valor_minimo = gerador_consulta.gerar_desempenho_dia(
         assunto=assunto, coluna_analise=desempenho)
-    print(dataframe)
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    tickfont = '%d/%m/%Y',
+    hovertemplate = '<b>DATA</b>: %{x}<br>Total Visualizações dia: %{y}'
+
+    fig = visualizacao.gerar_grafico_de_barras(
+        coluna_x='data_extracao',
+        coluna_y='TOTAL_MAX_DIA',
+        valor_maximo=valor_maximo,
+        valor_minimo=valor_minimo,
+        text_anotation='teste',
+        tickfont=tickfont,
+        hovertemplate=hovertemplate
+    )
+    return fig
+
+
+@callback(
+    Output('id_video_publicado', 'figure'),
+    Input('id_select_assunto', 'value'),
+)
+def gerar_publicacao_video(assunto: str):
+    nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
+    columns = ['DATA_PUBLICACAO', 'ASSUNTO', 'ID_VIDEO']
+    gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=columns)
+    dataframe = gerador_consulta.gerar_publicacao_video(assunto=assunto)
+    
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_grafico_de_barras(
-        coluna_x='data_extracao', coluna_y='TOTAL_MAX_DIA', valor_maximo=valor_maximo, valor_minimo=valor_minimo, text_anotation='teste')
+        coluna_x='DIA_PUBLICACAO',
+        coluna_y='TOTAL_VIDEOS_PUBLICADOS',
+        valor_maximo=None,
+        valor_minimo=None,
+        text_anotation='Teste',
+        tickfont=None,
+        hovertemplate='<b>Dia Publicação:</b> %{x}<b>Total Vídeos Públicados: %{y}'
+    )
     return fig
 
 
