@@ -7,14 +7,20 @@ import numpy as np
 class GeradorConsulta:
     def __init__(self, arquivo: str, colunas: List[str]) -> None:
         self.__caminho_dataframe = os.getcwd()
-
         self.__arquivo = arquivo
         self.__colunas = colunas
         self.__caminho_completo = os.path.join(
-            self.__caminho_dataframe, 'dados', 'ouro', self.__arquivo)
+            self.__caminho_dataframe,
+            'dados',
+            'ouro',
+            self.__arquivo
+        )
 
         self.__dataframe = pd.read_parquet(
-            self.__caminho_completo, columns=self.__colunas)
+            self.__caminho_completo,
+            columns=self.__colunas
+        )
+
         self.__traducao = {
             'Monday': 'Segunda-feira',
             'Tuesday': 'Terça-feira',
@@ -85,5 +91,4 @@ class GeradorConsulta:
             .agg(
             TOTAL_VIDEOS_PUBLICADOS=('ID_VIDEO', 'count')
         ).sort_values(by='INDEX_DIA_PUBLICACAO').reset_index()
-        print(base)
         return base
