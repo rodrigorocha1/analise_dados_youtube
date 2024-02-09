@@ -292,7 +292,7 @@ def gerar_publicacao_video(assunto: str):
 
 )
 def gerar_top_dez(assunto: str, data: str, metricas: str):
-    print(metricas)
+
     columns = ['data_extracao', 'ASSUNTO', 'ID_VIDEO',
                metricas, 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO']
     nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
@@ -300,7 +300,7 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
     dataframe = gerador_consulta.gerar_top_dez(
         assunto=assunto, data=data, metrica=metricas)
     visualizacao = Visualizacao(df_resultado=dataframe)
-    print(dataframe)
+
     fig = visualizacao.gerar_grafico_de_barras(
         coluna_x='TOTAL',
         coluna_y='ID_VIDEO',
