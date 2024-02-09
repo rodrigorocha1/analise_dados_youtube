@@ -89,6 +89,15 @@ def gerar_top_dez_desempenho():
     ]
 
 
+def gerar_desempenho_video_dia():
+    return (
+        [
+            html.H5('Desempenho Vídeo (Likes/ Comentários/ Visualizações)',
+                    className='class_titulo_grafico')
+        ]
+    )
+
+
 def gerar_layout_dashboard():
     return html.Div(
         [
@@ -193,6 +202,7 @@ def gerar_layout_dashboard():
                 [
                     dbc.Col(
                         html.Div(
+                            gerar_desempenho_video_dia(),
                             id='id_div_terceira_linha_primeira_coluna_dashboard',
                             className='class_div_terceira_linha_primeira_coluna_dashboard'
                         ),
