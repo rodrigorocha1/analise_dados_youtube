@@ -12,6 +12,7 @@ from src.dados.gerador_consulta import GeradorConsulta
 from src.visualization.visualizacao import Visualizacao
 from datetime import date
 from src.dados.depara import Depara
+from typing import List
 
 dash.register_page(__name__, name="Analise Assunto", path='/')
 
@@ -90,7 +91,7 @@ def gerar_top_dez_desempenho():
     ]
 
 
-def gerar_desempenho_canal_dia():
+def gerar_layout_desempenho_canal_dia():
     return (
         [
             html.H5('Desempenho canal por dia (Likes/ Comentários/ Visualizações)',
@@ -101,7 +102,8 @@ def gerar_desempenho_canal_dia():
                 className='class_input_canal',
                 style={'backgroundColor': 'black', 'color': 'white'},
                 placeholder='Escolha o Canal'
-            )
+            ),
+            dcc.Graph(id='id_grafico_desempenho_canal_dia')
         ]
     )
 
@@ -210,7 +212,7 @@ def gerar_layout_dashboard():
                 [
                     dbc.Col(
                         html.Div(
-                            gerar_desempenho_canal_dia(),
+                            gerar_layout_desempenho_canal_dia(),
                             id='id_div_terceira_linha_primeira_coluna_dashboard',
                             className='class_div_terceira_linha_primeira_coluna_dashboard'
                         ),
@@ -342,6 +344,27 @@ def gerar_input_assunto_canal(assunto: str):
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_canal = depara.abrir_picke(param_filtro=assunto)
     return inputs_canal, inputs_canal[0]['label']
+
+
+@callback(
+    Output('id_grafico_desempenho_canal_dia', 'figure'),
+    Input('id_select_canal', 'value')
+)
+def gerar_desempenho_canal_dia(canal: str | List):
+   
+
+    nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
+    metrica = 'TOTAL_LIKES'
+    colunas = ['ID_CANAL', 'NM_CANAL', 'data_extracao', 'ID_VIDEO',
+               'TURNO_EXTRACAO', metrica, 'INDICE_TURNO_EXTRACAO']
+    gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
+    dataframe = gerador_consulta.gerar_desempenho_canal(
+        id_canal=canal, metrica=metrica)
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    fig = visualizacao.gerar_grafico_linha(
+        coluna_x='data_extracao', coluna_y='TOTAL_DIA', color='ID_CANAL')
+
+    return fig
 
 
 layout = gerar_layout_dashboard()

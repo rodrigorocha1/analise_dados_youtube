@@ -76,3 +76,8 @@ class Visualizacao:
             text=text_update_traces
         )
         return fig
+
+    def gerar_grafico_linha(self, coluna_x, coluna_y, color):
+        fig = px.line(self.__df_resultado, x=coluna_x,
+                      y=coluna_y, color=color)
+        return fig

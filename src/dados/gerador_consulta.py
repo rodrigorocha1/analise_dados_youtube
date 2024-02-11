@@ -111,3 +111,29 @@ class GeradorConsulta:
 
         base = base.nlargest(10, columns=['TOTAL'])
         return base
+
+    def gerar_desempenho_canal(self, id_canal: List | str, metrica: str) -> pd.DataFrame:
+        if isinstance(id_canal, List):
+            query = f'ID_CANAL in {id_canal}'
+        else:
+            query = f'ID_CANAL == "{id_canal}"'
+        print(query)
+        base_canal = self.__dataframe.query(query)
+        base_canal[['ID_CANAL', 'NM_CANAL', 'ID_VIDEO', 'TURNO_EXTRACAO', ]] = base_canal[[
+            'ID_CANAL', 'NM_CANAL', 'ID_VIDEO', 'TURNO_EXTRACAO']].astype('string')
+
+        base_canal['data_extracao'] = pd.to_datetime(
+            base_canal['data_extracao'], format='%Y-%m-%d').dt.date
+        base_canal = base_canal.groupby(['data_extracao', 'ID_CANAL', 'NM_CANAL']) \
+            .agg(TOTAL=(metrica, 'max')).reset_index().sort_values(by=['NM_CANAL'])
+        base_canal['TOTAL_DESLOCADO'] = (
+            base_canal.groupby('NM_CANAL')['TOTAL'].shift(1))
+        base_canal.fillna(0, axis=1, inplace=True)
+        base_canal[['TOTAL_DESLOCADO', 'TOTAL']] = base_canal[[
+            'TOTAL_DESLOCADO', 'TOTAL']].astype('float32')
+        base_canal[['data_extracao', 'ID_CANAL',  'NM_CANAL']] = base_canal[[
+            'data_extracao', 'ID_CANAL', 'NM_CANAL']].astype('string')
+        base_canal['TOTAL_DIA'] = base_canal['TOTAL'] - \
+            base_canal['TOTAL_DESLOCADO']
+        base_canal.drop(['TOTAL', 'TOTAL_DESLOCADO'], axis=1, inplace=True)
+        return base_canal
