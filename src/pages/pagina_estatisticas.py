@@ -103,6 +103,27 @@ def gerar_layout_desempenho_canal_dia():
                 style={'backgroundColor': 'black', 'color': 'white'},
                 placeholder='Escolha o Canal'
             ),
+            dbc.RadioItems(
+                inline=True,
+                value='TOTAL_VISUALIZACOES',
+                options=[
+                    {
+                        'label': 'Visualizações',
+                        'value': 'TOTAL_VISUALIZACOES'
+                    },
+                    {
+                        'label': 'Comentários',
+                        'value': 'TOTAL_COMENTARIOS'
+                    },
+                    {
+                        'label': 'Likes',
+                        'value': 'TOTAL_LIKES'
+                    },
+
+                ],
+                id='id_input_desempenho_canal',
+                className='class_input_select'
+            ),
             dcc.Graph(id='id_grafico_desempenho_canal_dia')
         ]
     )
@@ -348,12 +369,12 @@ def gerar_input_assunto_canal(assunto: str):
 
 @callback(
     Output('id_grafico_desempenho_canal_dia', 'figure'),
-    Input('id_select_canal', 'value')
+    Input('id_select_canal', 'value'),
+    Input('id_input_desempenho_canal', 'value')
 )
-def gerar_desempenho_canal_dia(canal: str | List):
+def gerar_desempenho_canal_dia(canal: str | List, metrica: str):
 
     nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
-    metrica = 'TOTAL_LIKES'
     colunas = ['ID_CANAL', 'NM_CANAL', 'data_extracao', 'ID_VIDEO',
                'TURNO_EXTRACAO', metrica, 'INDICE_TURNO_EXTRACAO']
     gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
