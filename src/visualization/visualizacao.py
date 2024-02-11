@@ -19,6 +19,7 @@ class Visualizacao:
             coluna_x: str,
             coluna_y: str,
             orientation: str,
+            height: int = 400,
             valor_maximo: float = None,
             valor_minimo: float = None,
             text_anotation: str = None,
@@ -26,7 +27,8 @@ class Visualizacao:
             tickfont: str = None,
             hovertemplate: str = None,
             text_update_traces: str = None,
-            category_orders: Dict = None
+            category_orders: Dict = None,
+
     ):
         if color:
 
@@ -42,7 +44,8 @@ class Visualizacao:
             text_auto='0',
             color=param_color,
             orientation=orientation,
-            category_orders=category_orders
+            category_orders=category_orders,
+            height=height
         )
         fig.update_layout(
             xaxis_tickformat='%d/%m/%Y',
@@ -77,7 +80,7 @@ class Visualizacao:
         )
         return fig
 
-    def gerar_grafico_linha(self, coluna_x, coluna_y, color):
+    def gerar_grafico_linha(self, coluna_x: str, coluna_y: str, color: str, altura_grafico: int):
         fig = px.line(self.__df_resultado, x=coluna_x,
-                      y=coluna_y, color=color)
+                      y=coluna_y, color=color, height=altura_grafico)
         return fig

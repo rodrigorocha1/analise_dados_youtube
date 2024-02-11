@@ -117,7 +117,6 @@ class GeradorConsulta:
             query = f'ID_CANAL in {id_canal}'
         else:
             query = f'ID_CANAL == "{id_canal}"'
-        print(query)
         base_canal = self.__dataframe.query(query)
         base_canal[['ID_CANAL', 'NM_CANAL', 'ID_VIDEO', 'TURNO_EXTRACAO', ]] = base_canal[[
             'ID_CANAL', 'NM_CANAL', 'ID_VIDEO', 'TURNO_EXTRACAO']].astype('string')

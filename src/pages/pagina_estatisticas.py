@@ -137,15 +137,27 @@ def gerar_layout_desempenho_video():
             className='class_titulo_grafico'
         ),
         dbc.Row(
+            dbc.Select(
+                id='id_select_canal_video',
+                className='class_input_canal',
+                style={'backgroundColor': 'black',
+                       'color': 'white'},
+                placeholder='Escolha o Canal',
+            ),
+            id='id_linha_desempenho_canal',
+            class_name='class_inputs_desempenho'
+        ),
+        dbc.Row(
             [
                 dcc.Dropdown(
-                    id='id_select_canal_video',
-                    className='class_input_canal',
-                    style={'backgroundColor': 'black', 'color': 'white'},
-                    placeholder='Escolha o Canal',
-                ),
-                dcc.Dropdown(id='id_desempenho_video',  style={
-                             'backgroundColor': 'black', 'color': 'white'},)
+                    id='id_desempenho_video',
+                    style={
+                       'backgroundColor': 'black',
+
+                    },
+                    multi=True,
+                )
+
             ],
             id='id_linha_inputs_desempenho_video',
             class_name='class_inputs_video'
