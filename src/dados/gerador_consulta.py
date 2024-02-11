@@ -136,3 +136,22 @@ class GeradorConsulta:
             base_canal['TOTAL_DESLOCADO']
         base_canal.drop(['TOTAL', 'TOTAL_DESLOCADO'], axis=1, inplace=True)
         return base_canal
+
+    def gerar_desempenho_video(self, id_video: str | List):
+        if isinstance(id_video, List):
+            query = f'ID_VIDEO in {id_video}'
+        else:
+            query = f'ID_VIDEO == "{id_video}"'
+        base_video = self.__dataframe.query(query)
+
+        base_video = base_video.groupby(['data_extracao', 'ID_VIDEO', 'TITULO_VIDEO']) \
+            .agg(
+            TOTAL=('TOTAL_LIKES', 'max')
+        ).reset_index()
+        base_video['TOTAL_DESLOCADO'] = base_video['TOTAL'].shift(1)
+
+        base_video.fillna(0, inplace=True)
+        base_video['TOTAL_DIA'] = base_video['TOTAL'] - \
+            base_video['TOTAL_DESLOCADO']
+        base_video.drop(['TOTAL_DESLOCADO', 'TOTAL'], axis=1, inplace=True)
+        return base_video

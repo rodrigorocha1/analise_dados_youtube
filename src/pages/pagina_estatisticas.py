@@ -161,7 +161,8 @@ def gerar_layout_desempenho_video():
             ],
             id='id_linha_inputs_desempenho_video',
             class_name='class_inputs_video'
-        )
+        ),
+        dcc.Graph(id='id_grafico_desempenho_video')
     ]
 
 
@@ -445,6 +446,29 @@ def gerar_input_canal_video(canal: str):
     inputs_video = depara.abrir_picke(param_filtro=canal)
 
     return inputs_video
+
+
+@callback(
+    Output('id_grafico_desempenho_video', 'figure'),
+    Input('id_desempenho_video', 'value'),
+)
+def gerar_desempenho_video(video: str | List):
+
+    metrica = 'TOTAL_LIKES'
+    nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
+    colunas = ['data_extracao', 'ID_VIDEO', 'TITULO_VIDEO',
+               'TURNO_EXTRACAO', metrica, 'INDICE_TURNO_EXTRACAO']
+    gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
+    dataframe = gerador_consulta.gerar_desempenho_video(id_video=video)
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    print('gerar_desempenho_video -> Vídeo', video)
+    fig = visualizacao.gerar_grafico_linha(
+        coluna_x='data_extracao',
+        coluna_y='TOTAL_DIA',
+        color='ID_VIDEO',
+        altura_grafico=300
+    )
+    return fig
 
 
 layout = gerar_layout_dashboard()
