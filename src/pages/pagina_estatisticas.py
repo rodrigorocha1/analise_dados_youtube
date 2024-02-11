@@ -13,7 +13,7 @@ from src.visualization.visualizacao import Visualizacao
 from datetime import date
 from src.dados.depara import Depara
 from typing import List
-
+from dash.exceptions import PreventUpdate
 dash.register_page(__name__, name="Analise Assunto", path='/')
 
 
@@ -127,6 +127,30 @@ def gerar_layout_desempenho_canal_dia():
             dcc.Graph(id='id_grafico_desempenho_canal_dia')
         ]
     )
+
+
+def gerar_layout_desempenho_video():
+    return [
+        html.H5(
+            'Desempenho Vídeo',
+            id='id_titulo_desempenho_video',
+            className='class_titulo_grafico'
+        ),
+        dbc.Row(
+            [
+                dcc.Dropdown(
+                    id='id_select_canal_video',
+                    className='class_input_canal',
+                    style={'backgroundColor': 'black', 'color': 'white'},
+                    placeholder='Escolha o Canal',
+                ),
+                dcc.Dropdown(id='id_desempenho_video',  style={
+                             'backgroundColor': 'black', 'color': 'white'},)
+            ],
+            id='id_linha_inputs_desempenho_video',
+            class_name='class_inputs_video'
+        )
+    ]
 
 
 def gerar_layout_dashboard():
@@ -243,6 +267,7 @@ def gerar_layout_dashboard():
                     ),
                     dbc.Col(
                         html.Div(
+                            gerar_layout_desempenho_video(),
                             id='id_div_terceira_linha_segunda_coluna_dashboard',
                             className='class_div_terceira_linha_segunda_coluna_dashboard'
                         ),
@@ -285,7 +310,8 @@ def gerar_desempenho(assunto: str, desempenho: str):
         text_anotation='teste',
         tickfont=tickfont,
         orientation='v',
-        hovertemplate=hovertemplate
+        hovertemplate=hovertemplate,
+        height=400
     )
     return fig
 
@@ -309,7 +335,8 @@ def gerar_publicacao_video(assunto: str):
         text_anotation='Teste',
         orientation='v',
         tickfont=None,
-        hovertemplate='<b>Dia Publicação:</b> %{x}<b>Total Vídeos Públicados: %{y}'
+        hovertemplate='<b>Dia Publicação:</b> %{x}<b>Total Vídeos Públicados: %{y}',
+        height=400
     )
     return fig
 
@@ -341,7 +368,8 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
         orientation='h',
         tickfont=None,
         hovertemplate='<b>Dia Publicação:</b> %{x}<b>Vídeo %{y}',
-        category_orders={'ID_VIDEO': dataframe['ID_VIDEO'].tolist()}
+        category_orders={'ID_VIDEO': dataframe['ID_VIDEO'].tolist()},
+        height=350
     )
 
     metricas_titulos = {
@@ -356,15 +384,17 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
 
 @callback(
     Output('id_select_canal', 'options'),
-    Output('id_select_canal', 'value'),
+    Output('id_select_canal_video', 'options'),
+
     Input('id_select_assunto', 'value')
 )
 def gerar_input_assunto_canal(assunto: str):
-    nome_arquivo = 'inputs_assunto_canal_cript.pkl'
+    # nome_arquivo = 'inputs_assunto_canal_cript.pkl'
+    nome_arquivo = 'inputs_assunto_canal_rev.pkl'
     path_pasta = 'outros'
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_canal = depara.abrir_picke(param_filtro=assunto)
-    return inputs_canal, inputs_canal[0]['label']
+    return inputs_canal, inputs_canal
 
 
 @callback(
@@ -382,9 +412,27 @@ def gerar_desempenho_canal_dia(canal: str | List, metrica: str):
         id_canal=canal, metrica=metrica)
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_grafico_linha(
-        coluna_x='data_extracao', coluna_y='TOTAL_DIA', color='ID_CANAL')
+        coluna_x='data_extracao', coluna_y='TOTAL_DIA', color='ID_CANAL', altura_grafico=350)
 
     return fig
+
+
+@callback(
+    Output('id_desempenho_video', 'options'),
+    Input('id_select_canal_video', 'value'),
+)
+def gerar_input_canal_video(canal: str):
+
+    if canal is None:
+        raise PreventUpdate
+    # canal = 'UCMqGy4xIIGs01ZVcBv0B8Cw'
+
+    nome_arquivo = 'dic_inputs_video_revelado.pkl'
+    path_pasta = 'outros'
+    depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
+    inputs_video = depara.abrir_picke(param_filtro=canal)
+
+    return inputs_video
 
 
 layout = gerar_layout_dashboard()
