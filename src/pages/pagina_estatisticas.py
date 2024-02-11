@@ -99,7 +99,8 @@ def gerar_desempenho_canal_dia():
                 id='id_select_canal',
                 multi=True,
                 className='class_input_canal',
-                style={'backgroundColor': 'black', 'color': 'white'}
+                style={'backgroundColor': 'black', 'color': 'white'},
+                placeholder='Escolha o Canal'
             )
         ]
     )
@@ -340,7 +341,6 @@ def gerar_input_assunto_canal(assunto: str):
     path_pasta = 'outros'
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_canal = depara.abrir_picke(param_filtro=assunto)
-
     return inputs_canal, inputs_canal[0]['label']
 
 

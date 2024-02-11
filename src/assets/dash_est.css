@@ -33,3 +33,8 @@
 .class_titulo_grafico {
     text-align: center;
 }
+
+.Select-menu-outer {
+    background-color: black;
+    color: white;
+}
