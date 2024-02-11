@@ -11,6 +11,7 @@ from dash import html, dcc, callback, Output, Input
 from src.dados.gerador_consulta import GeradorConsulta
 from src.visualization.visualizacao import Visualizacao
 from datetime import date
+from src.dados.depara import Depara
 
 dash.register_page(__name__, name="Analise Assunto", path='/')
 
@@ -89,11 +90,17 @@ def gerar_top_dez_desempenho():
     ]
 
 
-def gerar_desempenho_video_dia():
+def gerar_desempenho_canal_dia():
     return (
         [
-            html.H5('Desempenho Vídeo e canal (Likes/ Comentários/ Visualizações)',
-                    className='class_titulo_grafico')
+            html.H5('Desempenho canal por dia (Likes/ Comentários/ Visualizações)',
+                    className='class_titulo_grafico'),
+            dbc.Select(
+                id='id_select_canal',
+                class_name='class_select_canal',
+                style={'color': 'white', 'background-color': 'black'},
+                value=[0]
+            )
         ]
     )
 
@@ -202,7 +209,7 @@ def gerar_layout_dashboard():
                 [
                     dbc.Col(
                         html.Div(
-                            gerar_desempenho_video_dia(),
+                            gerar_desempenho_canal_dia(),
                             id='id_div_terceira_linha_primeira_coluna_dashboard',
                             className='class_div_terceira_linha_primeira_coluna_dashboard'
                         ),
@@ -321,6 +328,19 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
 
     titulo = metricas_titulos.get(metricas)
     return fig, titulo
+
+
+@callback(
+    Output('id_select_canal', 'options'),
+    Input('id_select_assunto', 'value')
+)
+def gerar_input_assunto_canal(assunto: str):
+    nome_arquivo = 'inputs_assunto_canal_rev.pkl'
+    path_pasta = 'outros'
+    depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
+    inputs_canal = depara.abrir_picke(param_filtro=assunto)
+
+    return inputs_canal
 
 
 layout = gerar_layout_dashboard()
