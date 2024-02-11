@@ -351,7 +351,6 @@ def gerar_input_assunto_canal(assunto: str):
     Input('id_select_canal', 'value')
 )
 def gerar_desempenho_canal_dia(canal: str | List):
-   
 
     nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
     metrica = 'TOTAL_LIKES'
