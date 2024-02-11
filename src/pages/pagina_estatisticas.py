@@ -95,11 +95,11 @@ def gerar_desempenho_canal_dia():
         [
             html.H5('Desempenho canal por dia (Likes/ Comentários/ Visualizações)',
                     className='class_titulo_grafico'),
-            dbc.Select(
+            dcc.Dropdown(
                 id='id_select_canal',
-                class_name='class_select_canal',
-                style={'color': 'white', 'background-color': 'black'},
-                value=[0]
+                multi=True,
+                className='class_input_canal',
+                style={'backgroundColor': 'black', 'color': 'white'}
             )
         ]
     )
@@ -332,15 +332,16 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
 
 @callback(
     Output('id_select_canal', 'options'),
+    Output('id_select_canal', 'value'),
     Input('id_select_assunto', 'value')
 )
 def gerar_input_assunto_canal(assunto: str):
-    nome_arquivo = 'inputs_assunto_canal_rev.pkl'
+    nome_arquivo = 'inputs_assunto_canal_cript.pkl'
     path_pasta = 'outros'
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_canal = depara.abrir_picke(param_filtro=assunto)
 
-    return inputs_canal
+    return inputs_canal, inputs_canal[0]['label']
 
 
 layout = gerar_layout_dashboard()
