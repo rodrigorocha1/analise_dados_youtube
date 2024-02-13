@@ -96,9 +96,9 @@ def gerar_layout_desempenho_canal_dia():
         [
             html.H5('Desempenho canal por dia (Likes/ Comentários/ Visualizações)',
                     className='class_titulo_grafico'),
-            dcc.Dropdown(
+            dbc.Select(
                 id='id_select_canal_desempenho',
-                multi=True,
+
                 className='class_input_canal',
                 style={'backgroundColor': 'black', 'color': 'white'},
                 placeholder='Escolha o Canal'
@@ -139,12 +139,11 @@ def gerar_layout_desempenho_video():
 
         dbc.Row(
             [
-                dcc.Dropdown(
+                dbc.Select(
                     id='id_desempenho_video',
                     style={
                        'backgroundColor': 'black',
                     },
-                    multi=True,
                 )
             ],
             id='id_linha_inputs_desempenho_video',
@@ -494,8 +493,7 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
 
 @callback(
     Output('id_select_canal_desempenho', 'options'),
-
-
+    Output('id_select_canal_desempenho', 'value'),
     Input('id_select_assunto', 'value')
 )
 def gerar_input_assunto_canal(assunto: str):
@@ -504,7 +502,8 @@ def gerar_input_assunto_canal(assunto: str):
     path_pasta = 'outros'
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_canal = depara.abrir_picke(param_filtro=assunto)
-    return inputs_canal
+    print(inputs_canal[0]['label'])
+    return inputs_canal, inputs_canal[0]['label']
 
 
 @callback(
@@ -529,6 +528,7 @@ def gerar_desempenho_canal_dia(canal: str | List, metrica: str):
 
 @callback(
     Output('id_desempenho_video', 'options'),
+    Output('id_desempenho_video', 'value'),
     Input('id_select_assunto', 'value')
 )
 def gerar_input_canal_video(assunto: str):
@@ -542,7 +542,7 @@ def gerar_input_canal_video(assunto: str):
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_video = depara.abrir_picke(param_filtro=assunto)
 
-    return inputs_video
+    return inputs_video, inputs_video[0]['label']
 
 
 @callback(
