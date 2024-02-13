@@ -578,4 +578,8 @@ def gerar_desempenho_video(video: str | List):
     return fig
 
 
+def gerar_top_dez_engajamento():
+    pass
+
+
 layout = gerar_layout_dashboard()
