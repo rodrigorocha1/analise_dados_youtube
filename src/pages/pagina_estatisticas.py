@@ -564,6 +564,7 @@ def gerar_desempenho_video(video: str | List):
     Input('id_input_data_top_dez_engaj_dia', 'date'),
 )
 def gerar_top_dez_engajamento(assunto: str, data: str):
+    print('gerar_top_dez_engajamento', data)
     colunas = ['data_extracao', 'ASSUNTO', 'ID_VIDEO', 'TURNO_EXTRACAO', 'TOTAL_LIKES',
                'TOTAL_COMENTARIOS', 'TOTAL_VISUALIZACOES', 'INDICE_TURNO_EXTRACAO', 'TOTAL_FAVORITOS']
     nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'

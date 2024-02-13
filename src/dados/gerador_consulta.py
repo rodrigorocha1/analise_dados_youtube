@@ -166,7 +166,7 @@ class GeradorConsulta:
 
     def gerar_top_dez_engagamento(self, assunto: str, data: str) -> pd.DataFrame:
         base_video = self.__dataframe.query(
-            'ASSUNTO == "assunto_cities_skylines" and data_extracao == "2024-01-23"')
+            f'ASSUNTO == "{assunto}" and data_extracao == "{data}"')
         base_video = base_video.groupby(['ID_VIDEO']) \
             .agg(
             TOTAL_LIKES=('TOTAL_LIKES', 'max'),
