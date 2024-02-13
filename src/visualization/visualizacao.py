@@ -87,6 +87,20 @@ class Visualizacao:
         return fig
 
     def gerar_tabela(self):
-        tabela = DataTable(self.__df_resultado.to_dict('records'),
-                           [{"name": i, "id": i} for i in self.__df_resultado.columns])
+        tabela = DataTable(
+            self.__df_resultado.to_dict('records'),
+            [{"name": i, "id": i}
+             for i in self.__df_resultado.columns],
+            style_table={'height': '400px',
+                         'overflowY': 'auto',
+                         'background-color': 'black'},
+            style_data={
+                'color': 'white',
+                'background-color': 'black'
+            },
+            style_header={
+                'color': 'white',
+                'background-color': 'black'
+            }
+        )
         return tabela
