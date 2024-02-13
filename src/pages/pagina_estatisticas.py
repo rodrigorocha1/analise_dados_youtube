@@ -189,7 +189,8 @@ def gerar_layout_duracao_video_engajamento():
             'Duração Vídeo X Engajamento ',
             id='id_titulo_popularidade',
             className='class_titulo_grafico'
-        )
+        ),
+        html.Div(id='id_div_layout_engajamento')
     ]
 
 
@@ -199,7 +200,8 @@ def gerar_layout_analise_palavra_chave_titulos():
             'Análise de palavras Chaves em títulos',
             id='id_titulo_palavra_chave',
             className='class_titulo_grafico'
-        )
+        ),
+        html.Div(id='id_div_tabela_popularidade_titulo')
     ]
 
 
@@ -360,7 +362,7 @@ def gerar_layout_dashboard():
                 [
                     dbc.Col(
                         html.Div(
-                            gerar_layout_analise_palavra_chave_titulos(),
+                            gerar_layout_duracao_video_engajamento(),
                             id='id_div_quinta_linha_primeira_coluna',
                             className='class_div_coluna'
                         ),
@@ -588,6 +590,22 @@ def gerar_popularidade_tags(assunto: str):
     gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
     dataframe = gerador_consulta.gerar_dataframe_popularidade_tags(
         assunto=assunto)
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    fig = visualizacao.gerar_tabela()
+    return fig
+
+
+@callback(
+    Output('id_div_tabela_popularidade_titulo', 'children'),
+    Input('id_select_assunto', 'value'),
+)
+def gerar_popularidade_titulo(assunto: str):
+    colunas = ['data_extracao', 'ASSUNTO', 'ID_VIDEO',
+               'TITULO_VIDEO', 'ID_CANAL', 'NM_CANAL']
+    nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
+    gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
+    dataframe = gerador_consulta.gerar_popularidade_titulo(assunto=assunto)
+    print(dataframe)
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_tabela()
     return fig

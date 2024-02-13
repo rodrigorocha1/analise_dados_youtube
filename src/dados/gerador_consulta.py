@@ -1,7 +1,10 @@
 import os
-from typing import List, Dict, Tuple
+from typing import List, Tuple
+import string
 import pandas as pd
 import numpy as np
+import spacy
+from unidecode import unidecode
 
 
 class GeradorConsulta:
@@ -30,6 +33,7 @@ class GeradorConsulta:
             'Saturday': 'Sábado',
             'Sunday': 'Domingo'
         }
+        self.__nlp = spacy.load("pt_core_news_sm")
 
     def gerar_desempenho_dia(self, assunto: str, coluna_analise: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 
@@ -217,3 +221,42 @@ class GeradorConsulta:
         base_video = pd.DataFrame(list(tags_populares.items()), columns=[
                                   'Tag', 'Frequência']).sort_values(by=['Frequência'], ascending=False)
         return base_video.nlargest(10, columns=['Frequência'])
+
+    def __remove_stop_words(self, sentence):
+        sentence = unidecode(sentence).strip().lower()
+        for c in string.punctuation:
+            sentence = sentence.replace(c, '')
+        doc = self.__nlp(sentence)
+        filtered_tokens = [token for token in doc if not token.is_stop]
+        palavras = list(filtered_tokens)
+        lista_palavras = [palava for palava in palavras if len(palava) > 1]
+        return lista_palavras
+
+    def gerar_popularidade_titulo(self, assunto: str):
+        base_video_canal = self.__dataframe.query(
+            f'ASSUNTO == "{assunto}" and data_extracao == "2024-01-23"  ')
+        base_video_canal.fillna('[]', inplace=True)
+        base_video_canal.drop_duplicates(inplace=True)
+        base_video_canal['TITULO_VIDEO'] = base_video_canal['TITULO_VIDEO'].str.replace(
+            r'[^\x00-\x7F]+', '', regex=True)
+
+        base_video_canal['TITULO_VIDEO'] = base_video_canal['TITULO_VIDEO'].astype(
+            'string')
+        base_video_canal['TITULO_VIDEO'] = base_video_canal['TITULO_VIDEO'].apply(
+            self.__remove_stop_words)
+
+        palavra_titulo_populares = {}
+
+        for palavras_titulo in base_video_canal['TITULO_VIDEO']:
+            for palavra_titulo in palavras_titulo:
+                palavra_titulo = str(palavra_titulo)
+                if not palavra_titulo.isdigit():
+                    if palavra_titulo in palavra_titulo_populares:
+                        palavra_titulo_populares[palavra_titulo] += 1
+                    else:
+                        palavra_titulo_populares[palavra_titulo] = 1
+
+        df_palavra_titulo_populares = pd.DataFrame(
+            list(palavra_titulo_populares.items()), columns=['Palavra', 'Quantidade'])
+
+        return df_palavra_titulo_populares.nlargest(10, columns='Quantidade')
