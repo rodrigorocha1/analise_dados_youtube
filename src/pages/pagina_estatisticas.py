@@ -156,10 +156,19 @@ def gerar_layout_desempenho_video():
 def gerar_layout_engajamento():
     return [
         html.H5(
-            'TOP 10 Análise engajamento',
+            'TOP 10 Análise engajamento DIA',
             id='id_titulo_engajamento',
             className='class_titulo_grafico'
-        )
+        ),
+        dcc.DatePickerSingle(
+            date='2024-01-20',
+            display_format='DD/MM/YYYY',
+            max_date_allowed=date(2024, 1, 23),
+            min_date_allowed=date(2024, 1, 17),
+            id='id_input_data_top_dez_engaj_dia'
+        ),
+        html.Div(id='id_div_tabela_top_dez_engaj')
+
     ]
 
 
@@ -548,8 +557,22 @@ def gerar_desempenho_video(video: str | List):
     return fig
 
 
+@callback(
+    Output('id_div_tabela_top_dez_engaj', 'children'),
+    Input('id_select_assunto', 'value'),
+    Input('id_input_data_top_dez_engaj_dia', 'date'),
+)
 def gerar_top_dez_engajamento(assunto: str, data: str):
-    pass
+    colunas = ['data_extracao', 'ASSUNTO', 'ID_VIDEO', 'TURNO_EXTRACAO', 'TOTAL_LIKES',
+               'TOTAL_COMENTARIOS', 'TOTAL_VISUALIZACOES', 'INDICE_TURNO_EXTRACAO', 'TOTAL_FAVORITOS']
+    nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
+    gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
+    dataframe = gerador_consulta.gerar_top_dez_engagamento(
+        assunto=assunto, data=data)
+
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    fig = visualizacao.gerar_tabela()
+    return fig
 
 
 layout = gerar_layout_dashboard()

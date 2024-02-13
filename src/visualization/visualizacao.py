@@ -3,6 +3,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 from typing import Dict
+from dash.dash_table import DataTable
 
 
 class Visualizacao:
@@ -84,3 +85,8 @@ class Visualizacao:
         fig = px.line(self.__df_resultado, x=coluna_x,
                       y=coluna_y, color=color, height=altura_grafico)
         return fig
+
+    def gerar_tabela(self):
+        tabela = DataTable(self.__df_resultado.to_dict('records'),
+                           [{"name": i, "id": i} for i in self.__df_resultado.columns])
+        return tabela

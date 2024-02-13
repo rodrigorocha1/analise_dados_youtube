@@ -155,3 +155,45 @@ class GeradorConsulta:
             base_video['TOTAL_DESLOCADO']
         base_video.drop(['TOTAL_DESLOCADO', 'TOTAL'], axis=1, inplace=True)
         return base_video
+
+    def __calcular_taxa_engajamento(self, linha: pd.Series):
+        try:
+            taxa_engajamento = (
+                (linha['TOTAL_LIKES_DIAS'] + linha['TOTAL_COMENTARIOS_DIAS']) / linha['TOTAL_VISUALIZACAO_DIAS']) * 100
+        except ZeroDivisionError:
+            taxa_engajamento = 0
+        return round(taxa_engajamento, 2)
+
+    def gerar_top_dez_engagamento(self, assunto: str, data: str) -> pd.DataFrame:
+        base_video = self.__dataframe.query(
+            'ASSUNTO == "assunto_cities_skylines" and data_extracao == "2024-01-23"')
+        base_video = base_video.groupby(['ID_VIDEO']) \
+            .agg(
+            TOTAL_LIKES=('TOTAL_LIKES', 'max'),
+            TOTAL_COMENTARIOS=('TOTAL_COMENTARIOS', 'max'),
+            TOTAL_VISUALIZACOES=('TOTAL_VISUALIZACOES', 'max')
+        ).reset_index()
+        base_video['TOTAL_VISUALIZACOES_DESLOCADO'] = base_video.groupby(
+            'ID_VIDEO')['TOTAL_VISUALIZACOES'].shift(1)
+
+        base_video['TOTAL_COMENTARIOS_DESLOCADO'] = base_video.groupby('ID_VIDEO')[
+            'TOTAL_COMENTARIOS'].shift(1)
+        base_video['TOTAL_LIKES_DESLOCADO'] = base_video.groupby('ID_VIDEO')[
+            'TOTAL_LIKES'].shift(1)
+        base_video.fillna(0, axis=1, inplace=True)
+        base_video['TOTAL_LIKES_DIAS'] = base_video['TOTAL_LIKES'] - \
+            base_video['TOTAL_LIKES_DESLOCADO']
+        base_video['TOTAL_COMENTARIOS_DIAS'] = base_video['TOTAL_COMENTARIOS'] - \
+            base_video['TOTAL_COMENTARIOS_DESLOCADO']
+        base_video['TOTAL_VISUALIZACAO_DIAS'] = base_video['TOTAL_VISUALIZACOES'] - \
+            base_video['TOTAL_VISUALIZACOES_DESLOCADO']
+        base_video.drop(['TOTAL_LIKES', 'TOTAL_LIKES_DESLOCADO', 'TOTAL_COMENTARIOS', 'TOTAL_COMENTARIOS_DESLOCADO',
+                        'TOTAL_VISUALIZACOES', 'TOTAL_VISUALIZACOES_DESLOCADO'], axis=1, inplace=True)
+        base_video['TAXA_ENGAJAMENTO_DIA'] = base_video.apply(
+            self.__calcular_taxa_engajamento, axis=1)
+        base_video[['ID_VIDEO']] = base_video[['ID_VIDEO']].astype('string')
+        base_video[['TOTAL_LIKES_DIAS', 'TOTAL_COMENTARIOS_DIAS', 'TOTAL_VISUALIZACAO_DIAS', 'TAXA_ENGAJAMENTO_DIA']] = base_video[[
+            'TOTAL_LIKES_DIAS', 'TOTAL_COMENTARIOS_DIAS', 'TOTAL_VISUALIZACAO_DIAS', 'TAXA_ENGAJAMENTO_DIA']].astype('float')
+        base_video = base_video.nlargest(
+            10, columns=['TOTAL_VISUALIZACAO_DIAS'])
+        return base_video
