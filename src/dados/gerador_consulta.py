@@ -197,3 +197,23 @@ class GeradorConsulta:
         base_video = base_video.nlargest(
             10, columns=['TOTAL_VISUALIZACAO_DIAS'])
         return base_video
+
+    def gerar_dataframe_popularidade_tags(self, assunto: str):
+        base_video = self.__dataframe.query(
+            f'ASSUNTO == "{assunto}" and data_extracao == "2024-01-23" and INDICE_TURNO_EXTRACAO == 3 ').sort_values(by=['TOTAL_VISUALIZACOES'], ascending=False)
+        base_video.drop_duplicates(subset=['data_extracao', 'ASSUNTO', 'ID_VIDEO', 'TITULO_VIDEO', 'TOTAL_VISUALIZACOES',
+                                   'TOTAL_LIKES', 'TOTAL_COMENTARIOS', 'ID_CANAL', 'NM_CANAL', 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO'],  inplace=True)
+        base_video.fillna('[]', inplace=True)
+        base_video['TAGS'] = base_video['TAGS'].to_list()
+        tags_populares = {}
+        for tags in base_video['TAGS']:
+            if len(tags) > 2:
+                for tag in tags:
+                    if tag in tags_populares:
+                        tags_populares[tag] += 1
+                    else:
+                        tags_populares[tag] = 1
+
+        base_video = pd.DataFrame(list(tags_populares.items()), columns=[
+                                  'Tag', 'Frequência']).sort_values(by=['Frequência'], ascending=False)
+        return base_video.nlargest(10, columns=['Frequência'])
