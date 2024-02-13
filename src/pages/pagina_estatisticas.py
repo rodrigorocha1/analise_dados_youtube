@@ -142,7 +142,7 @@ def gerar_layout_desempenho_video():
                 dbc.Select(
                     id='id_desempenho_video',
                     style={
-                       'backgroundColor': 'black',
+                       'backgroundColor': 'black', 'color': 'white',
                     },
                 )
             ],
@@ -188,16 +188,6 @@ def gerar_layout_analise_palavra_chave_titulos():
         html.H5(
             'Análise de palavras Chaves em títulos',
             id='id_titulo_palavra_chave',
-            className='class_titulo_grafico'
-        )
-    ]
-
-
-def gerar_layout_analise_palavra_chave_tags():
-    return [
-        html.H5(
-            'Análise de palavras Chaves em Tags',
-            id='id_titulo_palavra_chave_tags',
             className='class_titulo_grafico'
         )
     ]
@@ -339,7 +329,7 @@ def gerar_layout_dashboard():
                         ),
                         id='id_quarta_linha_primeira_coluna_dashboard',
                         class_name='class_quarta_linha_primeira_coluna_dashboard',
-                        lg=4
+                        lg=6
                     ),
                     dbc.Col(
                         html.Div(
@@ -349,18 +339,8 @@ def gerar_layout_dashboard():
                         ),
                         id='id_quarta_linha_segunda_coluna_dashboard',
                         class_name='class_quarta_linha_segunda_coluna_dashboard',
-                        lg=4
+                        lg=6
                     ),
-                    dbc.Col(
-                        html.Div(
-                            gerar_layout_duracao_video_engajamento(),
-                            id='id_div_quarta_linha_primeira_terceira_dashboard',
-                            className='class_div_coluna'
-                        ),
-                        id='id_quarta_linha_terceira_coluna_dashboard',
-                        class_name='class_quarta_linha_terceira_coluna_dashboard',
-                        lg=4
-                    )
 
                 ],
                 id='id_quarta_linha_dashboard',
@@ -378,7 +358,7 @@ def gerar_layout_dashboard():
                     ),
                     dbc.Col(
                         html.Div(
-                            gerar_layout_analise_palavra_chave_tags(),
+                            gerar_layout_analise_palavra_chave_titulos(),
                             id='id_div_quinta_linha_segunda_coluna',
                             className='class_div_coluna'
                         ),
