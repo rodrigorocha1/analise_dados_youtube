@@ -178,7 +178,8 @@ def gerar_layout_popularidade_tags():
             'Análise popularidade tags',
             id='id_titulo_popularidade',
             className='class_titulo_grafico'
-        )
+        ),
+        html.Div(id='id_div_tabela_top_dez_popularidade_tags')
     ]
 
 
@@ -491,7 +492,7 @@ def gerar_input_assunto_canal(assunto: str):
     path_pasta = 'outros'
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_canal = depara.abrir_picke(param_filtro=assunto)
-    print(inputs_canal[0]['label'])
+
     return inputs_canal, inputs_canal[0]['label']
 
 
@@ -547,7 +548,7 @@ def gerar_desempenho_video(video: str | List):
     gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
     dataframe = gerador_consulta.gerar_desempenho_video(id_video=video)
     visualizacao = Visualizacao(df_resultado=dataframe)
-    print('gerar_desempenho_video -> Vídeo', video)
+
     fig = visualizacao.gerar_grafico_linha(
         coluna_x='data_extracao',
         coluna_y='TOTAL_DIA',
@@ -570,6 +571,22 @@ def gerar_top_dez_engajamento(assunto: str, data: str):
     dataframe = gerador_consulta.gerar_top_dez_engagamento(
         assunto=assunto, data=data)
 
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    fig = visualizacao.gerar_tabela()
+    return fig
+
+
+@callback(
+    Output('id_div_tabela_top_dez_popularidade_tags', 'children'),
+    Input('id_select_assunto', 'value'),
+)
+def gerar_popularidade_tags(assunto: str):
+    colunas = ['data_extracao', 'ASSUNTO', 'ID_VIDEO', 'TITULO_VIDEO', 'TAGS', 'TOTAL_VISUALIZACOES',
+               'TOTAL_LIKES', 'TOTAL_COMENTARIOS', 'ID_CANAL', 'NM_CANAL', 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO']
+    nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
+    gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
+    dataframe = gerador_consulta.gerar_dataframe_popularidade_tags(
+        assunto=assunto)
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_tabela()
     return fig
