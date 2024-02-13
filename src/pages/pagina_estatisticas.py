@@ -578,7 +578,7 @@ def gerar_desempenho_video(video: str | List):
     return fig
 
 
-def gerar_top_dez_engajamento():
+def gerar_top_dez_engajamento(assunto: str, data: str):
     pass
 
 
