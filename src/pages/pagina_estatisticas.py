@@ -97,7 +97,7 @@ def gerar_layout_desempenho_canal_dia():
             html.H5('Desempenho canal por dia (Likes/ Comentários/ Visualizações)',
                     className='class_titulo_grafico'),
             dcc.Dropdown(
-                id='id_select_canal',
+                id='id_select_canal_desempenho',
                 multi=True,
                 className='class_input_canal',
                 style={'backgroundColor': 'black', 'color': 'white'},
@@ -136,17 +136,7 @@ def gerar_layout_desempenho_video():
             id='id_titulo_desempenho_video',
             className='class_titulo_grafico'
         ),
-        dbc.Row(
-            dbc.Select(
-                id='id_select_canal_video',
-                className='class_input_canal',
-                style={'backgroundColor': 'black',
-                       'color': 'white'},
-                placeholder='Escolha o Canal',
-            ),
-            id='id_linha_desempenho_canal',
-            class_name='class_inputs_desempenho'
-        ),
+
         dbc.Row(
             [
                 dcc.Dropdown(
@@ -503,8 +493,8 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
 
 
 @callback(
-    Output('id_select_canal', 'options'),
-    Output('id_select_canal_video', 'options'),
+    Output('id_select_canal_desempenho', 'options'),
+
 
     Input('id_select_assunto', 'value')
 )
@@ -514,12 +504,12 @@ def gerar_input_assunto_canal(assunto: str):
     path_pasta = 'outros'
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_canal = depara.abrir_picke(param_filtro=assunto)
-    return inputs_canal, inputs_canal
+    return inputs_canal
 
 
 @callback(
     Output('id_grafico_desempenho_canal_dia', 'figure'),
-    Input('id_select_canal', 'value'),
+    Input('id_select_canal_desempenho', 'value'),
     Input('id_input_desempenho_canal', 'value')
 )
 def gerar_desempenho_canal_dia(canal: str | List, metrica: str):
@@ -539,18 +529,18 @@ def gerar_desempenho_canal_dia(canal: str | List, metrica: str):
 
 @callback(
     Output('id_desempenho_video', 'options'),
-    Input('id_select_canal_video', 'value'),
+    Input('id_select_assunto', 'value')
 )
-def gerar_input_canal_video(canal: str):
+def gerar_input_canal_video(assunto: str):
 
-    if canal is None:
+    if assunto is None:
         raise PreventUpdate
     # canal = 'UCMqGy4xIIGs01ZVcBv0B8Cw'
 
     nome_arquivo = 'dic_inputs_video_revelado.pkl'
     path_pasta = 'outros'
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
-    inputs_video = depara.abrir_picke(param_filtro=canal)
+    inputs_video = depara.abrir_picke(param_filtro=assunto)
 
     return inputs_video
 
