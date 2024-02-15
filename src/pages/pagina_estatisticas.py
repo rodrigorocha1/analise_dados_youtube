@@ -412,7 +412,9 @@ def gerar_desempenho(assunto: str, desempenho: str):
         tickfont=tickfont,
         orientation='v',
         hovertemplate=hovertemplate,
-        height=400
+        height=400,
+        color=None,
+        largura=600
     )
     return fig
 
@@ -470,7 +472,7 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
         tickfont=None,
         hovertemplate='<b>Dia Publicação:</b> %{x}<b>Vídeo %{y}',
         category_orders={'ID_VIDEO': dataframe['ID_VIDEO'].tolist()},
-        height=350
+        height=390
     )
 
     metricas_titulos = {
@@ -555,7 +557,7 @@ def gerar_desempenho_video(video: str | List):
         coluna_x='data_extracao',
         coluna_y='TOTAL_DIA',
         color='ID_VIDEO',
-        altura_grafico=300
+        altura_grafico=400
     )
     return fig
 
