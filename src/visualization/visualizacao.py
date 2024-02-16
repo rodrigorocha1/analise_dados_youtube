@@ -27,7 +27,7 @@ class Visualizacao:
             valor_maximo: float = None,
             valor_minimo: float = None,
             text_anotation: str = None,
-            color: str = 'red',
+            color: str = '#6A3872',
             tickfont: str = None,
             hovertemplate: str = None,
             text_update_traces: str = None,
@@ -95,7 +95,8 @@ class Visualizacao:
         fig.update_traces(
             hovertemplate=hovertemplate,
             text=text_update_traces,
-            textposition=texto_posicao
+            textposition=texto_posicao,
+            textfont_color='white'
         )
         for trace in fig.data:
             if isinstance(trace, go.Bar):

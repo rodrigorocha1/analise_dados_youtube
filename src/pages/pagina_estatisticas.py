@@ -454,7 +454,7 @@ def gerar_publicacao_video(assunto: str):
         text_anotation='Teste',
         orientation='v',
         tickfont=None,
-        hovertemplate='<b>Dia Publicação:</b> %{x}<b>Total Vídeos Públicados: %{y}',
+        hovertemplate='<b>Dia Publicação:</b> %{x}<b><br>Total Vídeos Públicados: %{y}',
         height=440
     )
     return fig
@@ -477,6 +477,14 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
     dataframe = gerador_consulta.gerar_top_dez(
         assunto=assunto, data=data, metrica=metricas)
     visualizacao = Visualizacao(df_resultado=dataframe)
+    if metricas == 'TOTAL_VISUALIZACOES':
+        texto_template = '<b>Total Visualizações:</b> %{x}<b><br>Vídeo %{y}'
+    elif metricas == 'TOTAL_LIKES':
+        texto_template = '<b>Total Likes:</b> %{x}<b><br>Vídeo %{y}'
+    else:
+        texto_template = '<b>Total Comentários:</b> %{x}<b><br>Vídeo %{y}'
+
+    cor = trocar_cor_grafico_barra(metricas)
 
     fig = visualizacao.gerar_grafico_de_barras(
         coluna_x='TOTAL',
@@ -486,11 +494,13 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
         text_anotation='',
         orientation='h',
         tickfont=None,
-        hovertemplate='<b>Dia Publicação:</b> %{x}<b>Vídeo %{y}',
+        hovertemplate=texto_template,
         category_orders={'ID_VIDEO': dataframe['ID_VIDEO'].tolist()},
         height=390,
         largura=550,
-        texto_posicao='auto'
+        texto_posicao='auto',
+        color=cor,
+
 
     )
 
