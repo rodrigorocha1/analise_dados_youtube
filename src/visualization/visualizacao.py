@@ -105,7 +105,7 @@ class Visualizacao:
 
     def gerar_grafico_linha(self, coluna_x: str, coluna_y: str, color: str, altura_grafico: int):
         fig = px.line(self.__df_resultado, x=coluna_x,
-                      y=coluna_y, color=color, height=altura_grafico, text=coluna_y)
+                      y=coluna_y, color=color, height=altura_grafico, text=coluna_y, markers=True)
         fig.update_layout(
 
             font=dict(
