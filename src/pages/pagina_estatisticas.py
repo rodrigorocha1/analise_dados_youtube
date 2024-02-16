@@ -386,12 +386,25 @@ def gerar_layout_dashboard():
     )
 
 
+def trocar_cor_grafico_barra(chave: str):
+    print(chave)
+    cor = {
+        'TOTAL_VISUALIZACOES': '#3CBC59',
+        'TOTAL_COMENTARIOS': '#FE7800',
+        'TOTAL_LIKES': '#4749CA'
+    }
+    cor = cor[chave]
+    print(cor)
+    return cor
+
+
 @callback(
     Output('id_grafico_comparacao_video', 'figure'),
     Input('id_select_assunto', 'value'),
     Input('id_input_desempenho', 'value')
 )
 def gerar_desempenho(assunto: str, desempenho: str):
+    print(desempenho)
     nome_arquivo = 'dados_tratado_estatisticas_gerais.parquet'
     columns = ['ASSUNTO', 'data_extracao', 'ID_VIDEO',
                desempenho, 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO']
@@ -402,6 +415,8 @@ def gerar_desempenho(assunto: str, desempenho: str):
     visualizacao = Visualizacao(df_resultado=dataframe)
     tickfont = '%d/%m/%Y',
     hovertemplate = '<b>DATA</b>: %{x}<br>Total Visualizações dia: %{y}'
+    cor = trocar_cor_grafico_barra(desempenho)
+    print(cor)
 
     fig = visualizacao.gerar_grafico_de_barras(
         coluna_x='data_extracao',
@@ -412,10 +427,11 @@ def gerar_desempenho(assunto: str, desempenho: str):
         tickfont=tickfont,
         orientation='v',
         hovertemplate=hovertemplate,
-        height=400,
-        color=None,
+        height=430,
+        color=cor,
         largura=600
     )
+
     return fig
 
 
@@ -439,7 +455,7 @@ def gerar_publicacao_video(assunto: str):
         orientation='v',
         tickfont=None,
         hovertemplate='<b>Dia Publicação:</b> %{x}<b>Total Vídeos Públicados: %{y}',
-        height=400
+        height=440
     )
     return fig
 
@@ -472,7 +488,10 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
         tickfont=None,
         hovertemplate='<b>Dia Publicação:</b> %{x}<b>Vídeo %{y}',
         category_orders={'ID_VIDEO': dataframe['ID_VIDEO'].tolist()},
-        height=390
+        height=390,
+        largura=550,
+        texto_posicao='auto'
+
     )
 
     metricas_titulos = {
@@ -568,7 +587,7 @@ def gerar_desempenho_video(video: str | List):
     Input('id_input_data_top_dez_engaj_dia', 'date'),
 )
 def gerar_top_dez_engajamento(assunto: str, data: str):
-    print('gerar_top_dez_engajamento', data)
+
     colunas = ['data_extracao', 'ASSUNTO', 'ID_VIDEO', 'TURNO_EXTRACAO', 'TOTAL_LIKES',
                'TOTAL_COMENTARIOS', 'TOTAL_VISUALIZACOES', 'INDICE_TURNO_EXTRACAO', 'TOTAL_FAVORITOS']
     nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
@@ -607,7 +626,6 @@ def gerar_popularidade_titulo(assunto: str):
     nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
     gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
     dataframe = gerador_consulta.gerar_popularidade_titulo(assunto=assunto)
-    print(dataframe)
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_tabela()
     return fig

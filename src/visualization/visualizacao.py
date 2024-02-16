@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 from typing import Dict
 from dash.dash_table import DataTable
+import plotly.graph_objs as go
 
 
 class Visualizacao:
@@ -26,12 +27,13 @@ class Visualizacao:
             valor_maximo: float = None,
             valor_minimo: float = None,
             text_anotation: str = None,
-            color: str = None,
+            color: str = 'red',
             tickfont: str = None,
             hovertemplate: str = None,
             text_update_traces: str = None,
             category_orders: Dict = None,
-            largura: int = None
+            largura: int = None,
+            texto_posicao: str = 'outside'
 
     ):
         # if color:
@@ -46,7 +48,6 @@ class Visualizacao:
             x=coluna_x,
             y=coluna_y,
             text_auto='0',
-            color=color,
             orientation=orientation,
             category_orders=category_orders,
             height=height,
@@ -93,8 +94,12 @@ class Visualizacao:
             )
         fig.update_traces(
             hovertemplate=hovertemplate,
-            text=text_update_traces
+            text=text_update_traces,
+            textposition=texto_posicao
         )
+        for trace in fig.data:
+            if isinstance(trace, go.Bar):
+                trace.marker.color = color
         return fig
 
     def gerar_grafico_linha(self, coluna_x: str, coluna_y: str, color: str, altura_grafico: int):
