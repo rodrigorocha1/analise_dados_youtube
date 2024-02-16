@@ -27,7 +27,7 @@ class Visualizacao:
             valor_maximo: float = None,
             valor_minimo: float = None,
             text_anotation: str = None,
-            color: str = '#6A3872',
+            color: str = '#C552C9',
             tickfont: str = None,
             hovertemplate: str = None,
             text_update_traces: str = None,

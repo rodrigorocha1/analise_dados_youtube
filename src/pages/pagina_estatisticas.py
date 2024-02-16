@@ -404,7 +404,6 @@ def trocar_cor_grafico_barra(chave: str):
     Input('id_input_desempenho', 'value')
 )
 def gerar_desempenho(assunto: str, desempenho: str):
-    print(desempenho)
     nome_arquivo = 'dados_tratado_estatisticas_gerais.parquet'
     columns = ['ASSUNTO', 'data_extracao', 'ID_VIDEO',
                desempenho, 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO']
@@ -414,7 +413,7 @@ def gerar_desempenho(assunto: str, desempenho: str):
         assunto=assunto, coluna_analise=desempenho)
     visualizacao = Visualizacao(df_resultado=dataframe)
     tickfont = '%d/%m/%Y',
-    hovertemplate = '<b>DATA</b>: %{x}<br>Total Visualizações dia: %{y}'
+    hovertemplate = '<b>DATA</b>: %{x}<br><b>Total Visualizações dia:</br> %{y}'
     cor = trocar_cor_grafico_barra(desempenho)
     print(cor)
 
