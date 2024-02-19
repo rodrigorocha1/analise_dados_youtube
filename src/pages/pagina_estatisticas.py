@@ -87,7 +87,10 @@ def gerar_top_dez_desempenho():
             min_date_allowed=date(2024, 1, 17),
             id='id_input_data_top_dez'
         ),
-        dcc.Graph(id='id_grafico_top_dez')
+        html.Div(
+            dcc.Graph(id='id_grafico_top_dez'),
+            id='id_div_grafico_top_dez'
+        ),
     ]
 
 
@@ -495,7 +498,7 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
         tickfont=None,
         hovertemplate=texto_template,
         category_orders={'ID_VIDEO': dataframe['ID_VIDEO'].tolist()},
-        height=390,
+        height=600,
         largura=550,
         texto_posicao='auto',
         color=cor,

@@ -56,3 +56,9 @@
     margin: 10px 10px;
     width: 50vh;
 }
+
+#id_div_grafico_top_dez {
+    max-height: 380px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
