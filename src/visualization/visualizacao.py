@@ -142,16 +142,21 @@ class Visualizacao:
             self.__df_resultado.to_dict('records'),
             [{"name": i, "id": i}
              for i in self.__df_resultado.columns],
-            style_table={'height': '400px',
-                         'overflowY': 'auto',
-                         'background-color': 'black'},
+            style_table={
+                'height': '400px',
+                'text-align': 'center',
+                'overflowY': 'auto',
+                'background-color': self.__cor_base_um,
+            },
             style_data={
                 'color': 'white',
-                'background-color': 'black'
+                'text-align': 'center',
+                'background-color': self.__cor_base_um
             },
             style_header={
                 'color': 'white',
-                'background-color': 'black'
+                'text-align': 'center',
+                'background-color': self.__cor_base_um
             }
         )
         return tabela
