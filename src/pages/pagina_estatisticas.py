@@ -5,14 +5,15 @@ try:
 except ModuleNotFoundError:
     pass
 from datetime import date
+from typing import List
 import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, callback, Output, Input
+from dash.exceptions import PreventUpdate
 from src.dados.gerador_consulta import GeradorConsulta
 from src.visualization.visualizacao import Visualizacao
 from src.dados.depara import Depara
-from typing import List
-from dash.exceptions import PreventUpdate
+
 dash.register_page(__name__, name="Analise Assunto", path='/')
 
 
