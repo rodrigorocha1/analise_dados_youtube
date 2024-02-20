@@ -10,7 +10,6 @@ import dash_bootstrap_components as dbc
 from dash import html, dcc, callback, Output, Input
 from src.dados.gerador_consulta import GeradorConsulta
 from src.visualization.visualizacao import Visualizacao
-from datetime import date
 from src.dados.depara import Depara
 from typing import List
 from dash.exceptions import PreventUpdate
@@ -139,7 +138,27 @@ def gerar_layout_desempenho_video():
             id='id_titulo_desempenho_video',
             className='class_titulo_grafico'
         ),
+        dbc.RadioItems(
+            inline=True,
+            value='TOTAL_VISUALIZACOES',
+            options=[
+                {
+                    'label': 'Visualizações',
+                    'value': 'TOTAL_VISUALIZACOES'
+                },
+                {
+                    'label': 'Comentários',
+                    'value': 'TOTAL_COMENTARIOS'
+                },
+                {
+                    'label': 'Likes',
+                    'value': 'TOTAL_LIKES'
+                },
 
+            ],
+            id='id_input_desempenho_video',
+            className='class_input_select'
+        ),
         dbc.Row(
             [
                 dbc.Select(
@@ -573,15 +592,18 @@ def gerar_input_canal_video(assunto: str):
 @callback(
     Output('id_grafico_desempenho_video', 'figure'),
     Input('id_desempenho_video', 'value'),
+    Input('id_input_desempenho_video', 'value')
 )
-def gerar_desempenho_video(video: str | List):
+def gerar_desempenho_video(video: str | List, metrica: str):
+    print('metrica', metrica)
 
-    metrica = 'TOTAL_LIKES'
+    # metrica = 'TOTAL_LIKES'
     nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
     colunas = ['data_extracao', 'ID_VIDEO', 'TITULO_VIDEO',
                'TURNO_EXTRACAO', metrica, 'INDICE_TURNO_EXTRACAO']
     gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
-    dataframe = gerador_consulta.gerar_desempenho_video(id_video=video)
+    dataframe = gerador_consulta.gerar_desempenho_video(
+        id_video=video, metrica=metrica)
     visualizacao = Visualizacao(df_resultado=dataframe)
 
     fig = visualizacao.gerar_grafico_linha(
