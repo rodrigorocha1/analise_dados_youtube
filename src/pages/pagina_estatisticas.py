@@ -438,7 +438,6 @@ def gerar_desempenho(assunto: str, desempenho: str):
     tickfont = '%d/%m/%Y',
     hovertemplate = '<b>DATA</b>: %{x}<br><b>Total Visualizações dia:</br> %{y}'
     cor = trocar_cor_grafico_barra(desempenho)
-    print(cor)
 
     fig = visualizacao.gerar_grafico_de_barras(
         coluna_x='data_extracao',
@@ -596,7 +595,6 @@ def gerar_input_canal_video(assunto: str):
     Input('id_input_desempenho_video', 'value')
 )
 def gerar_desempenho_video(video: str | List, metrica: str):
-    print('metrica', metrica)
 
     # metrica = 'TOTAL_LIKES'
     nome_arqruivo = 'dados_tratado_estatisticas_gerais.parquet'
