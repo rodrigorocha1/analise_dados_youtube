@@ -410,14 +410,14 @@ def gerar_layout_dashboard():
 
 
 def trocar_cor_grafico_barra(chave: str):
-    print(chave)
+
     cor = {
         'TOTAL_VISUALIZACOES': '#3CBC59',
         'TOTAL_COMENTARIOS': '#FE7800',
         'TOTAL_LIKES': '#4749CA'
     }
     cor = cor[chave]
-    print(cor)
+
     return cor
 
 
