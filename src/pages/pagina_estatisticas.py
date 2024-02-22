@@ -159,40 +159,41 @@ def gerar_layout_desempenho_video():
             id='id_titulo_desempenho_video',
             className='class_titulo_grafico'
         ),
-        dbc.Row(
+        dbc.Form(
             [
-                dbc.Col(
-                    dbc.RadioItems(
-                        inline=True,
-                        value='TOTAL_VISUALIZACOES',
-                        options=[
-                            {
-                                'label': 'Visualizações',
-                                'value': 'TOTAL_VISUALIZACOES'
-                            },
-                            {
-                                'label': 'Comentários',
-                                'value': 'TOTAL_COMENTARIOS'
-                            },
-                            {
-                                'label': 'Likes',
-                                'value': 'TOTAL_LIKES'
-                            },
+                dbc.RadioItems(
+                    inline=True,
+                    value='TOTAL_VISUALIZACOES',
+                    options=[
+                        {
+                            'label': 'Visualizações',
+                            'value': 'TOTAL_VISUALIZACOES'
+                        },
+                        {
+                            'label': 'Comentários',
+                            'value': 'TOTAL_COMENTARIOS'
+                        },
+                        {
+                            'label': 'Likes',
+                            'value': 'TOTAL_LIKES'
+                        },
 
-                        ],
-                        id='id_input_desempenho_video',
-                        className='class_input_select'
-                    ), lg=6),
-                dbc.Col(
-                    dbc.Select(
-                        id='id_desempenho_video',
-                        style={
-                            'backgroundColor': 'black', 'color': 'white',
-                        },),
-                    lg=6
+                    ],
+                    id='id_input_desempenho_video',
+                    className='class_input_select'
                 ),
-            ]
+                dbc.Select(
+                    id='id_desempenho_video',
+                    style={
+                        'backgroundColor': 'black', 'color': 'white',
+                    },
+                )
+            ],
+            id='id_form_group_video',
+            class_name='class_form_group_data'
+
         ),
+
 
 
         dcc.Graph(id='id_grafico_desempenho_video')
