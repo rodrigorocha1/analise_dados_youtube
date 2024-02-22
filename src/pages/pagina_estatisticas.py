@@ -59,33 +59,42 @@ def gerar_top_dez_desempenho():
     return [
         html.H5('Teste', id='id_titulo_top_dez',
                 className='class_titulo_grafico'),
-        dbc.RadioItems(
-            inline=True,
-            value='TOTAL_VISUALIZACOES',
-            options=[
-                {
-                    'label': 'Visualizações',
-                    'value': 'TOTAL_VISUALIZACOES'
-                },
-                {
-                    'label': 'Comentários',
-                    'value': 'TOTAL_COMENTARIOS'
-                },
-                {
-                    'label': 'Likes',
-                    'value': 'TOTAL_LIKES'
-                },
+        dbc.Row(
+            [
+                dbc.Col(
+                    dbc.RadioItems(
+                        inline=True,
+                        value='TOTAL_VISUALIZACOES',
+                        options=[
+                            {
+                                'label': 'Visualizações',
+                                'value': 'TOTAL_VISUALIZACOES'
+                            },
+                            {
+                                'label': 'Comentários',
+                                'value': 'TOTAL_COMENTARIOS'
+                            },
+                            {
+                                'label': 'Likes',
+                                'value': 'TOTAL_LIKES'
+                            },
 
-            ],
-            id='id_input_top_dez',
-            className='class_input_select'
-        ),
-        dcc.DatePickerSingle(
-            date='2024-01-20',
-            display_format='DD/MM/YYYY',
-            max_date_allowed=date(2024, 1, 23),
-            min_date_allowed=date(2024, 1, 17),
-            id='id_input_data_top_dez'
+                        ],
+                        id='id_input_top_dez',
+                        className='class_input_select'
+                    ), lg=6
+                ),
+                dbc.Col(
+                    dcc.DatePickerSingle(
+                        date='2024-01-20',
+                        display_format='DD/MM/YYYY',
+                        max_date_allowed=date(2024, 1, 23),
+                        min_date_allowed=date(2024, 1, 17),
+                        id='id_input_data_top_dez'
+                    ),
+                    lg=6
+                ),
+            ]
         ),
         html.Div(
             dcc.Graph(id='id_grafico_top_dez'),
@@ -99,33 +108,44 @@ def gerar_layout_desempenho_canal_dia():
         [
             html.H5('Desempenho canal por dia (Likes/ Comentários/ Visualizações)',
                     className='class_titulo_grafico'),
-            dbc.Select(
-                id='id_select_canal_desempenho',
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Select(
+                            id='id_select_canal_desempenho',
 
-                className='class_input_canal',
-                style={'backgroundColor': 'black', 'color': 'white'},
-                placeholder='Escolha o Canal'
-            ),
-            dbc.RadioItems(
-                inline=True,
-                value='TOTAL_VISUALIZACOES',
-                options=[
-                    {
-                        'label': 'Visualizações',
-                        'value': 'TOTAL_VISUALIZACOES'
-                    },
-                    {
-                        'label': 'Comentários',
-                        'value': 'TOTAL_COMENTARIOS'
-                    },
-                    {
-                        'label': 'Likes',
-                        'value': 'TOTAL_LIKES'
-                    },
+                            className='class_input_canal',
+                            style={'backgroundColor': 'black',
+                                   'color': 'white'},
+                            placeholder='Escolha o Canal'
+                        ),
+                        lg=6
+                    ),
+                    dbc.Col(
+                        dbc.RadioItems(
+                            inline=True,
+                            value='TOTAL_VISUALIZACOES',
+                            options=[
+                                {
+                                    'label': 'Visualizações',
+                                    'value': 'TOTAL_VISUALIZACOES'
+                                },
+                                {
+                                    'label': 'Comentários',
+                                    'value': 'TOTAL_COMENTARIOS'
+                                },
+                                {
+                                    'label': 'Likes',
+                                    'value': 'TOTAL_LIKES'
+                                },
 
+                            ],
+                            id='id_input_desempenho_canal',
+                            className='class_input_select'
+                        ),
+                        lg=6
+                    )
                 ],
-                id='id_input_desempenho_canal',
-                className='class_input_select'
             ),
             dcc.Graph(id='id_grafico_desempenho_canal_dia')
         ]
@@ -139,39 +159,42 @@ def gerar_layout_desempenho_video():
             id='id_titulo_desempenho_video',
             className='class_titulo_grafico'
         ),
-        dbc.RadioItems(
-            inline=True,
-            value='TOTAL_VISUALIZACOES',
-            options=[
-                {
-                    'label': 'Visualizações',
-                    'value': 'TOTAL_VISUALIZACOES'
-                },
-                {
-                    'label': 'Comentários',
-                    'value': 'TOTAL_COMENTARIOS'
-                },
-                {
-                    'label': 'Likes',
-                    'value': 'TOTAL_LIKES'
-                },
-
-            ],
-            id='id_input_desempenho_video',
-            className='class_input_select'
-        ),
         dbc.Row(
             [
-                dbc.Select(
-                    id='id_desempenho_video',
-                    style={
-                       'backgroundColor': 'black', 'color': 'white',
-                    },
-                )
-            ],
-            id='id_linha_inputs_desempenho_video',
-            class_name='class_inputs_video'
+                dbc.Col(
+                    dbc.RadioItems(
+                        inline=True,
+                        value='TOTAL_VISUALIZACOES',
+                        options=[
+                            {
+                                'label': 'Visualizações',
+                                'value': 'TOTAL_VISUALIZACOES'
+                            },
+                            {
+                                'label': 'Comentários',
+                                'value': 'TOTAL_COMENTARIOS'
+                            },
+                            {
+                                'label': 'Likes',
+                                'value': 'TOTAL_LIKES'
+                            },
+
+                        ],
+                        id='id_input_desempenho_video',
+                        className='class_input_select'
+                    ), lg=6),
+                dbc.Col(
+                    dbc.Select(
+                        id='id_desempenho_video',
+                        style={
+                            'backgroundColor': 'black', 'color': 'white',
+                        },),
+                    lg=6
+                ),
+            ]
         ),
+
+
         dcc.Graph(id='id_grafico_desempenho_video')
     ]
 
@@ -183,13 +206,28 @@ def gerar_layout_engajamento():
             id='id_titulo_engajamento',
             className='class_titulo_grafico'
         ),
-        dcc.DatePickerSingle(
-            date='2024-01-20',
-            display_format='DD/MM/YYYY',
-            max_date_allowed=date(2024, 1, 23),
-            min_date_allowed=date(2024, 1, 17),
-            id='id_input_data_top_dez_engaj_dia'
+        dbc.Row(
+            [
+                dbc.Col(
+                    dbc.Label('Selecione a data',
+                              class_name='class_titulo_grafico'),
+                    lg=6
+                ),
+                dbc.Col(
+                    dcc.DatePickerSingle(
+                        date='2024-01-20',
+                        display_format='DD/MM/YYYY',
+                        max_date_allowed=date(2024, 1, 23),
+                        min_date_allowed=date(2024, 1, 17),
+                        id='id_input_data_top_dez_engaj_dia'
+                    ),
+                    lg=6
+                )
+            ],
+
+
         ),
+
         html.Div(id='id_div_tabela_top_dez_engaj')
 
     ]
