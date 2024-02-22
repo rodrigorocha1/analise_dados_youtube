@@ -206,27 +206,26 @@ def gerar_layout_engajamento():
             id='id_titulo_engajamento',
             className='class_titulo_grafico'
         ),
-        dbc.Row(
+        dbc.Form(
             [
-                dbc.Col(
-                    dbc.Label('Selecione a data',
-                              class_name='class_titulo_grafico'),
-                    lg=6
-                ),
-                dbc.Col(
-                    dcc.DatePickerSingle(
-                        date='2024-01-20',
-                        display_format='DD/MM/YYYY',
-                        max_date_allowed=date(2024, 1, 23),
-                        min_date_allowed=date(2024, 1, 17),
-                        id='id_input_data_top_dez_engaj_dia'
-                    ),
-                    lg=6
+                html.P('Selecione a data: ',
+                       className='class_titulo_grafico'),
+                dcc.DatePickerSingle(
+                    date='2024-01-20',
+                    display_format='DD/MM/YYYY',
+                    max_date_allowed=date(2024, 1, 23),
+                    min_date_allowed=date(2024, 1, 17),
+                    id='id_input_data_top_dez_engaj_dia',
+                    style={
+                        'background-color': 'red'
+                    }
                 )
             ],
-
+            id='id_form_group_data',
+            class_name='class_form_group_data'
 
         ),
+
 
         html.Div(id='id_div_tabela_top_dez_engaj')
 
