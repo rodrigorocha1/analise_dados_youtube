@@ -226,10 +226,7 @@ def gerar_layout_engajamento():
             class_name='class_form_group_data'
 
         ),
-        html.Div(
-            html.Div(id='id_div_tabela_top_dez_engaj'),
-            id='id_div_external_tabela_top_dez_engaj'
-        ),
+        html.Div(id='id_div_tabela_top_dez_engaj')
     ]
 
 
@@ -374,7 +371,7 @@ def gerar_layout_dashboard():
                             id='id_div_terceira_linha_primeira_coluna_dashboard',
                             className='class_div_coluna'
                         ),
-                        lg=6,
+                        lg=4,
                         id='id_terceira_linha_primeira_coluna_dashboard',
                         className='class_terceira_linha_primeira_coluna_dashboard'
                     ),
@@ -384,10 +381,20 @@ def gerar_layout_dashboard():
                             id='id_div_terceira_linha_segunda_coluna_dashboard',
                             className='class_div_coluna'
                         ),
-                        lg=6,
+                        lg=4,
                         id='id_terceira_linha_segunda_coluna_dashboard',
                         className='class_terceira_linha_segunda_coluna_dashboard'
-                    )
+                    ),
+                    dbc.Col(
+                        html.Div(
+                            gerar_layout_analise_palavra_chave_titulos(),
+                            id='id_div_quarta_linha_terceira_coluna_dashboard',
+                            className='class_div_coluna'
+                        ),
+                        id='id_quarta_linha_terceira_coluna_dashboard',
+                        class_name='class_quarta_linha_terceira_coluna_dashboard',
+                        lg=4
+                    ),
                 ],
                 id='id_terceira_linha_dashboard',
                 class_name='class_terceira_linha_dashboard'
@@ -402,7 +409,7 @@ def gerar_layout_dashboard():
                         ),
                         id='id_quarta_linha_primeira_coluna_dashboard',
                         class_name='class_quarta_linha_primeira_coluna_dashboard',
-                        lg=4
+                        lg=8
                     ),
                     dbc.Col(
                         html.Div(
@@ -415,16 +422,7 @@ def gerar_layout_dashboard():
                         lg=4
                     ),
 
-                    dbc.Col(
-                        html.Div(
-                            gerar_layout_analise_palavra_chave_titulos(),
-                            id='id_div_quarta_linha_terceira_coluna_dashboard',
-                            className='class_div_coluna'
-                        ),
-                        id='id_quarta_linha_terceira_coluna_dashboard',
-                        class_name='class_quarta_linha_terceira_coluna_dashboard',
-                        lg=4
-                    ),
+
 
                 ],
                 id='id_quarta_linha_dashboard',
@@ -636,7 +634,7 @@ def gerar_desempenho_video(video: str | List, metrica: str):
         coluna_x='data_extracao',
         coluna_y='TOTAL_DIA',
         color='ID_VIDEO',
-        altura_grafico=400
+        altura_grafico=300
     )
     return fig
 
