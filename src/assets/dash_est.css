@@ -66,6 +66,14 @@
 }
 
 
+
+#id_div_external_tabela_top_dez_engaj {
+    max-height: 380px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+
+
 .class_form_group_data {
     display: flex;
     justify-content: center;

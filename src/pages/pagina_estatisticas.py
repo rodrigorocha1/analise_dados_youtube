@@ -226,9 +226,10 @@ def gerar_layout_engajamento():
             class_name='class_form_group_data'
 
         ),
-        html.Div(),
-        html.Div(id='id_div_tabela_top_dez_engaj')
-
+        html.Div(
+            html.Div(id='id_div_tabela_top_dez_engaj'),
+            id='id_div_external_tabela_top_dez_engaj'
+        ),
     ]
 
 
