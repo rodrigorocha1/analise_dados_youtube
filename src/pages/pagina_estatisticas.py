@@ -226,8 +226,7 @@ def gerar_layout_engajamento():
             class_name='class_form_group_data'
 
         ),
-
-
+        html.Div(),
         html.Div(id='id_div_tabela_top_dez_engaj')
 
     ]
@@ -402,7 +401,7 @@ def gerar_layout_dashboard():
                         ),
                         id='id_quarta_linha_primeira_coluna_dashboard',
                         class_name='class_quarta_linha_primeira_coluna_dashboard',
-                        lg=6
+                        lg=4
                     ),
                     dbc.Col(
                         html.Div(
@@ -412,35 +411,24 @@ def gerar_layout_dashboard():
                         ),
                         id='id_quarta_linha_segunda_coluna_dashboard',
                         class_name='class_quarta_linha_segunda_coluna_dashboard',
-                        lg=6
+                        lg=4
+                    ),
+
+                    dbc.Col(
+                        html.Div(
+                            gerar_layout_analise_palavra_chave_titulos(),
+                            id='id_div_quarta_linha_terceira_coluna_dashboard',
+                            className='class_div_coluna'
+                        ),
+                        id='id_quarta_linha_terceira_coluna_dashboard',
+                        class_name='class_quarta_linha_terceira_coluna_dashboard',
+                        lg=4
                     ),
 
                 ],
                 id='id_quarta_linha_dashboard',
                 class_name='class_quarta_linha_dashboard'
             ),
-            dbc.Row(
-                [
-                    dbc.Col(
-                        html.Div(
-                            gerar_layout_duracao_video_engajamento(),
-                            id='id_div_quinta_linha_primeira_coluna',
-                            className='class_div_coluna'
-                        ),
-                        lg=6
-                    ),
-                    dbc.Col(
-                        html.Div(
-                            gerar_layout_analise_palavra_chave_titulos(),
-                            id='id_div_quinta_linha_segunda_coluna',
-                            className='class_div_coluna'
-                        ),
-                        lg=6
-                    )
-                ],
-                id='id_quinta_linha_dashboard',
-                class_name='class_quinta_linha_dashboard'
-            )
         ],
         id='id_main_page_dashboard',
         className='class_name_dashboard'
