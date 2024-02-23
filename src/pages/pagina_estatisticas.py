@@ -257,7 +257,7 @@ def gerar_layout_analise_palavra_chave_titulos():
         html.H5(
             'Análise de palavras Chaves em títulos',
             id='id_titulo_palavra_chave',
-            className='class_titulo_grafico'
+            className='class_titulo_grafico_tabela'
         ),
         html.Div(id='id_div_tabela_popularidade_titulo')
     ]
