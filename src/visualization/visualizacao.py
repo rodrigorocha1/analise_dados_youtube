@@ -157,11 +157,11 @@ class Visualizacao:
                 'border-right': 'none',
                 'border-left': 'none',
                 'font-weight': 'bold',
+
                 'background-color': self.__cor_base_um
             },
             style_table={
-                'width': '300px',
-                'margin': 'auto' if flag_centralizar_tabela else '0'
-            }
+                'margin': 'auto'
+            } if flag_centralizar_tabela else None
         )
         return tabela
