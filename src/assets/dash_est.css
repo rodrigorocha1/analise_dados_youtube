@@ -69,6 +69,16 @@
 }
 
 
+#id_div_tabela_popularidade_titulo {
+    margin-bottom: 20px;
+}
+
+.class_titulo_grafico_tabela {
+    margin-bottom: 60px;
+    text-align: center;
+
+}
+
 .class_form_group_data {
     display: flex;
     justify-content: center;

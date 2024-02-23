@@ -17,6 +17,7 @@ class Visualizacao:
         self.__df_resultado = df_resultado
         self.__cor_base_um = '#21242D'
         self.__cor_legenda = 'white'
+        self.__cor_data = '#1A1C1E'
 
     def gerar_grafico_de_barras(
             self,
@@ -137,29 +138,32 @@ class Visualizacao:
         )
         return fig
 
-    def gerar_tabela(self):
+    def gerar_tabela(self, id_tabela: str):
         tabela = DataTable(
             self.__df_resultado.to_dict('records'),
-            [{"name": i, "id": i}
-             for i in self.__df_resultado.columns],
-
+            [
+                {
+                    "name": i,
+                    "id": i
+                }
+                for i in self.__df_resultado.columns
+            ],
             style_data={
                 'color': 'white',
                 'text-align': 'center',
-                'border-right': 'none',
-                'border-left': 'none',
-                'border-top': 'none',
-                'background-color': self.__cor_base_um
+                'background-color': self.__cor_data,
+                'border': '1px solid gray',
+                'margin-botton': '20px'
             },
             style_header={
                 'color': 'white',
                 'text-align': 'center',
-                'border-right': 'none',
-                'border-left': 'none',
                 'font-weight': 'bold',
-
+                'border': '1px solid gray',
+                'margin-botton': '20px',
                 'background-color': self.__cor_base_um
             },
-
+            id=id_tabela,
+            style_as_list_view=True
         )
         return tabela

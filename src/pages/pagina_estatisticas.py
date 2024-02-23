@@ -235,7 +235,7 @@ def gerar_layout_popularidade_tags():
         html.H5(
             'Análise popularidade tags',
             id='id_titulo_popularidade',
-            className='class_titulo_grafico'
+            className='class_titulo_grafico_tabela'
         ),
         html.Div(id='id_div_tabela_top_dez_popularidade_tags')
     ]
@@ -246,7 +246,7 @@ def gerar_layout_duracao_video_engajamento():
         html.H5(
             'Duração Vídeo X Engajamento ',
             id='id_titulo_popularidade',
-            className='class_titulo_grafico'
+            className='class_titulo_grafico_tabela'
         ),
         html.Div(id='id_div_layout_engajamento')
     ]
@@ -572,7 +572,7 @@ def gerar_input_assunto_canal(assunto: str):
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_canal = depara.abrir_picke(param_filtro=assunto)
 
-    return inputs_canal, inputs_canal[0]['label']
+    return inputs_canal, inputs_canal[5]['label']
 
 
 @callback(
@@ -611,7 +611,7 @@ def gerar_input_canal_video(assunto: str):
     depara = Depara(nm_arquivo=nome_arquivo, path_pasta=path_pasta)
     inputs_video = depara.abrir_picke(param_filtro=assunto)
 
-    return inputs_video, inputs_video[0]['label']
+    return inputs_video, inputs_video[5]['label']
 
 
 @callback(
@@ -654,7 +654,7 @@ def gerar_top_dez_engajamento(assunto: str, data: str):
         assunto=assunto, data=data)
 
     visualizacao = Visualizacao(df_resultado=dataframe)
-    fig = visualizacao.gerar_tabela()
+    fig = visualizacao.gerar_tabela(id_tabela='id_tabela_top_dez_engaj')
     return fig
 
 
@@ -670,7 +670,7 @@ def gerar_popularidade_tags(assunto: str):
     dataframe = gerador_consulta.gerar_dataframe_popularidade_tags(
         assunto=assunto)
     visualizacao = Visualizacao(df_resultado=dataframe)
-    fig = visualizacao.gerar_tabela()
+    fig = visualizacao.gerar_tabela(id_tabela='id_tabela_popularidade_tags')
     return fig
 
 
@@ -685,7 +685,7 @@ def gerar_popularidade_titulo(assunto: str):
     gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
     dataframe = gerador_consulta.gerar_popularidade_titulo(assunto=assunto)
     visualizacao = Visualizacao(df_resultado=dataframe)
-    fig = visualizacao.gerar_tabela()
+    fig = visualizacao.gerar_tabela(id_tabela='id_tabela_popularidade_titulo')
     return fig
 
 
