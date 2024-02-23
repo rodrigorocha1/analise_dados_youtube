@@ -137,7 +137,7 @@ class Visualizacao:
         )
         return fig
 
-    def gerar_tabela(self, flag_centralizar_tabela: bool = False):
+    def gerar_tabela(self):
         tabela = DataTable(
             self.__df_resultado.to_dict('records'),
             [{"name": i, "id": i}
@@ -160,8 +160,6 @@ class Visualizacao:
 
                 'background-color': self.__cor_base_um
             },
-            style_table={
-                'margin': 'auto'
-            } if flag_centralizar_tabela else None
+
         )
         return tabela

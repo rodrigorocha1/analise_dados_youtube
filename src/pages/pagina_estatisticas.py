@@ -670,7 +670,7 @@ def gerar_popularidade_tags(assunto: str):
     dataframe = gerador_consulta.gerar_dataframe_popularidade_tags(
         assunto=assunto)
     visualizacao = Visualizacao(df_resultado=dataframe)
-    fig = visualizacao.gerar_tabela(flag_centralizar_tabela=True)
+    fig = visualizacao.gerar_tabela()
     return fig
 
 
@@ -685,7 +685,7 @@ def gerar_popularidade_titulo(assunto: str):
     gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=colunas)
     dataframe = gerador_consulta.gerar_popularidade_titulo(assunto=assunto)
     visualizacao = Visualizacao(df_resultado=dataframe)
-    fig = visualizacao.gerar_tabela(flag_centralizar_tabela=True)
+    fig = visualizacao.gerar_tabela()
     return fig
 
 
