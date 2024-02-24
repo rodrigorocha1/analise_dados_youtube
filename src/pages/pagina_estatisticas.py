@@ -13,6 +13,7 @@ from dash.exceptions import PreventUpdate
 from src.dados.gerador_consulta import GeradorConsulta
 from src.visualization.visualizacao import Visualizacao
 from src.dados.depara import Depara
+from src.utils.utils import trocar_cor_grafico_barra
 
 dash.register_page(__name__, name="Analise Assunto", path='/')
 
@@ -432,18 +433,6 @@ def gerar_layout_dashboard():
         id='id_main_page_dashboard',
         className='class_name_dashboard'
     )
-
-
-def trocar_cor_grafico_barra(chave: str):
-
-    cor = {
-        'TOTAL_VISUALIZACOES': '#3CBC59',
-        'TOTAL_COMENTARIOS': '#FE7800',
-        'TOTAL_LIKES': '#4749CA'
-    }
-    cor = cor[chave]
-
-    return cor
 
 
 @callback(

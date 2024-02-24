@@ -29,6 +29,8 @@
 #id_titulo_video_publicado,
 #id_titulo_categoria_populares,
 #id_titulo_categoria_populares_trends,
+#id_titulo_canais_populares_trends,
+.class_inputs_desempenho,
 .class_titulo_grafico {
     text-align: center;
     margin-bottom: 10px;
@@ -127,4 +129,9 @@
     border-bottom: 2px solid transparent;
     border-left: 0;
     border-radius: 0;
+}
+
+.class_select_categoria_canais_populares {
+    background-color: #21242D;
+    color: white;
 }

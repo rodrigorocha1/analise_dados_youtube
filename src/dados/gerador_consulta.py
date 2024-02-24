@@ -1,11 +1,16 @@
-import os
+try:
+    import sys
+    import os
+    sys.path.insert(0, os.path.abspath(os.curdir))
+except ModuleNotFoundError:
+    pass
 from typing import List, Tuple
 import string
 import pandas as pd
 import numpy as np
 import spacy
 from unidecode import unidecode
-import pickle as pk
+from src.utils.utils import obter_categorias_youtube
 
 
 class GeradorConsulta:
@@ -35,17 +40,6 @@ class GeradorConsulta:
             'Sunday': 'Domingo'
         }
         self.__nlp = spacy.load("pt_core_news_sm")
-
-    @staticmethod
-    def gerar_df_categoria():
-        CAMINHO_BASE = os.getcwd()
-
-        with open(os.path.join(CAMINHO_BASE, 'src', 'depara', 'trends', 'categoria.pkl'), 'rb') as arq:
-            df_categorias = pk.load(arq)
-            df_categorias['ID'] = df_categorias['ID'].astype('int32')
-            df_categorias['NOME_CATEGORIA'] = df_categorias['NOME_CATEGORIA'].astype(
-                'string')
-        return df_categorias
 
     def gerar_desempenho_dia(self, assunto: str, coluna_analise: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 
@@ -284,9 +278,29 @@ class GeradorConsulta:
 
         base_trends_completa = pd.merge(
             right=base_trends,
-            left=self.gerar_df_categoria(),
+            left=obter_categorias_youtube()[0],
             how='inner',
             left_on='ID',
             right_on='ID_CATEGORIA'
         ).sort_values(by='TOTAL_MAX', ascending=False)
         return base_trends_completa
+
+    def gerar_df_canais_populares(self, data: str, id_categoria: int, metrica: str, flag_asc_desc: bool):
+
+        base_trends = self.__dataframe.query(
+            f' ID_CATEGORIA == {id_categoria} and data_extracao == "{data}" and  INDICE_TURNO_EXTRACAO == "3" '
+        )
+
+        base_trends_canal_top_dez = base_trends.groupby(['data_extracao', 'ID_CANAL', 'NM_CANAL']) \
+            .agg(
+            TOTAL_MAX=(metrica, 'sum')
+        ).reset_index()
+
+        if flag_asc_desc:
+            base = base_trends_canal_top_dez.nlargest(
+                10, columns=['TOTAL_MAX'])
+        else:
+            base = base_trends_canal_top_dez.nsmallest(
+                10, columns=['TOTAL_MAX'])
+
+        return base

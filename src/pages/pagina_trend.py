@@ -5,22 +5,23 @@ try:
 except ModuleNotFoundError:
     pass
 from datetime import date
-from typing import List
 import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, callback, Output, Input
-from dash.exceptions import PreventUpdate
 from src.dados.gerador_consulta import GeradorConsulta
 from src.visualization.visualizacao import Visualizacao
-from src.dados.depara import Depara
+
+from src.utils.utils import trocar_cor_grafico_barra, obter_categorias_youtube
 
 dash.register_page(__name__, name="Analise Trends")
 
 
 def gerar_layout_categoria_top_dez():
     return [
-        html.H5('Top 10 Categoria Populares',
-                id='id_titulo_categoria_populares_trends'),
+        html.H5(
+            'Top 10 Categoria Populares',
+            id='id_titulo_categoria_populares_trends'
+        ),
         dbc.Row(
             [
                 dbc.Col(
@@ -65,6 +66,77 @@ def gerar_layout_categoria_top_dez():
     ]
 
 
+def gerar_layout_canais_populares():
+    return [
+        html.H5(
+            'Top 10 Canais populares',
+            id='id_titulo_canais_populares_trends'
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dbc.RadioItems(
+                        inline=True,
+                        value='TOTAL_VISUALIZACOES',
+                        options=[
+                            {
+                                'label': 'Visualizações',
+                                'value': 'TOTAL_VISUALIZACOES'
+                            },
+                            {
+                                'label': 'Comentários',
+                                'value': 'TOTAL_COMENTARIOS'
+                            },
+                            {
+                                'label': 'Likes',
+                                'value': 'TOTAL_LIKES'
+                            },
+                        ],
+                        id='id_input_desempenho_canais_populares',
+                        style={'fontSize': '12px'}
+
+                    ),
+                    lg=4
+                ),
+                dbc.Col(
+                    dcc.DatePickerSingle(
+                        date='2024-01-20',
+                        display_format='DD/MM/YYYY',
+                        max_date_allowed=date(2024, 1, 23),
+                        min_date_allowed=date(2024, 1, 17),
+                        id='id_input_date_canais_populares'
+                    ),
+                    lg=4
+                ),
+                dbc.Col(
+                    dbc.Select(
+                        options=obter_categorias_youtube()[1],
+                        value=obter_categorias_youtube()[1][0],
+                        id='id_select_categoria_canais_populares',
+                        class_name='class_select_categoria_canais_populares'
+                    ),
+                    lg=4
+                )
+            ],
+        ),
+        dbc.Tabs(
+            [
+                dbc.Tab(
+                    dcc.Graph(id='id_grafico_canais_populares'),
+                    label='Top 10 canais mais populares',
+                    tab_id='tab_id_canais_mais_populares'
+                ),
+                dbc.Tab(
+                    label='Top 10 canais menos populares',
+                    tab_id='tab_id_canais_meno_populares'
+                ),
+            ],
+            id='id_tabs_canais_populares'
+        ),
+        html.Div(id='id_main_canais_populares')
+    ]
+
+
 def gerar_layout_dashboard():
     return html.Div(
         [
@@ -82,6 +154,7 @@ def gerar_layout_dashboard():
                     ),
                     dbc.Col(
                         html.Div(
+                            gerar_layout_canais_populares(),
                             id='id_div_segunda_coluna_primeira_linha_trend',
                             className='class_div_coluna'
                         ),
@@ -154,12 +227,15 @@ def obter_top_dez_categoria(desempenho: str, data: str):
     dataframe = gerador_consulta.gerar_df_categorias_populares(
         data=data, metrica=desempenho)
     visualizacao = Visualizacao(df_resultado=dataframe)
+    cor = trocar_cor_grafico_barra(chave=desempenho)
+
     fig = visualizacao.gerar_grafico_de_barras(
         coluna_x='TOTAL_MAX',
         coluna_y='NOME_CATEGORIA',
         orientation='h',
         height=600,
         largura=600,
+        color=cor,
         texto_posicao='auto',
         category_orders={
             'NOME_CATEGORIA': dataframe['NOME_CATEGORIA'].tolist()
@@ -168,6 +244,44 @@ def obter_top_dez_categoria(desempenho: str, data: str):
 
     )
     return fig
+
+
+@callback(
+    Output('id_grafico_canais_populares', 'figure'),
+    Input('id_select_categoria_canais_populares', 'value'),
+    Input('id_input_date_canais_populares', 'date'),
+    Input('id_input_desempenho_canais_populares', 'value'),
+    Input('id_tabs_canais_populares', 'active_tab')
+
+)
+def obter_top_dez_canais_populares(categoria: int, data: str, desempenho: str, tabs: str):
+    print(categoria, data, desempenho, tabs)
+    colunas = ['data_extracao', 'ID_CATEGORIA', 'ID_CANAL', 'NM_CANAL',
+               'ID_VIDEO', 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO', desempenho]
+    nome_arquivo = 'dados_tratado_estatisticas_trends.parquet'
+    gerador_consulta = GeradorConsulta(arquivo=nome_arquivo, colunas=colunas)
+
+    if tabs == "tab_id_canais_mais_populares":
+        flag_asc_desc = True
+        dataframe = gerador_consulta.gerar_df_canais_populares(
+            data=data,
+            id_categoria=categoria,
+            metrica=desempenho,
+            flag_asc_desc=flag_asc_desc
+        )
+
+        cor = trocar_cor_grafico_barra(chave=desempenho)
+        visualizacao = Visualizacao(df_resultado=dataframe)
+        fig = visualizacao.gerar_grafico_de_barras(
+            coluna_x='TOTAL_MAX',
+            coluna_y='NM_CANAL',
+            orientation='h',
+            height=500,
+            largura=600,
+            color=cor,
+            texto_posicao='auto'
+        )
+        return fig
 
 
 layout = gerar_layout_dashboard()
