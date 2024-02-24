@@ -313,3 +313,13 @@ class GeradorConsulta:
             TOTAL_MAX=(metrica, 'sum')
         ).reset_index()
         return base_trends
+
+    def gerar_df_categoria_video_dia(self, data: str, categoria: int, metrica: str):
+        base_trends = self.__dataframe.query(
+            f' data_extracao == "{data}" and INDICE_TURNO_EXTRACAO == "3" and ID_CATEGORIA == {categoria}')
+        base_trends_top_dez = base_trends.groupby(['data_extracao', 'ID_VIDEO', 'TITULO_VIDEO']) \
+            .agg(
+            TOTAL_MAX=(metrica, 'sum')
+        ).reset_index().sort_values(by='TOTAL_MAX', ascending=False)
+
+        return base_trends_top_dez.nlargest(10, columns=['TOTAL_MAX'])
