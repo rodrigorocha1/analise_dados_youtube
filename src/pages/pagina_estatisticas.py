@@ -464,11 +464,11 @@ def gerar_desempenho(assunto: str, desempenho: str):
                          == max_value]['data_extracao'].dt.strftime('%d/%m/%Y').values[0]
 
     if desempenho == 'TOTAL_VISUALIZACOES':
-        texto = f'O maior pico de <b>vizualições</b><br>foi no dia {dia_pico}'
+        texto = f'O maior pico de <b>vizualições</b><br>foi no dia <b>{dia_pico}</b>'
     elif desempenho == 'TOTAL_LIKES':
-        texto = f'O maior pico de <b>likes</b><br>foi no dia {dia_pico}'
+        texto = f'O maior pico de <b>likes</b><br>foi no dia <br>{dia_pico}</b>'
     else:
-        texto = f'O maior pico de <b>comentários</b><br>foi no dia {dia_pico}'
+        texto = f'O maior pico de <b>comentários</b><br>foi no dia <b>{dia_pico}</b>'
 
     visualizacao = Visualizacao(df_resultado=dataframe)
     tickfont = '%d/%m/%Y',
@@ -507,7 +507,7 @@ def gerar_publicacao_video(assunto: str):
     dia_publicacao = dataframe[dataframe['TOTAL_VIDEOS_PUBLICADOS']
                                == total_max]['DIA_PUBLICACAO'].values[0]
 
-    texto = f'O dia que teve o maior pico<br>de publicação de vídeos foi  {dia_publicacao}'
+    texto = f'O dia que teve o maior pico<br>de publicação de vídeos foi <b>{dia_publicacao}</b>'
 
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_grafico_de_barras(
