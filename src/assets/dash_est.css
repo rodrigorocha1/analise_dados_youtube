@@ -32,6 +32,7 @@
 #id_titulo_canais_populares_trends,
 #id_titulo_desempenho_categoria,
 #id_titulo_desempenho_categoria_dia,
+#id_titulo_engajamento_dia,
 .class_inputs_desempenho,
 .class_titulo_grafico {
     text-align: center;
@@ -137,6 +138,7 @@
 
 .class_select_categoria_canais_populares,
 .class_select_categoria_canal_dia,
+.class_select_engajamento_canal,
 #id_input_desempenho_categoria_dia {
     background-color: #21242D;
     color: white;
