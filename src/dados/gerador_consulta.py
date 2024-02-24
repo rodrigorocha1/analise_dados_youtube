@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import spacy
 from unidecode import unidecode
+import pickle as pk
 
 
 class GeradorConsulta:
@@ -34,6 +35,17 @@ class GeradorConsulta:
             'Sunday': 'Domingo'
         }
         self.__nlp = spacy.load("pt_core_news_sm")
+
+    @staticmethod
+    def gerar_df_categoria():
+        CAMINHO_BASE = os.getcwd()
+
+        with open(os.path.join(CAMINHO_BASE, 'src', 'depara', 'trends', 'categoria.pkl'), 'rb') as arq:
+            df_categorias = pk.load(arq)
+            df_categorias['ID'] = df_categorias['ID'].astype('int32')
+            df_categorias['NOME_CATEGORIA'] = df_categorias['NOME_CATEGORIA'].astype(
+                'string')
+        return df_categorias
 
     def gerar_desempenho_dia(self, assunto: str, coluna_analise: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 
@@ -260,3 +272,21 @@ class GeradorConsulta:
             list(palavra_titulo_populares.items()), columns=['Palavra', 'Quantidade'])
 
         return df_palavra_titulo_populares.nlargest(10, columns='Quantidade')
+
+    def gerar_df_categorias_populares(self, data: str, metrica: str):
+        base_trends = self.__dataframe.query(
+            f' data_extracao == "{data}" and INDICE_TURNO_EXTRACAO == "3" ')
+        base_trends = base_trends.groupby(['data_extracao', 'ID_CATEGORIA']) \
+            .agg(
+            TOTAL_MAX=(metrica, 'sum')
+
+        ).reset_index()
+
+        base_trends_completa = pd.merge(
+            right=base_trends,
+            left=self.gerar_df_categoria(),
+            how='inner',
+            left_on='ID',
+            right_on='ID_CATEGORIA'
+        ).sort_values(by='TOTAL_MAX', ascending=False)
+        return base_trends_completa

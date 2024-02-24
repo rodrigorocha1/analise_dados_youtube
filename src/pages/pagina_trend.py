@@ -51,7 +51,7 @@ def gerar_layout_categoria_top_dez():
                         display_format='DD/MM/YYYY',
                         max_date_allowed=date(2024, 1, 23),
                         min_date_allowed=date(2024, 1, 17),
-                        id='id_input_data_top_dez'
+                        id='id_input_data_top_dez_categoria'
                     ),
                     lg=6
                 )
@@ -135,6 +135,18 @@ def gerar_layout_dashboard():
         id='id_main_page_trend',
         className='class_name_trend'
     )
+
+
+@callback(
+    Output('id_grafico_layout_top_dez', 'figure'),
+    Input('id_input_desempenho', 'value'),
+    Input('id_input_data_top_dez_categoria', 'date')
+)
+def obter_top_dez_categoria(desempenho: str, data: str):
+    colunas = ['data_extracao', 'ID_CATEGORIA', 'TURNO_EXTRACAO',
+               'INDICE_TURNO_EXTRACAO', 'ID_VIDEO', desempenho]
+    nome_arquivo = 'dados_tratado_estatisticas_trends.parquet'
+    gerador_consulta = GeradorConsulta(arquivo=nome_arquivo, colunas=colunas)
 
 
 layout = gerar_layout_dashboard()
