@@ -449,8 +449,6 @@ def obter_categoria_dia(categoria: str, desempenho: str):
 )
 def obter_categoria_video_dia_top_dez(data: str, desempenho: str, categoria: str):
     categoria = categoria.split('-')[0]
-    print('Depois do split', 'data',  data, 'desempenho',
-          desempenho, 'categoria', categoria)
     nome_arquivo = 'dados_tratado_estatisticas_trends.parquet'
     colunas = ['data_extracao', 'ID_CATEGORIA', 'TURNO_EXTRACAO',
                'INDICE_TURNO_EXTRACAO', 'ID_VIDEO', 'TITULO_VIDEO', desempenho]
@@ -461,13 +459,13 @@ def obter_categoria_video_dia_top_dez(data: str, desempenho: str, categoria: str
         categoria=categoria.split(' - ')[0],
         metrica=desempenho
     )
-    print(dataframe)
+
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_grafico_de_barras(
         coluna_x='TOTAL_MAX',
-        coluna_y='TITULO_VIDEO',
+        coluna_y='ID_VIDEO',
         category_orders={
-            'TITULO_VIDEO': dataframe['TITULO_VIDEO'].tolist()
+            'ID_VIDEO': dataframe['ID_VIDEO'].tolist()
         },
         texto_posicao='auto',
         largura=600,
