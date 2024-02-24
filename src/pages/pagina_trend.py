@@ -20,7 +20,50 @@ dash.register_page(__name__, name="Analise Trends")
 def gerar_layout_dashboard():
     return html.Div(
         [
-
+            dbc.Row(
+                [
+                    dbc.Col(
+                        html.Div(
+                            id='id_div_primeira_coluna_primeira_linha_trend',
+                            className='class_div_coluna'
+                        ),
+                        lg=6,
+                        id='id_primeira_coluna_primeira_linha_trend',
+                        class_name='class_primeira_coluna_primeira_linha_trend'),
+                    dbc.Col(
+                        html.Div(
+                            id='id_div_segunda_coluna_primeira_linha_trend',
+                            className='class_div_coluna'
+                        ),
+                        lg=6,
+                        id='id_segunda_coluna_primeira_linha_trend',
+                        class_name='class_segunda_coluna_primeira_linha_trend'),
+                ],
+                id='id_primeira_linha_trend',
+                class_name='class_primeira_linha_trend'
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        html.Div(
+                            id='id_div_primeira_coluna_segunda_linha_trend',
+                            className='class_div_coluna'
+                        ),
+                        lg=6,
+                        id='id_primeira_coluna_segunda_linha_trend',
+                        class_name='class_primeira_coluna_segunda_linha_trend'),
+                    dbc.Col(
+                        html.Div(
+                            id='id_div_segunda_coluna_segunda_linha_trend',
+                            className='class_div_coluna'
+                        ),
+                        lg=6,
+                        id='id_segunda_coluna_segunda_linha_trend',
+                        class_name='class_segunda_coluna_segunda_linha_trend'),
+                ],
+                id='id_segunda_linha_trend',
+                class_name='class_segunda_linha_trend'
+            )
         ],
         id='id_main_page_trend',
         className='class_name_trend'
