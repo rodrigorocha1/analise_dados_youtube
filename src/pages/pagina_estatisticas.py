@@ -473,7 +473,7 @@ def gerar_desempenho(assunto: str, desempenho: str):
         tickfont=tickfont,
         orientation='v',
         hovertemplate=hovertemplate,
-        height=430,
+        height=450,
         color=cor,
         largura=600
     )
@@ -590,7 +590,7 @@ def gerar_desempenho_canal_dia(canal: str | List, metrica: str):
         id_canal=canal, metrica=metrica)
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_grafico_linha(
-        coluna_x='data_extracao', coluna_y='TOTAL_DIA', color='ID_CANAL', altura_grafico=350)
+        coluna_x='data_extracao', coluna_y='TOTAL_DIA', color='ID_CANAL', altura_grafico=400)
 
     return fig
 
@@ -634,7 +634,7 @@ def gerar_desempenho_video(video: str | List, metrica: str):
         coluna_x='data_extracao',
         coluna_y='TOTAL_DIA',
         color='ID_VIDEO',
-        altura_grafico=300
+        altura_grafico=400
     )
     return fig
 

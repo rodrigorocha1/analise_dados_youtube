@@ -93,6 +93,7 @@ class Visualizacao:
                 ay=40e3,
                 showarrow=False
             )
+
         fig.update_traces(
             hovertemplate=hovertemplate,
             text=text_update_traces,
