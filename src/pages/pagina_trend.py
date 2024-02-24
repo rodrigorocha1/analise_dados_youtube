@@ -17,6 +17,50 @@ from src.dados.depara import Depara
 dash.register_page(__name__, name="Analise Trends")
 
 
+def gerar_layout_categoria_top_dez():
+    return [
+        html.H5('Top 10 Categoria Populares',
+                id='id_titulo_categoria_populares_trends'),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dbc.RadioItems(
+                        inline=True,
+                        value='TOTAL_VISUALIZACOES',
+                        options=[
+                            {
+                                'label': 'Visualizações',
+                                'value': 'TOTAL_VISUALIZACOES'
+                            },
+                            {
+                                'label': 'Comentários',
+                                'value': 'TOTAL_COMENTARIOS'
+                            },
+                            {
+                                'label': 'Likes',
+                                'value': 'TOTAL_LIKES'
+                            },
+                        ],
+                        id='id_input_desempenho',
+                    ),
+                    lg=6
+                ),
+                dbc.Col(
+                    dcc.DatePickerSingle(
+                        date='2024-01-20',
+                        display_format='DD/MM/YYYY',
+                        max_date_allowed=date(2024, 1, 23),
+                        min_date_allowed=date(2024, 1, 17),
+                        id='id_input_data_top_dez'
+                    ),
+                    lg=6
+                )
+            ]
+        ),
+        dcc.Graph(id='id_grafico_layout_top_dez')
+    ]
+
+
 def gerar_layout_dashboard():
     return html.Div(
         [
@@ -24,6 +68,7 @@ def gerar_layout_dashboard():
                 [
                     dbc.Col(
                         html.Div(
+                            gerar_layout_categoria_top_dez(),
                             id='id_div_primeira_coluna_primeira_linha_trend',
                             className='class_div_coluna'
                         ),
