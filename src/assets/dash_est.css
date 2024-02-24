@@ -30,6 +30,7 @@
 #id_titulo_categoria_populares,
 #id_titulo_categoria_populares_trends,
 #id_titulo_canais_populares_trends,
+#id_titulo_desempenho_categoria,
 .class_inputs_desempenho,
 .class_titulo_grafico {
     text-align: center;
@@ -133,7 +134,8 @@
     border-radius: 0;
 }
 
-.class_select_categoria_canais_populares {
+.class_select_categoria_canais_populares,
+.class_select_categoria_canal_dia {
     background-color: #21242D;
     color: white;
 }

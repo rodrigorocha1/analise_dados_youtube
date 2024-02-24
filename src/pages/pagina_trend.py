@@ -139,6 +139,52 @@ def gerar_layout_canais_populares():
     ]
 
 
+def gerar_desempenho_categoria_dia():
+    return [
+        html.H5(
+            'Desempenho Categoria dia',
+            id='id_titulo_desempenho_categoria'
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dbc.Select(
+                        options=obter_categorias_youtube()[1],
+                        value=obter_categorias_youtube()[1][0],
+                        id='id_select_categoria_canal_dia',
+                        class_name='class_select_categoria_canal_dia'
+                    ),
+                    lg=6
+                ),
+                dbc.Col(
+                    dbc.RadioItems(
+                        inline=True,
+                        value='TOTAL_VISUALIZACOES',
+                        options=[
+                            {
+                                'label': 'Visualizações',
+                                'value': 'TOTAL_VISUALIZACOES'
+                            },
+                            {
+                                'label': 'Comentários',
+                                'value': 'TOTAL_COMENTARIOS'
+                            },
+                            {
+                                'label': 'Likes',
+                                'value': 'TOTAL_LIKES'
+                            },
+                        ],
+                        id='id_input_desempenho_canal_dia',
+                        style={'fontSize': '14px'}
+                    ),
+                    lg=6
+                )
+            ],
+        ),
+        dcc.Graph(id='id_graph_desempenho_canal_dia')
+    ]
+
+
 def gerar_layout_dashboard():
     return html.Div(
         [
@@ -166,6 +212,7 @@ def gerar_layout_dashboard():
                     ),
                     dbc.Col(
                         html.Div(
+                            gerar_desempenho_categoria_dia(),
                             id='id_div_terceira_coluna_primeira_linha_trend',
                             className='class_div_coluna'
                         ),
@@ -310,6 +357,14 @@ def obter_top_dez_canais_populares(categoria: str, data: str, desempenho: str, t
             tickvals_y=False,
         )
         return dcc.Graph(figure=fig)
+
+
+# @callback(
+#     Output('id_graph_desempenho_canal_dia', 'figure'),
+#     Output('id_input_desempenho_canal_dia', 'value')
+# )
+# def obter_categoria_dia():
+#     pass
 
 
 layout = gerar_layout_dashboard()
