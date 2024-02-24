@@ -122,15 +122,13 @@ def gerar_layout_canais_populares():
         dbc.Tabs(
             [
                 dbc.Tab(
-                    html.Div(
-                        dcc.Graph(id='id_grafico_canais_populares'),
-                        id='id_div_grafico_canais_populares'
-                    ),
+
 
                     label='Top 10 canais mais populares',
                     tab_id='tab_id_canais_mais_populares'
                 ),
                 dbc.Tab(
+
                     label='Top 10 canais menos populares',
                     tab_id='tab_id_canais_meno_populares'
                 ),
@@ -251,7 +249,7 @@ def obter_top_dez_categoria(desempenho: str, data: str):
 
 
 @callback(
-    Output('id_grafico_canais_populares', 'figure'),
+    Output('id_main_canais_populares', 'children'),
     Input('id_select_categoria_canais_populares', 'value'),
     Input('id_input_date_canais_populares', 'date'),
     Input('id_input_desempenho_canais_populares', 'value'),
@@ -280,7 +278,7 @@ def obter_top_dez_canais_populares(categoria: str, data: str, desempenho: str, t
             coluna_x='TOTAL_MAX',
             coluna_y='NM_CANAL',
             orientation='h',
-            height=800,
+            height=600,
             largura=600,
             color=cor,
             texto_posicao='auto',
@@ -289,7 +287,29 @@ def obter_top_dez_canais_populares(categoria: str, data: str, desempenho: str, t
             },
             tickvals_y=False,
         )
-        return fig
+        return dcc.Graph(figure=fig)
+    else:
+        flag_asc_desc = False
+        dataframe = gerador_consulta.gerar_df_canais_populares(
+            data=data,
+            id_categoria=categoria,
+            metrica=desempenho,
+            flag_asc_desc=flag_asc_desc
+        )
+
+        cor = trocar_cor_grafico_barra(chave=desempenho)
+        visualizacao = Visualizacao(df_resultado=dataframe)
+        fig = visualizacao.gerar_grafico_de_barras(
+            coluna_x='TOTAL_MAX',
+            coluna_y='NM_CANAL',
+            orientation='h',
+            height=600,
+            largura=600,
+            color=cor,
+            texto_posicao='auto',
+            tickvals_y=False,
+        )
+        return dcc.Graph(figure=fig)
 
 
 layout = gerar_layout_dashboard()
