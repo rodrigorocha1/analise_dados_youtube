@@ -304,3 +304,12 @@ class GeradorConsulta:
                 10, columns=['TOTAL_MAX'])
 
         return base
+
+    def gerar_df_categorias_populares_dia(self, categoria: int, metrica: str):
+        base_trends = self.__dataframe.query(
+            f' ID_CATEGORIA == {categoria} and  INDICE_TURNO_EXTRACAO == "3" ')
+        base_trends = base_trends.groupby(['data_extracao']) \
+            .agg(
+            TOTAL_MAX=(metrica, 'sum')
+        ).reset_index()
+        return base_trends

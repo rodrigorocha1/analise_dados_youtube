@@ -359,12 +359,28 @@ def obter_top_dez_canais_populares(categoria: str, data: str, desempenho: str, t
         return dcc.Graph(figure=fig)
 
 
-# @callback(
-#     Output('id_graph_desempenho_canal_dia', 'figure'),
-#     Output('id_input_desempenho_canal_dia', 'value')
-# )
-# def obter_categoria_dia():
-#     pass
+@callback(
+    Output('id_graph_desempenho_canal_dia', 'figure'),
+    Input('id_select_categoria_canal_dia', 'value'),
+    Input('id_input_desempenho_canal_dia', 'value')
+)
+def obter_categoria_dia(categoria: str, desempenho: str):
+    colunas = ['data_extracao', 'ID_CATEGORIA', 'ID_CANAL', 'NM_CANAL',
+               'ID_VIDEO', 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO', desempenho]
+    nome_arquivo = 'dados_tratado_estatisticas_trends.parquet'
+    categoria = categoria.split('-')[0]
+    gerador_consulta = GeradorConsulta(arquivo=nome_arquivo, colunas=colunas)
+    dataframe = gerador_consulta.gerar_df_categorias_populares_dia(
+        categoria=categoria, metrica=desempenho)
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    fig = visualizacao.gerar_grafico_linha(
+        coluna_x='data_extracao',
+        coluna_y='TOTAL_MAX',
+        altura_grafico=400,
+        largura_grafico=600,
+        color=None
+    )
+    return fig
 
 
 layout = gerar_layout_dashboard()
