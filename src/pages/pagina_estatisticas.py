@@ -510,7 +510,6 @@ def gerar_publicacao_video(assunto: str):
         coluna_y='TOTAL_VIDEOS_PUBLICADOS',
         valor_maximo=None,
         valor_minimo=None,
-        text_anotation='Teste',
         orientation='v',
         tickfont=None,
         hovertemplate='<b>Dia Publicação:</b> %{x}<b><br>Total Vídeos Públicados: %{y}',

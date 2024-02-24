@@ -105,7 +105,10 @@ class Visualizacao:
             hovertemplate=hovertemplate,
             text=text_update_traces,
             textposition=texto_posicao,
-            textfont_color='white'
+            textfont_color='white',
+            hoverlabel=dict(
+                font=dict(color='white')
+            )
         )
         for trace in fig.data:
             if isinstance(trace, go.Bar):
