@@ -122,7 +122,11 @@ def gerar_layout_canais_populares():
         dbc.Tabs(
             [
                 dbc.Tab(
-                    dcc.Graph(id='id_grafico_canais_populares'),
+                    html.Div(
+                        dcc.Graph(id='id_grafico_canais_populares'),
+                        id='id_div_grafico_canais_populares'
+                    ),
+
                     label='Top 10 canais mais populares',
                     tab_id='tab_id_canais_mais_populares'
                 ),
@@ -254,8 +258,8 @@ def obter_top_dez_categoria(desempenho: str, data: str):
     Input('id_tabs_canais_populares', 'active_tab')
 
 )
-def obter_top_dez_canais_populares(categoria: int, data: str, desempenho: str, tabs: str):
-    print(categoria, data, desempenho, tabs)
+def obter_top_dez_canais_populares(categoria: str, data: str, desempenho: str, tabs: str):
+    categoria = categoria.split('-')[0]
     colunas = ['data_extracao', 'ID_CATEGORIA', 'ID_CANAL', 'NM_CANAL',
                'ID_VIDEO', 'TURNO_EXTRACAO', 'INDICE_TURNO_EXTRACAO', desempenho]
     nome_arquivo = 'dados_tratado_estatisticas_trends.parquet'
@@ -276,10 +280,14 @@ def obter_top_dez_canais_populares(categoria: int, data: str, desempenho: str, t
             coluna_x='TOTAL_MAX',
             coluna_y='NM_CANAL',
             orientation='h',
-            height=500,
+            height=800,
             largura=600,
             color=cor,
-            texto_posicao='auto'
+            texto_posicao='auto',
+            category_orders={
+                'NM_CANAL': dataframe['NM_CANAL'].tolist()
+            },
+            tickvals_y=False,
         )
         return fig
 

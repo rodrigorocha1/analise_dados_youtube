@@ -59,7 +59,8 @@
 }
 
 #id_div_grafico_top_dez,
-#id_div_grafico_layout_top_dez {
+#id_div_grafico_layout_top_dez,
+#id_div_grafico_canais_populares {
     max-height: 380px;
     overflow-y: scroll;
     overflow-x: hidden;

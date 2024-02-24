@@ -14,12 +14,9 @@ def obter_categorias_youtube() -> Tuple[pd.DataFrame, List[Dict[str, int]]]:
             'string')
         opcoes_categoria = []
         for chave, linha in df_categorias.iterrows():
-            dic_opcoes = {
-                'label': linha['NOME_CATEGORIA'],
-                'value': linha['ID']
-            }
-            opcoes_categoria.append(dic_opcoes)
-        opcoes_categoria
+            categoria_completa = f"{linha['ID']} - {linha['NOME_CATEGORIA']}"
+            opcoes_categoria.append(categoria_completa)
+
     return df_categorias, opcoes_categoria
 
 
