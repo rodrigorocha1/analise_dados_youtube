@@ -459,8 +459,21 @@ def gerar_desempenho(assunto: str, desempenho: str):
 
     dataframe, top_dez_max, top_dez_min, valor_maximo, valor_minimo = gerador_consulta.gerar_desempenho_dia(
         assunto=assunto, coluna_analise=desempenho)
+    max_value = dataframe['TOTAL_MAX_DIA'].max()
+    dia_pico = dataframe[dataframe['TOTAL_MAX_DIA']
+                         == max_value]['data_extracao'].dt.strftime('%d/%m/%Y').values[0]
+    print(dia_pico)
+
+    if desempenho == 'TOTAL_VISUALIZACOES':
+        texto = f'O maior pico de <b>vizualições</b><br>foi no dia {dia_pico}'
+    elif desempenho == 'TOTAL_LIKES':
+        texto = f'O maior pico de <b>likes</b><br>foi no dia {dia_pico}'
+    else:
+        texto = f'O maior pico de <b>comentários</b><br>foi no dia {dia_pico}'
+
     visualizacao = Visualizacao(df_resultado=dataframe)
     tickfont = '%d/%m/%Y',
+
     hovertemplate = '<b>DATA</b>: %{x}<br><b>Total Visualizações dia:</br> %{y}'
     cor = trocar_cor_grafico_barra(desempenho)
 
@@ -469,7 +482,7 @@ def gerar_desempenho(assunto: str, desempenho: str):
         coluna_y='TOTAL_MAX_DIA',
         valor_maximo=valor_maximo,
         valor_minimo=valor_minimo,
-        text_anotation='teste',
+        text_anotation=texto,
         tickfont=tickfont,
         orientation='v',
         hovertemplate=hovertemplate,
