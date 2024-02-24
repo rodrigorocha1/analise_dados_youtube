@@ -57,7 +57,11 @@ def gerar_layout_categoria_top_dez():
                 )
             ]
         ),
-        dcc.Graph(id='id_grafico_layout_top_dez')
+        html.Div(
+            dcc.Graph(id='id_grafico_layout_top_dez'),
+            id='id_div_grafico_layout_top_dez'
+        ),
+
     ]
 
 
@@ -147,6 +151,23 @@ def obter_top_dez_categoria(desempenho: str, data: str):
                'INDICE_TURNO_EXTRACAO', 'ID_VIDEO', desempenho]
     nome_arquivo = 'dados_tratado_estatisticas_trends.parquet'
     gerador_consulta = GeradorConsulta(arquivo=nome_arquivo, colunas=colunas)
+    dataframe = gerador_consulta.gerar_df_categorias_populares(
+        data=data, metrica=desempenho)
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    fig = visualizacao.gerar_grafico_de_barras(
+        coluna_x='TOTAL_MAX',
+        coluna_y='NOME_CATEGORIA',
+        orientation='h',
+        height=600,
+        largura=600,
+        texto_posicao='auto',
+        category_orders={
+            'NOME_CATEGORIA': dataframe['NOME_CATEGORIA'].tolist()
+        },
+        tickvals_y=False,
+
+    )
+    return fig
 
 
 layout = gerar_layout_dashboard()
