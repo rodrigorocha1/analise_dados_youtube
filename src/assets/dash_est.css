@@ -40,7 +40,6 @@
 
 .Select-value {
     background-color: black !important;
-
     color: white !important;
 
 }
@@ -63,7 +62,8 @@
 #id_div_grafico_top_dez,
 #id_div_grafico_layout_top_dez,
 #id_div_grafico_canais_populares,
-#id_main_canais_populares {
+#id_main_canais_populares,
+#id_div_graph_categoria_video_populares {
     max-height: 380px;
     overflow-y: scroll;
     overflow-x: hidden;

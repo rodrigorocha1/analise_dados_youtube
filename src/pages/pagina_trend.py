@@ -238,7 +238,10 @@ def gerar_layout_video_categoria_dia():
                 )
             ],
         ),
-        dcc.Graph(id='id_graph_categoria_video_populares')
+        html.Div(
+            dcc.Graph(id='id_graph_categoria_video_populares'),
+            id='id_div_graph_categoria_video_populares'
+        ),
     ]
 
 
@@ -469,7 +472,7 @@ def obter_categoria_video_dia_top_dez(data: str, desempenho: str, categoria: str
         },
         texto_posicao='auto',
         largura=600,
-        height=400,
+        height=600,
         orientation='h',
         tickvals_y=False
     )
