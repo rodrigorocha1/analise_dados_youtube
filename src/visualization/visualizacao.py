@@ -1,8 +1,7 @@
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import plotly.figure_factory as ff
-from typing import Dict
+from typing import Dict, List
 from dash.dash_table import DataTable
 import plotly.graph_objs as go
 
@@ -33,6 +32,7 @@ class Visualizacao:
             hovertemplate: str = None,
             text_update_traces: str = None,
             category_orders: Dict = None,
+            tickvals_y: bool = True,
             largura: int = None,
             texto_posicao: str = 'outside'
 
@@ -54,6 +54,20 @@ class Visualizacao:
             height=height,
             width=largura
         )
+        if tickvals_y:
+            yaxis_config = dict(
+                title='',
+                tickvals=[],
+                showgrid=False,
+                showline=False,
+            )
+        else:
+            yaxis_config = dict(
+                title='',
+                showgrid=False,
+                showline=False,
+            )
+
         fig.update_layout(
 
             font=dict(
@@ -70,12 +84,7 @@ class Visualizacao:
                     size=11,
                 )
             ),
-            yaxis=dict(
-                title='',
-                tickvals=[],
-                showgrid=False,
-                showline=False,
-            ),
+            yaxis=yaxis_config,
             showlegend=False,
 
 

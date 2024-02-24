@@ -564,6 +564,8 @@ def gerar_top_dez(assunto: str, data: str, metricas: str):
         largura=550,
         texto_posicao='auto',
         color=cor,
+        tickvals_y=False
+
 
 
     )
