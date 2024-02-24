@@ -462,7 +462,6 @@ def gerar_desempenho(assunto: str, desempenho: str):
     max_value = dataframe['TOTAL_MAX_DIA'].max()
     dia_pico = dataframe[dataframe['TOTAL_MAX_DIA']
                          == max_value]['data_extracao'].dt.strftime('%d/%m/%Y').values[0]
-    print(dia_pico)
 
     if desempenho == 'TOTAL_VISUALIZACOES':
         texto = f'O maior pico de <b>vizualições</b><br>foi no dia {dia_pico}'
@@ -503,10 +502,17 @@ def gerar_publicacao_video(assunto: str):
     columns = ['DATA_PUBLICACAO', 'ASSUNTO', 'ID_VIDEO']
     gerador_consulta = GeradorConsulta(arquivo=nome_arqruivo, colunas=columns)
     dataframe = gerador_consulta.gerar_publicacao_video(assunto=assunto)
+    total_max = dataframe['TOTAL_VIDEOS_PUBLICADOS'].max()
+
+    dia_publicacao = dataframe[dataframe['TOTAL_VIDEOS_PUBLICADOS']
+                               == total_max]['DIA_PUBLICACAO'].values[0]
+
+    texto = f'O dia que teve o maior pico<br>de publicação de vídeos foi  {dia_publicacao}'
 
     visualizacao = Visualizacao(df_resultado=dataframe)
     fig = visualizacao.gerar_grafico_de_barras(
         coluna_x='DIA_PUBLICACAO',
+        text_anotation=texto,
         coluna_y='TOTAL_VIDEOS_PUBLICADOS',
         valor_maximo=None,
         valor_minimo=None,
