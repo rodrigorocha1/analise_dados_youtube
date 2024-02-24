@@ -27,17 +27,28 @@ def gerar_layout_dashboard():
                             id='id_div_primeira_coluna_primeira_linha_trend',
                             className='class_div_coluna'
                         ),
-                        lg=6,
+                        lg=4,
                         id='id_primeira_coluna_primeira_linha_trend',
-                        class_name='class_primeira_coluna_primeira_linha_trend'),
+                        class_name='class_primeira_coluna_primeira_linha_trend'
+                    ),
                     dbc.Col(
                         html.Div(
                             id='id_div_segunda_coluna_primeira_linha_trend',
                             className='class_div_coluna'
                         ),
-                        lg=6,
+                        lg=4,
                         id='id_segunda_coluna_primeira_linha_trend',
-                        class_name='class_segunda_coluna_primeira_linha_trend'),
+                        class_name='class_segunda_coluna_primeira_linha_trend'
+                    ),
+                    dbc.Col(
+                        html.Div(
+                            id='id_div_terceira_coluna_primeira_linha_trend',
+                            className='class_div_coluna'
+                        ),
+                        lg=4,
+                        id='id_terceira_coluna_primeira_linha_trend',
+                        class_name='class_terceira_coluna_primeira_linha_trend'
+                    ),
                 ],
                 id='id_primeira_linha_trend',
                 class_name='class_primeira_linha_trend'
@@ -49,17 +60,28 @@ def gerar_layout_dashboard():
                             id='id_div_primeira_coluna_segunda_linha_trend',
                             className='class_div_coluna'
                         ),
-                        lg=6,
+                        lg=4,
                         id='id_primeira_coluna_segunda_linha_trend',
-                        class_name='class_primeira_coluna_segunda_linha_trend'),
+                        class_name='class_primeira_coluna_segunda_linha_trend'
+                    ),
                     dbc.Col(
                         html.Div(
                             id='id_div_segunda_coluna_segunda_linha_trend',
                             className='class_div_coluna'
                         ),
-                        lg=6,
+                        lg=4,
                         id='id_segunda_coluna_segunda_linha_trend',
-                        class_name='class_segunda_coluna_segunda_linha_trend'),
+                        class_name='class_segunda_coluna_segunda_linha_trend'
+                    ),
+                    dbc.Col(
+                        html.Div(
+                            id='id_div_terceira_coluna_segunda_linha_trend',
+                            className='class_div_coluna'
+                        ),
+                        lg=4,
+                        id='id_terceira_coluna_segunda_linha_trend',
+                        class_name='class_terceira_coluna_segunda_linha_trend'
+                    ),
                 ],
                 id='id_segunda_linha_trend',
                 class_name='class_segunda_linha_trend'
