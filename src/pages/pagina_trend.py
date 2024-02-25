@@ -248,7 +248,7 @@ def gerar_layout_video_categoria_dia():
 def gerar_layout_engajamento_canal():
     return [
         html.H5(
-            'TOP 10 Vídeo por categoria',
+            'TOP 10 Engajamento canal',
             id='id_titulo_engajamento_dia'
         ),
         dbc.Row(
@@ -272,8 +272,49 @@ def gerar_layout_engajamento_canal():
                     ),
                     lg=6
                 ),
+
             ]
+        ),
+        html.Div(
+            dcc.Graph(id='id_grafico_engajamento_canal'),
+            id='id_div_grafico_engajamento_canal'
         )
+    ]
+
+
+def gerar_layout_engajamento_video():
+    return [
+        html.H5(
+            'TOP 10 Engajamento Vídeo',
+            id='id_titulo_engajamento_video'
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dcc.DatePickerSingle(
+                        date='2024-01-20',
+                        display_format='DD/MM/YYYY',
+                        max_date_allowed=date(2024, 1, 23),
+                        min_date_allowed=date(2024, 1, 17),
+                        id='id_input_date_engajamento_video'
+                    ),
+                    lg=6
+                ),
+                dbc.Col(
+                    dbc.Select(
+                        options=obter_categorias_youtube()[1],
+                        value=obter_categorias_youtube()[1][0],
+                        id='id_select_engajamento_video',
+                        class_name='class_select_engajamento_video'
+                    ),
+                    lg=6
+                ),
+                html.Div(
+                    dcc.Graph(id='id_grafico_engajamento_video'),
+                    id='id_div_grafico_engajamento_video'
+                )
+            ]
+        ),
     ]
 
 
@@ -340,6 +381,7 @@ def gerar_layout_dashboard():
                     ),
                     dbc.Col(
                         html.Div(
+                            gerar_layout_engajamento_video(),
                             id='id_div_terceira_coluna_segunda_linha_trend',
                             className='class_div_coluna'
                         ),
@@ -508,6 +550,67 @@ def obter_categoria_video_dia_top_dez(data: str, desempenho: str, categoria: str
         height=600,
         orientation='h',
         tickvals_y=False
+    )
+    return fig
+
+
+@callback(
+    Output('id_grafico_engajamento_canal', 'figure'),
+    Input('id_input_date_engajamento_canal', 'date'),
+    Input('id_select_engajamento_canal', 'value'),
+)
+def gerar_engajamento_canal(data: str, categoria: str):
+    categoria = categoria.split('-')[0]
+    nome_arquivo = 'dados_tratado_estatisticas_trends.parquet'
+    colunas = ['data_extracao', 'ID_CATEGORIA', 'INDICE_TURNO_EXTRACAO', 'ID_CANAL',
+               'NM_CANAL', 'TITULO_VIDEO', 'TOTAL_VISUALIZACOES', 'TOTAL_LIKES', 'TOTAL_COMENTARIOS']
+
+    gerador_consulta = GeradorConsulta(arquivo=nome_arquivo, colunas=colunas)
+    dataframe = gerador_consulta.gerar_df_engajamento_canal(
+        data=data,
+        categoria=categoria
+    )
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    fig = visualizacao.gerar_grafico_de_barras(
+        coluna_x='TAXA_ENGAJAMENTO',
+        tickvals_y=False,
+        height=600,
+        coluna_y='ID_CANAL',
+        orientation='h',
+        category_orders={
+            'ID_CANAL': dataframe['ID_CANAL'].tolist()
+        },
+        texto_posicao='inside'
+
+    )
+
+    return fig
+
+
+@callback(
+    Output('id_grafico_engajamento_video', 'figure'),
+    Input('id_input_date_engajamento_video', 'date'),
+    Input('id_select_engajamento_video', 'value')
+)
+def gerar_engajamento_video(data: str, categoria: str):
+    categoria = categoria.split('-')[0]
+    nome_arquivo = 'dados_tratado_estatisticas_trends.parquet'
+    colunas = ['data_extracao', 'ID_CATEGORIA', 'INDICE_TURNO_EXTRACAO', 'NM_CANAL',
+               'ID_VIDEO',  'TITULO_VIDEO', 'TOTAL_VISUALIZACOES', 'TOTAL_LIKES', 'TOTAL_COMENTARIOS']
+    gerador_consulta = GeradorConsulta(arquivo=nome_arquivo, colunas=colunas)
+    dataframe = gerador_consulta.gerar_df_engajamento_video(
+        data=data, categoria=categoria)
+    visualizacao = Visualizacao(df_resultado=dataframe)
+    fig = visualizacao.gerar_grafico_de_barras(
+        coluna_x='TAXA_ENGAJAMENTO',
+        coluna_y='ID_VIDEO',
+        orientation='h',
+        tickvals_y=False,
+        height=600,
+        category_orders={
+            'ID_VIDEO': dataframe['ID_VIDEO'].tolist()
+        },
+        texto_posicao='inside'
     )
     return fig
 

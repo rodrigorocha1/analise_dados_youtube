@@ -33,6 +33,7 @@
 #id_titulo_desempenho_categoria,
 #id_titulo_desempenho_categoria_dia,
 #id_titulo_engajamento_dia,
+#id_titulo_engajamento_video,
 .class_inputs_desempenho,
 .class_titulo_grafico {
     text-align: center;
@@ -64,7 +65,9 @@
 #id_div_grafico_layout_top_dez,
 #id_div_grafico_canais_populares,
 #id_main_canais_populares,
-#id_div_graph_categoria_video_populares {
+#id_div_graph_categoria_video_populares,
+#id_div_grafico_engajamento_canal,
+#id_div_grafico_engajamento_video {
     max-height: 380px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -139,7 +142,8 @@
 .class_select_categoria_canais_populares,
 .class_select_categoria_canal_dia,
 .class_select_engajamento_canal,
-#id_input_desempenho_categoria_dia {
+#id_input_desempenho_categoria_dia,
+#id_select_engajamento_video {
     background-color: #21242D;
     color: white;
 }

@@ -6,11 +6,21 @@ except ModuleNotFoundError:
     pass
 from typing import List, Tuple
 import string
+import locale
 import pandas as pd
 import numpy as np
 import spacy
 from unidecode import unidecode
 from src.utils.utils import obter_categorias_youtube
+
+
+locale.setlocale(locale.LC_NUMERIC, 'pt_BR.UTF-8')
+
+
+pd.options.display.float_format = locale.nl_langinfo(
+    locale.RADIXCHAR).join(['{:.3f}', '']).format
+
+pd.reset_option('^display.', silent=True)
 
 
 class GeradorConsulta:
@@ -323,3 +333,29 @@ class GeradorConsulta:
         ).reset_index().sort_values(by='TOTAL_MAX', ascending=False)
 
         return base_trends_top_dez.nlargest(10, columns=['TOTAL_MAX'])
+
+    def gerar_df_engajamento_canal(self, data: str, categoria: int):
+        base_trends = self.__dataframe.query(
+            f' data_extracao == "{data}" and INDICE_TURNO_EXTRACAO == "3" and ID_CATEGORIA == {categoria}')
+
+        base_trends = base_trends.groupby(['ID_CANAL', 'NM_CANAL']) \
+            .agg(
+            TOTAL_VISUALIZACOES=('TOTAL_VISUALIZACOES', 'sum'),
+            TOTAL_LIKES=('TOTAL_LIKES', 'sum'),
+            TOTAL_COMENTARIOS=('TOTAL_COMENTARIOS', 'sum'),
+        ).reset_index()
+        base_trends['TAXA_ENGAJAMENTO'] = round((
+            (base_trends['TOTAL_LIKES'] + base_trends['TOTAL_COMENTARIOS']) / base_trends['TOTAL_VISUALIZACOES']) * 100, 2)
+        base_trends_top_dez = base_trends.nlargest(
+            10, columns=['TAXA_ENGAJAMENTO'])
+        return base_trends_top_dez[['ID_CANAL', 'NM_CANAL',
+                                   'TOTAL_VISUALIZACOES',  'TOTAL_COMENTARIOS', 'TOTAL_LIKES', 'TAXA_ENGAJAMENTO']]
+
+    def gerar_df_engajamento_video(self, data: str, categoria: int):
+        base_trends = self.__dataframe.query(
+            f' data_extracao == "{data}" and INDICE_TURNO_EXTRACAO == "3" and ID_CATEGORIA == {categoria}')
+        base_trends['TAXA_ENGAJAMENTO'] = round(
+            ((base_trends['TOTAL_LIKES'] + base_trends['TOTAL_COMENTARIOS']) / base_trends['TOTAL_VISUALIZACOES']) * 100, 2)
+        base_trends = base_trends.nlargest(10, columns=['TAXA_ENGAJAMENTO'])
+        return base_trends[['data_extracao',  'NM_CANAL', 'ID_VIDEO', 'TITULO_VIDEO',
+                            'TOTAL_VISUALIZACOES',  'TOTAL_COMENTARIOS', 'TOTAL_LIKES', 'TAXA_ENGAJAMENTO']]

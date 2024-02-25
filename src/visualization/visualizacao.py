@@ -117,7 +117,9 @@ class Visualizacao:
             textfont_color='white',
             hoverlabel=dict(
                 font=dict(color='white')
-            )
+
+            ),
+
         )
         for trace in fig.data:
             if isinstance(trace, go.Bar):
