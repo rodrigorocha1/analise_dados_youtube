@@ -86,5 +86,5 @@ Responsável por gerar as métricas de visualização de acordo com os assuntos 
 
 
 # Observações:
- Mesmo que o diagrama de atividade apresente, no final do processo, uma execução completa, uma proposta seria de implementar uma verificação de vídeos que contenham comentários antes de fazer todo o fluxo de comentários. 
+ Mesmo que o diagrama de atividade apresente, no final do processo, uma execução completa, uma proposta seria de implementar uma verificação de vídeos que contenham comentários antes de fazer todo o fluxo de comentários. Também pode ser desenvolvido, uma análise de inscritos que se inscreveram/desincreveram por dia.
 
