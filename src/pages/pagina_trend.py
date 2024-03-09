@@ -418,7 +418,7 @@ def obter_top_dez_categoria(desempenho: str, data: str):
         coluna_x='TOTAL_MAX',
         coluna_y='NOME_CATEGORIA',
         orientation='h',
-        height=600,
+        height=len(dataframe) * 100,
         largura=600,
         color=cor,
         texto_posicao='auto',
@@ -455,13 +455,14 @@ def obter_top_dez_canais_populares(categoria: str, data: str, desempenho: str, t
             flag_asc_desc=flag_asc_desc
         )
 
+        print('tamanho df', len(dataframe))
         cor = trocar_cor_grafico_barra(chave=desempenho)
         visualizacao = Visualizacao(df_resultado=dataframe)
         fig = visualizacao.gerar_grafico_de_barras(
             coluna_x='TOTAL_MAX',
             coluna_y='NM_CANAL',
             orientation='h',
-            height=600,
+            height=len(dataframe) * 100,
             largura=600,
             color=cor,
             texto_posicao='auto',
@@ -486,7 +487,7 @@ def obter_top_dez_canais_populares(categoria: str, data: str, desempenho: str, t
             coluna_x='TOTAL_MAX',
             coluna_y='NM_CANAL',
             orientation='h',
-            height=600,
+            height=len(dataframe) * 100,
             largura=600,
             color=cor,
             texto_posicao='auto',
@@ -547,7 +548,7 @@ def obter_categoria_video_dia_top_dez(data: str, desempenho: str, categoria: str
         },
         texto_posicao='auto',
         largura=600,
-        height=600,
+        height=len(dataframe) * 100,
         orientation='h',
         tickvals_y=False
     )
@@ -574,7 +575,7 @@ def gerar_engajamento_canal(data: str, categoria: str):
     fig = visualizacao.gerar_grafico_de_barras(
         coluna_x='TAXA_ENGAJAMENTO',
         tickvals_y=False,
-        height=600,
+        height=len(dataframe) * 100,
         coluna_y='ID_CANAL',
         orientation='h',
         category_orders={
@@ -606,7 +607,7 @@ def gerar_engajamento_video(data: str, categoria: str):
         coluna_y='ID_VIDEO',
         orientation='h',
         tickvals_y=False,
-        height=600,
+        height=len(dataframe) * 100,
         category_orders={
             'ID_VIDEO': dataframe['ID_VIDEO'].tolist()
         },
