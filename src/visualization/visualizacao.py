@@ -156,7 +156,7 @@ class Visualizacao:
 
         )
         fig.update_traces(
-            textposition='bottom right'
+            textposition='top center'
         )
         return fig
 
